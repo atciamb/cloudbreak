@@ -1,7 +1,7 @@
 # Cloudbreak "Tutor-like" SITL overrides on top of Tools/autotest/models/plane.parm (ArduPlane 4.7.2 names, verified).
 # Sensor suite mirrors the real aircraft: NO airspeed sensor, NO rangefinder.
 # Landing values here are starting points; ground/autoland/sitl_bo.py tunes them and writes learned_landing.parm.
-SYSID_THISMAV 1
+MAV_SYSID 1
 ARSPD_TYPE 0
 ARSPD_USE 0
 TECS_SYNAIRSPEED 0
@@ -25,7 +25,7 @@ THR_FAILSAFE 1
 FS_SHORT_ACTN 0
 FS_LONG_ACTN 1
 FS_LONG_TIMEOUT 20
-FS_GCS_ENABL 1
+FS_GCS_ENABL 3
 MAV_GCS_SYSID 245
 # --- ports: SERIAL5 = QGC / Pi relay ---
 SERIAL5_PROTOCOL 2
@@ -52,3 +52,7 @@ MAV1_POSITION 2
 FENCE_ENABLE 0
 FENCE_ACTION 1
 FENCE_TYPE 4
+# SITL endurance only (the real Tutor flies a 1300 mAh 3S pack; the governor's battery check stays on)
+BATT_CAPACITY 30000
+# survey/approach tracking: stock WP_RADIUS (50 m in SITL plane.parm, 90 m firmware default) cuts 250 m survey lines short -> plane never flies them
+WP_RADIUS 20

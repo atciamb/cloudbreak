@@ -1,0 +1,17 @@
+[Unit]
+Description=Cloudbreak MAVLink bridge (FC <-> ground, signed-allowlist uplink)
+After=network-online.target
+Wants=network-online.target
+
+[Service]
+User=@USER@
+WorkingDirectory=/opt/cloudbreak/src
+Environment=PYTHONPATH=/opt/cloudbreak/src
+ExecStart=/opt/cloudbreak/venv/bin/python -m cloudbreak.air.mavbridge --config /etc/cloudbreak/air.toml
+Restart=always
+RestartSec=2
+Nice=-5
+MemoryMax=120M
+
+[Install]
+WantedBy=multi-user.target

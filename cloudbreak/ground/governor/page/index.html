@@ -1,0 +1,124 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Cloudbreak Governor</title>
+<style>
+  :root { --bg:#0f1115; --panel:#171a21; --ink:#e7e9ee; --mute:#9aa3b2; --ok:#2fbf71; --bad:#ff5a5f; --warn:#f5b041; --line:#2a2f3a; --accent:#4c8dff; }
+  * { box-sizing: border-box; }
+  body { margin:0; background:var(--bg); color:var(--ink); font:14px/1.45 system-ui, Segoe UI, Roboto, sans-serif; }
+  header { padding:12px 16px; display:flex; gap:12px; align-items:center; border-bottom:1px solid var(--line); }
+  .badge { padding:4px 10px; border-radius:6px; font-weight:700; letter-spacing:.04em; }
+  .sitl { background:#12351f; color:#7ef0a8; } .real { background:#4a1214; color:#ff9a9d; }
+  main { display:grid; grid-template-columns: repeat(auto-fit, minmax(340px, 1fr)); gap:12px; padding:12px 16px; }
+  section { background:var(--panel); border:1px solid var(--line); border-radius:10px; padding:12px; min-width:0; }
+  h2 { font-size:13px; text-transform:uppercase; letter-spacing:.08em; color:var(--mute); margin:0 0 8px; }
+  table { width:100%; border-collapse:collapse; font-size:12.5px; } td, th { padding:3px 6px; border-bottom:1px solid var(--line); text-align:left; vertical-align:top; }
+  .ok { color:var(--ok); } .bad { color:var(--bad); } .mute { color:var(--mute); }
+  input { background:#0c0e12; color:var(--ink); border:1px solid var(--line); border-radius:6px; padding:7px 9px; width:100%; font:inherit; }
+  label { display:block; margin:6px 0 2px; color:var(--mute); font-size:12px; }
+  button { font:inherit; padding:8px 14px; border-radius:7px; border:1px solid var(--line); background:#222734; color:var(--ink); cursor:pointer; margin:6px 6px 0 0; }
+  button.primary { background:var(--accent); border-color:var(--accent); color:#fff; }
+  button.danger { background:#5a1d20; border-color:var(--bad); }
+  button:disabled { opacity:.4; cursor:not-allowed; }
+  .hash { font-family:ui-monospace, Consolas, monospace; font-size:13px; }
+  .state { font-size:18px; font-weight:700; }
+  #msg { min-height:1.4em; margin-top:6px; }
+  .mono { font-family:ui-monospace, Consolas, monospace; font-size:12px; white-space:pre-wrap; word-break:break-all; }
+  @media (max-width: 600px) { main { padding:8px; } }
+</style>
+</head>
+<body>
+<header>
+  <span id="target" class="badge">…</span>
+  <span class="state" id="state">connecting</span>
+  <span class="mute" id="fp"></span>
+</header>
+<main>
+  <section>
+    <h2>Mission awaiting approval</h2>
+    <div id="prep" class="mute">Nothing prepared. The planner sends a candidate here; this page shows only what the governor rebuilt itself.</div>
+    <table id="items"></table>
+  </section>
+  <section>
+    <h2>Approve (human only)</h2>
+    <p class="mute">Read the one-time code from the <b>governor console window</b>. Type it with the confirmation text and your name.</p>
+    <label>One-time code</label><input id="otp" autocomplete="off" inputmode="numeric">
+    <label>Confirmation (e.g. LAND ab12)</label><input id="confirm" autocomplete="off">
+    <label>Operator</label><input id="operator" autocomplete="name">
+    <button class="primary" id="btnApprove">Approve</button>
+    <button class="primary" id="btnExecute">Execute (upload &amp; verify)</button>
+    <button class="primary" id="btnLook">Last look (overfly strip)</button>
+    <button class="primary" id="btnCommit">Commit landing</button>
+    <button class="danger" id="btnAbort">Abort / go-around</button>
+    <button class="danger" id="btnRtl">RTL</button>
+    <div id="msg"></div>
+  </section>
+  <section>
+    <h2>Checks (last run)</h2>
+    <table id="checks"></table>
+  </section>
+  <section>
+    <h2>Aircraft</h2>
+    <table id="telem"></table>
+  </section>
+  <section>
+    <h2>Site / last look</h2>
+    <table id="site"></table>
+  </section>
+  <section>
+    <h2>Audit trail (hash-chained)</h2>
+    <div id="audit" class="mono"></div>
+  </section>
+</main>
+<script>
+const $ = (id) => document.getElementById(id);
+let last = null;
+function esc(s){ return String(s ?? "").replace(/[&<>"]/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c])); }
+async function api(path, body){
+  const r = await fetch(path, {method: body===undefined ? "GET" : "POST", headers:{"Content-Type":"application/json"}, body: body===undefined ? undefined : JSON.stringify(body)});
+  const j = await r.json().catch(()=>({}));
+  if(!r.ok) throw new Error(j.detail || j.error || r.statusText);
+  return j;
+}
+function rows(tbl, arr){ $(tbl).innerHTML = arr.join(""); }
+function render(s){
+  last = s;
+  const t = $("target"); t.textContent = (s.target||"?").toUpperCase() + "  sysid " + s.sysid; t.className = "badge " + (s.target==="real" ? "real" : "sitl");
+  $("state").textContent = s.state;
+  const fp = s.fingerprint||{}; $("fp").textContent = `fw ${fp.firmware||"?"} · ${fp.board||""} · SIM params: ${fp.sim_param_present}`;
+  const p = s.prepared;
+  if(p){
+    $("prep").innerHTML = `<div>${esc(p.kind)} · candidate <b>${esc(p.candidate_id)}</b> · grid v${esc(p.grid_version)}</div>
+      <div class="hash">hash ${esc(p.hash.slice(0,4))}<span class="mute">${esc(p.hash.slice(4,16))}…</span></div>
+      <div class="${p.geometry_ok?'ok':'bad'}">clearance/fence: ${esc(p.geometry_reason)}</div>`;
+    rows("items", ["<tr><th>#</th><th>role</th><th>command</th><th>lat</th><th>lon</th><th>alt m</th><th>p1</th></tr>"].concat(
+      p.items.map((it,i)=>`<tr><td>${i+1}</td><td>${esc(it.label)}</td><td>${esc(it.command_name.replace("MAV_CMD_",""))}</td><td>${it.lat.toFixed(6)}</td><td>${it.lon.toFixed(6)}</td><td>${it.alt.toFixed(1)}</td><td>${it.param1}</td></tr>`)));
+  } else { $("items").innerHTML = ""; }
+  rows("checks", (s.checks||[]).map(c=>`<tr><td class="${c.ok?'ok':'bad'}">${c.ok?'✔':'✘'}</td><td>${esc(c.name)}</td><td class="mute">${esc(JSON.stringify(c.value))}</td><td class="mute">${esc(c.limit ?? "")} ${esc(c.detail||"")}</td></tr>`));
+  const tm = s.telemetry||{};
+  rows("telem", [["mode", tm.mode], ["armed", tm.armed], ["rel alt m", tm.rel_alt_m?.toFixed?.(1)], ["GPS fix/sats/hdop", `${tm.fix_type}/${tm.sats}/${tm.hdop}`],
+    ["EKF flags", tm.ekf_flags], ["battery %", tm.battery_pct], ["heartbeat age s", tm.hb_age_s?.toFixed?.(2)], ["loss", tm.loss_rate?.toFixed?.(3)],
+    ["RTT ms", tm.rtt_ms], ["mission seq", s.mission_current], ["hold since", s.hold_start ? new Date(s.hold_start*1000).toLocaleTimeString() : "-"]]
+    .map(([k,v])=>`<tr><td class="mute">${k}</td><td>${esc(v)}</td></tr>`));
+  rows("site", Object.entries(s.site||{}).map(([k,v])=>`<tr><td>${esc(k)}</td><td class="${v.valid?'ok':'bad'}">${v.valid?'valid':'INVALID'}</td><td class="mute">${esc(v.reason)} · views ${esc(v.views_since_hold)} · bias ${esc(v.bias_m)}</td></tr>`));
+  $("audit").textContent = (s.audit||[]).slice(-14).map(a=>`${new Date(a.t*1000).toLocaleTimeString()}  ${a.event}  ${a.hash.slice(0,8)}`).join("\n");
+  $("btnApprove").disabled = s.state !== "prepared";
+  $("btnExecute").disabled = s.state !== "approved";
+  $("btnCommit").disabled = s.state !== "holding";
+  $("btnLook").disabled = s.state !== "holding";
+  if(p && !$("confirm").value) $("confirm").placeholder = (p.kind==="landing"?"LAND ":"FLY ") + p.hash.slice(0,4);
+}
+async function poll(){ try { render(await api("/api/status")); } catch(e){ $("state").textContent = "governor unreachable"; } }
+async function act(fn){ $("msg").className=""; $("msg").textContent="…"; try { const r = await fn(); $("msg").className="ok"; $("msg").textContent = JSON.stringify(r); } catch(e){ $("msg").className="bad"; $("msg").textContent = e.message; } poll(); }
+$("btnApprove").onclick = () => act(()=>api("/api/approve", {mission_hash: last.prepared.hash, otp: $("otp").value, confirm: $("confirm").value, operator: $("operator").value}));
+$("btnExecute").onclick = () => act(()=>api("/api/execute", {}));
+$("btnCommit").onclick = () => act(()=>api("/api/commit", {}));
+$("btnLook").onclick = () => act(()=>api("/api/look", {}));
+$("btnAbort").onclick = () => act(()=>api("/api/abort", {reason:"operator abort"}));
+$("btnRtl").onclick = () => { if(confirm("Command RTL?")) act(()=>api("/api/abort", {reason:"operator RTL", rtl:true})); };
+poll(); setInterval(poll, 1000);
+</script>
+</body>
+</html>

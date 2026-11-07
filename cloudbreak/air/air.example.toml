@@ -1,0 +1,26 @@
+# /etc/cloudbreak/air.toml — Cloudbreak air-side config (Pi 3 dev / Pi Zero 2 W)
+session_root = "/home/@USER@/sessions"
+
+[bridge]
+# Real FC: PL011 UART on header pins 8/10 (FC R4/T4), 230400 to match SERIAL4_BAUD=230.
+# Bench without the FC: point at the laptop's fc_relay, e.g. "tcp:169.254.133.166:5770".
+fc_url = "/dev/serial0"
+fc_baud = 230400        # matches FC SERIAL4_BAUD=230 (already set on this FC)
+sysid = 42
+# Telemetry is sent to every host here plus any host that connects to the uplink or sends "CBSUB" to :14552.
+ground_hosts = ["192.168.137.1"]
+ground_udp_port = 14551
+uplink_port = 14560
+
+[camera]
+width = 2304
+height = 1296
+fps = 10.0
+exposure_us = 1000        # 1/1000 s; 0 = auto (short-exposure AE mode)
+lens_position = 0.0       # dioptres; 0 = infinity
+trigger_distance_m = 7.0
+min_interval_s = 0.4
+max_interval_s = 2.0
+
+[frameserver]
+port = 8080

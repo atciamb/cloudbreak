@@ -1,0 +1,33 @@
+# Flight-test ladder. A gate is "passed" ONLY when a human records evidence here (log file, video, checklist).
+# The governor reads this file and refuses real-aircraft missions whose required gates are not passed.
+# Do not mark a gate passed on the strength of a plan or a simulation.
+
+[F0]
+name = "Ground checks: CG, control directions MANUAL+FBWA, failsafe bench test (prop off), fence loaded, range check, switches, abort drill"
+passed = false
+evidence = ""
+date = ""
+
+[F1]
+name = "Maiden: FBWA flight, trim, RTL/LOITER switching at altitude, Pi recording"
+passed = false
+evidence = ""
+date = ""
+
+[F2]
+name = "AUTO survey at 40 m through the signed uplink, pilot ready"
+passed = false
+evidence = ""
+date = ""
+
+[F3]
+name = "Practice approaches on a designated strip: low approach + forced go-around, then full autolandings"
+passed = false
+evidence = ""
+date = ""
+
+[F4]
+name = "Cloudbreak end-to-end: survey, map, candidates, proposal, approval, governor, hold+last look, commit, autoland"
+passed = false
+evidence = ""
+date = ""

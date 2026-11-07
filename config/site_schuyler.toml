@@ -1,0 +1,32 @@
+# Schuyler Flatts Cultural Park, Town of Colonie (Albany County), NY -- likely test site.
+# Select with:  set CLOUDBREAK_SITE=schuyler   (or --site schuyler on the priors tools)
+#
+# AIRSPACE (FAA data queried 2026-11-07): inside Albany Intl (KALB) CLASS C surface area, SFC-4300 ft MSL,
+# ~4.8 NM from KALB. UAS Facility Map grid ceiling 400 ft AGL, LAANC enabled (107-AA, 107-FC, 44809-AA).
+# => Every flight here needs a LAANC authorization (instant via a LAANC app up to 400 ft) + Remote ID.
+
+[site]
+name = "Schuyler Flatts Cultural Park"
+center_lat = 42.70512          # OSM way 124654836
+center_lon = -73.71078
+mag_decl_deg = -13.0           # WMM2025, ~same as Troy
+
+[airspace]
+class = "C"
+airport = "KALB"
+facility_map_ceiling_ft = 400
+laanc = true
+note = "LAANC authorization required before every flight; Remote ID required"
+
+[bbox]                          # ~2 x 2 km around the park (WGS84)
+west = -73.72298
+south = 42.69612
+east = -73.69858
+north = 42.71412
+
+[grid]
+crs = "EPSG:32618"
+res_m = 0.5
+
+[priors]
+ortho_year = "2024"            # NYS 2024 orthos cover the park (verified by export test)

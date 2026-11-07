@@ -1,0 +1,42 @@
+# Command targets. The governor is started for exactly ONE target and refuses to talk to anything that
+# does not match that target's fingerprint. SITL and the real aircraft use different sysids AND keys, so a
+# token/mission prepared for one can never execute on the other.
+
+[sitl]
+governor_url = "tcp:127.0.0.1:5762"     # SITL SERIAL1 (signed, read-write)
+core_url = "tcp:127.0.0.1:5763"         # SITL SERIAL2 (read-only)
+sysid = 1
+key = "sitl"                            # C:\cb-data\keys\mavlink_sitl.key
+fingerprint = "sitl"                    # SIM_SPEEDUP must exist
+required_gates = []
+consent_channel = 0                     # no pilot-consent switch in SITL
+max_rtt_ms = 500
+
+[real]
+governor_url = "tcp:192.168.137.2:14560"   # Pi bridge uplink (TCP; carries downlink back too). Edit to the Pi's address.
+core_url = "tcp:192.168.137.2:14561"       # Pi bridge read-only TCP downlink (outbound from laptop; no firewall rule)
+sysid = 42
+key = "real"                               # C:\cb-data\keys\mavlink_real.key (installed on the FC over USB)
+fingerprint = "real"                       # no SIM_* params; board/firmware must match
+board_substr = "CoreWing"
+firmware_version = "4.7.2"
+required_gates_survey = ["F0", "F1"]
+required_gates = ["F0", "F1", "F2", "F3"]   # for landing missions
+consent_channel = 7                        # Pocket switch -> RC7; must read > consent_pwm
+consent_pwm = 1700
+max_rtt_ms = 800
+
+[real.param_audit]
+# name = [expected, tolerance]   (checked before every upload)
+FENCE_ENABLE = [1, 0]
+FENCE_ACTION = [1, 0]
+THR_FAILSAFE = [1, 0]
+LAND_ABORT_THR = [1, 0]
+FS_GCS_ENABL = [3, 0]          # heartbeat failsafe only in AUTO
+FS_LONG_ACTN = [1, 0]
+MAV_GCS_SYSID = [245, 0]
+SERIAL4_PROTOCOL = [2, 0]
+SERIAL4_BAUD = [230, 0]        # 230400 (FC was already set to this; Pi air.toml must match)
+ARSPD_USE = [0, 0]
+RTL_AUTOLAND = [0, 0]
+MAV_SYSID = [42, 0]            # 4.7 name for SYSID_THISMAV

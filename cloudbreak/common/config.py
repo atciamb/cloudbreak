@@ -21,8 +21,24 @@ def data_dir() -> Path:
     return p
 
 
+DEFAULT_SITE = "86field"
+
+
+def site_key() -> str:
+    """Active site: CLOUDBREAK_SITE env var (default '86field'); config file config/site_<key>.toml."""
+    return os.environ.get("CLOUDBREAK_SITE", DEFAULT_SITE)
+
+
+def set_site(key: str) -> None:
+    if not (CONFIG_DIR / f"site_{key}.toml").exists():
+        raise FileNotFoundError(f"no config/site_{key}.toml")
+    os.environ["CLOUDBREAK_SITE"] = key
+
+
 def priors_dir(kind: str = "") -> Path:
-    p = data_dir() / "priors" / kind if kind else data_dir() / "priors"
+    """Per-site priors folder. The original '86 Field site keeps C:\\cb-data\\priors; others use priors\\sites\\<key>."""
+    base = data_dir() / "priors" if site_key() == DEFAULT_SITE else data_dir() / "priors" / "sites" / site_key()
+    p = base / kind if kind else base
     p.mkdir(parents=True, exist_ok=True)
     return p
 
@@ -35,4 +51,4 @@ def load_toml(name: str) -> dict:
 
 
 def site() -> dict:
-    return load_toml("site_86field.toml")
+    return load_toml(f"site_{site_key()}.toml")

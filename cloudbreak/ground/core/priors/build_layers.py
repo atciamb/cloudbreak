@@ -111,7 +111,9 @@ def build_dtm(g: Grid):
     g1 = site_grid(res=1.0)
     dtm1 = np.full(g1.shape, np.nan, np.float32)
     used = []
-    for proj in ("NY_Hudson_D22", "NY_FEMAR2_Central_2018_D19"):   # priority order
+    order_f = RAW / "dem" / "order.json"
+    order = json.loads(order_f.read_text()) if order_f.exists() else sorted(p.stem[7:] for p in (RAW / "dem").glob("dem1m_*.tif"))
+    for proj in order:   # priority order (newest collection first)
         p = RAW / "dem" / f"dem1m_{proj}.tif"
         if not p.exists():
             continue
@@ -149,12 +151,60 @@ def _lidar_vertical_scale(crs) -> float:
     return 1.0
 
 
+def _lidar_sources():
+    """EPT node files (preferred, fast S3 fetch) in project priority order; LAZ tiles as fallback."""
+    order_f = RAW / "ept" / "order.json"
+    names = json.loads(order_f.read_text()) if order_f.exists() else sorted(d.name for d in (RAW / "ept").glob("*") if d.is_dir())
+    srcs = []
+    for rank, name in enumerate(names):
+        d = RAW / "ept" / name
+        if d.exists():
+            for p in sorted(d.glob("*.laz")):
+                srcs.append(dict(project=name, rank=rank, path=str(p), crs="EPSG:3857"))
+    if not srcs and (RAW / "lidar" / "tiles.json").exists():
+        order = {"NY_Hudson_D22": 0, "NY_FEMAR2_Central_2018_D19": 1}
+        for t in json.loads((RAW / "lidar" / "tiles.json").read_text()):
+            srcs.append(dict(project=t["project"], rank=order.get(t["project"], 9), path=t["path"], crs=None))
+    srcs.sort(key=lambda s: s["rank"])
+    return srcs
+
+
+def _vertical_scale_from_ground(src: dict, g: Grid, dtm: np.ndarray, sample_files=None) -> float:
+    """Detect metres vs (US) feet by comparing class-2 ground returns with the 3DEP DTM."""
+    import laspy
+
+    tf = _tf(src["crs"], g.crs)
+    xmin, ymin, xmax, ymax = g.bounds
+    diffs = []
+    for p in sample_files:
+        las = laspy.read(p)
+        m = np.asarray(las.classification) == 2
+        if m.sum() < 50:
+            continue
+        x, y = tf.transform(np.asarray(las.x)[m], np.asarray(las.y)[m])
+        z = np.asarray(las.z)[m]
+        ok = (x >= xmin) & (x < xmax) & (y > ymin) & (y <= ymax)
+        r = ((ymax - y[ok]) / g.res).astype(int)
+        c = ((x[ok] - xmin) / g.res).astype(int)
+        diffs.append(np.c_[z[ok], dtm[r, c]])
+        if sum(len(d) for d in diffs) > 20000:
+            break
+    if not diffs:
+        return 1.0
+    d = np.vstack(diffs)
+    d = d[np.isfinite(d[:, 1])]
+    if abs(np.median(d[:, 0] - d[:, 1])) < 3.0:
+        return 1.0
+    if abs(np.median(d[:, 0] * 0.3048006 - d[:, 1])) < 3.0:
+        return 0.3048006
+    log("WARNING: lidar vertical datum mismatch, median offset", float(np.median(d[:, 0] - d[:, 1])))
+    return 1.0
+
+
 def build_lidar(g: Grid, dtm: np.ndarray):
     import laspy
 
-    tiles = json.loads((RAW / "lidar" / "tiles.json").read_text())
-    order = {"NY_Hudson_D22": 0, "NY_FEMAR2_Central_2018_D19": 1}
-    tiles.sort(key=lambda t: order.get(t["project"], 9))
+    tiles = _lidar_sources()
     H, W = g.shape
     dsm = np.full(H * W, -np.inf, np.float32)
     count = np.zeros(H * W, np.uint16)
@@ -165,13 +215,21 @@ def build_lidar(g: Grid, dtm: np.ndarray):
     cls_best = np.zeros(H * W, np.uint8)
     covered_by = np.full(H * W, 255, np.uint8)   # project rank that covered the cell first
     xmin, ymin, xmax, ymax = g.bounds
-    info = []
+    info = {}
+    vscales = {}
     for t in tiles:
-        rank = order.get(t["project"], 9)
+        rank = t["rank"]
         with laspy.open(t["path"]) as f:
-            crs = f.header.parse_crs()
-            vscale = _lidar_vertical_scale(crs)
-            tf = _tf(crs.to_wkt() if crs is not None else "EPSG:6347", g.crs)
+            crs_s = t["crs"]
+            if crs_s is None:
+                crs = f.header.parse_crs()
+                crs_s = crs.to_wkt() if crs is not None else "EPSG:6347"
+            if t["project"] not in vscales:
+                same = [s["path"] for s in tiles if s["project"] == t["project"]][-40:]
+                vscales[t["project"]] = _vertical_scale_from_ground(dict(crs=crs_s), g, dtm, same)
+                log("lidar", t["project"], "vertical scale", vscales[t["project"]])
+            vscale = vscales[t["project"]]
+            tf = _tf(crs_s, g.crs)
             npts = 0
             for pts in f.chunk_iterator(3_000_000):
                 x, y = tf.transform(np.asarray(pts.x), np.asarray(pts.y))
@@ -196,9 +254,10 @@ def build_lidar(g: Grid, dtm: np.ndarray):
                 cls_best[lin[upd][order_idx]] = cc[upd][order_idx]
                 covered_by[lin] = np.minimum(covered_by[lin], rank)
                 npts += int(keep.sum())
-            info.append(dict(project=t["project"], file=Path(t["path"]).name, points_used=npts, vscale=vscale,
-                             crs=crs.name if crs is not None else None))
-            log("lidar", Path(t["path"]).name, npts, "pts")
+            pi = info.setdefault(t["project"], dict(files=0, points_used=0, vscale=vscale, crs=crs_s[:40]))
+            pi["files"] += 1
+            pi["points_used"] += npts
+    log("lidar sources:", info)
     dsm = dsm.reshape(H, W)
     count = count.reshape(H, W)
     cls_best = cls_best.reshape(H, W)
@@ -210,10 +269,23 @@ def build_lidar(g: Grid, dtm: np.ndarray):
     still = ~np.isfinite(dsm)
     dsm[still] = dtm[still]
     dsm = np.maximum(dsm, dtm)
-    hag = np.clip(dsm - dtm, 0, 120).astype(np.float32)
-    write("dsm", dsm.astype(np.float32), g, nodata=np.nan, tags=dict(source="USGS 3DEP LPC max-z", vertical="NAVD88 m",
-                                                                     tiles=json.dumps(info)[:30000]))
-    write("hag", hag, g, tags=dict(note="DSM-DTM, 3x3 max gap fill (conservative)"))
+    # Outside lidar coverage the surface height is UNKNOWN (NaN), never "flat": clearance checks must treat
+    # NaN as a worst-case obstacle, and the prior must not call uncovered ground short grass.
+    covered = ndimage.binary_dilation(count.reshape(H, W) > 0, iterations=4)
+    dsm = np.where(covered, dsm, np.nan).astype(np.float32)
+    # Small no-return pockets inside coverage (dark/glass roofs, occlusions): fill with the MAX of the
+    # surrounding heights (assume the worst, never flat). Up to 16 cells (8 m) from data; big voids stay NaN.
+    for _ in range(16):
+        nanm = np.isnan(dsm)
+        mf = ndimage.maximum_filter(np.where(nanm, -np.inf, dsm), size=3)
+        fill = nanm & np.isfinite(mf)
+        if not fill.any():
+            break
+        dsm[fill] = mf[fill]
+    hag = np.where(np.isfinite(dsm), np.clip(dsm - dtm, 0, 120), np.nan).astype(np.float32)
+    write("dsm", dsm, g, nodata=np.nan, tags=dict(source="USGS 3DEP LPC (EPT) max-z", vertical="NAVD88 m",
+                                                  sources=json.dumps(info), note="NaN = no lidar coverage"))
+    write("hag", hag, g, nodata=np.nan, tags=dict(note="DSM-DTM, 3x3 max gap fill (conservative); NaN = no coverage"))
     write("lidar_class", cls_best, g, dtype="uint8", tags=dict(note="ASPRS class with priority building>veg>water>ground"))
     write("lidar_count", count, g, dtype="uint16")
     log("lidar layers done; empty cells before fill:", int(empty.sum()))
@@ -411,7 +483,15 @@ def main(argv=None):
     ap = argparse.ArgumentParser()
     ap.add_argument("--skip-lidar", action="store_true")
     ap.add_argument("--only", default="")
+    ap.add_argument("--site", default=None, help="site key (config/site_<key>.toml); default CLOUDBREAK_SITE or 86field")
     a = ap.parse_args(argv)
+    global RAW, OUT
+    if a.site:
+        from cloudbreak.common.config import set_site
+
+        set_site(a.site)
+    RAW, OUT = priors_dir("raw"), priors_dir("layers")     # re-bind for the selected site
+    log("site:", site()["site"]["name"], "->", OUT)
     g = site_grid()
     t0 = time.time()
     if not a.only or "ortho" in a.only:

@@ -41,6 +41,7 @@ class LandingSpec:
     entry_radius_m: float = 40.0
     goaround_alt_m: float = 40.0
     abort_alt_m: float = 30.0
+    look_half_m: float = 110.0    # last-look leg extends this far either side of the strip centre
 
     def to_dict(self):
         return asdict(self)
@@ -69,11 +70,18 @@ def landing_items(spec: LandingSpec) -> list[MissionItem]:
     f1_lat, f1_lon = _along(spec, -geo["d_final1"])
     f2_lat, f2_lon = _along(spec, -geo["d_final2"])
     hold_lat, hold_lon = _along(spec, spec.hold_offset_m)
+    la_lat, la_lon = _along(spec, spec.hold_offset_m - spec.look_half_m)
+    lb_lat, lb_lon = _along(spec, spec.hold_offset_m + spec.look_half_m)
     ga_lat, ga_lon = _along(spec, 200.0)
     C = mavlink
     items = [
         MissionItem(C.MAV_CMD_NAV_LOITER_UNLIM, param3=spec.hold_radius_m, lat=hold_lat, lon=hold_lon,
                     alt=td + spec.hold_alt_m, label="hold"),
+        # LAST LOOK: a straight, wings-level overflight of the strip along its axis (a nadir camera cannot see
+        # the point a loiter circles). Triggered from the hold by the governor; returns to the hold.
+        MissionItem(C.MAV_CMD_NAV_WAYPOINT, lat=la_lat, lon=la_lon, alt=td + spec.hold_alt_m, label="look_a"),
+        MissionItem(C.MAV_CMD_NAV_WAYPOINT, lat=lb_lat, lon=lb_lon, alt=td + spec.hold_alt_m, label="look_b"),
+        MissionItem(C.MAV_CMD_DO_JUMP, frame=C.MAV_FRAME_GLOBAL, param1=0, param2=-1, label="jump_look"),
         MissionItem(C.MAV_CMD_NAV_LOITER_TO_ALT, param2=spec.entry_radius_m, lat=ent_lat, lon=ent_lon,
                     alt=td + spec.approach_alt_m, label="entry"),
         MissionItem(C.MAV_CMD_NAV_WAYPOINT, lat=f1_lat, lon=f1_lon, alt=td + spec.approach_alt_m, label="final1"),
@@ -87,8 +95,11 @@ def landing_items(spec: LandingSpec) -> list[MissionItem]:
 
 
 def with_jump_back(items: list[MissionItem], base_seq: int) -> list[MissionItem]:
-    """Append DO_JUMP to the hold item. base_seq = mission seq of items[0]."""
+    """Resolve DO_JUMP targets to the hold item and append the post-go-around jump. base_seq = seq of items[0]."""
     hold_idx = next(i for i, it in enumerate(items) if it.label == "hold")
+    for it in items:
+        if it.label == "jump_look":
+            it.param1 = base_seq + hold_idx
     return items + [MissionItem(mavlink.MAV_CMD_DO_JUMP, frame=mavlink.MAV_FRAME_GLOBAL, param1=base_seq + hold_idx,
                                 param2=-1, label="jump_hold")]
 
@@ -99,23 +110,55 @@ def takeoff_items(alt_m: float = 40.0, pitch_deg: float = 12.0) -> list[MissionI
 
 
 def survey_items(lat0: float, lon0: float, width_m: float, length_m: float, heading_deg: float, alt_m: float,
-                 spacing_m: float, lead_in_m: float = 60.0) -> list[MissionItem]:
-    """Lawnmower over a rectangle centred on (lat0, lon0), lines along `heading_deg`."""
+                 spacing_m: float, lead_in_m: float = 60.0, min_turn_m: float = 45.0) -> list[MissionItem]:
+    """Survey lines over a rectangle centred on (lat0, lon0), lines along `heading_deg`.
+
+    Fixed-wing aware: consecutive lines are at least `min_turn_m` apart (~2x turn radius) by INTERLEAVING the
+    line order (e.g. 0,4,1,5,2,6,3), and lead-ins let the plane settle on each line before the area of interest.
+    A plain lawnmower with spacing << turn radius makes the plane loop wide and miss the lines."""
     n = max(1, int(math.ceil(width_m / spacing_m)) + 1)
     h = math.radians(heading_deg)
     ux, uy = math.sin(h), math.cos(h)          # along-line unit (east, north)
     vx, vy = math.cos(h), -math.sin(h)         # cross-line unit
+    step = width_m / max(1, n - 1) if n > 1 else 0.0
+    k = max(1, int(math.ceil(min_turn_m / step))) if step > 0 else 1
+    order = []
+    for start in range(k):
+        order += list(range(start, n, k))
     items = []
-    for i in range(n):
-        off = -width_m / 2 + i * (width_m / max(1, n - 1)) if n > 1 else 0.0
+    for j, i in enumerate(order):
+        off = -width_m / 2 + i * step if n > 1 else 0.0
         a, b = -(length_m / 2 + lead_in_m), (length_m / 2 + lead_in_m)
-        if i % 2:
+        if j % 2:
             a, b = b, a
         for s in (a, b):
             de, dn = s * ux + off * vx, s * uy + off * vy
             lat, lon = offset_latlon(lat0, lon0, de, dn)
             items.append(MissionItem(mavlink.MAV_CMD_NAV_WAYPOINT, lat=lat, lon=lon, alt=alt_m, label=f"survey_{i}"))
     return items
+
+
+def landing_path_points(spec: LandingSpec, climb_gradient: float = 0.15, step_m: float = 5.0):
+    """Flight path for clearance checks of a landing sequence:
+    hold circle -> entry circle -> final1 -> final2 -> touchdown, plus the MISSED APPROACH flown from the
+    decision point (final2) climbing at `climb_gradient` along the landing heading to the go-around altitude.
+    (A go-around below the decision height is the pilot's call; the plan must not depend on it.)"""
+    items = landing_items(spec)
+    by = {it.label: it for it in items}
+    pts = path_points([by["hold"], by["look_a"], by["look_b"], by["entry"], by["final1"], by["final2"], by["touchdown"]],
+                      0, 0, step_m)
+    f2 = by["final2"]
+    geo = approach_geometry(spec)
+    s = 0.0
+    td = spec.touchdown_rel_alt_m
+    while True:
+        alt = f2.alt + climb_gradient * s
+        lat, lon = _along(spec, -geo["d_final2"] + s)
+        pts.append((lat, lon, min(alt, td + spec.goaround_alt_m)))
+        if alt >= td + spec.goaround_alt_m or s > 800:
+            break
+        s += step_m
+    return pts
 
 
 def path_points(items: list[MissionItem], home_lat: float, home_lon: float, step_m: float = 5.0):
@@ -125,6 +168,8 @@ def path_points(items: list[MissionItem], home_lat: float, home_lon: float, step
     prev = None
     for it in items:
         if it.command in (mavlink.MAV_CMD_DO_LAND_START, mavlink.MAV_CMD_DO_JUMP):
+            continue
+        if it.lat == 0.0 and it.lon == 0.0:      # e.g. NAV_TAKEOFF: flown from the current position
             continue
         cur = (it.lat, it.lon, it.alt)
         if it.command in (mavlink.MAV_CMD_NAV_LOITER_UNLIM, mavlink.MAV_CMD_NAV_LOITER_TO_ALT):

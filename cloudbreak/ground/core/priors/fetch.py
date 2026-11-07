@@ -116,19 +116,163 @@ def _tnm_items(dataset: str) -> list[dict]:
     return r.get("items", [])
 
 
-def fetch_lidar() -> list[dict]:
-    items = _tnm_items("Lidar Point Cloud (LPC)")
-    keep = []
-    for it in items:
+def fetch_lidar(core_radius_m: float = 700.0, workers: int = 6) -> list[dict]:
+    """Download LAZ tiles intersecting the core area (field +- core_radius_m), newest project first.
+    rockyweb is slow per connection (~4 MB/min observed), so tiles download in parallel."""
+    from concurrent.futures import ThreadPoolExecutor
+
+    s = site()["site"]
+    dlat = core_radius_m / 111_320.0
+    dlon = core_radius_m / (111_320.0 * np.cos(np.radians(s["center_lat"])))
+    cb = (s["center_lon"] - dlon, s["center_lat"] - dlat, s["center_lon"] + dlon, s["center_lat"] + dlat)
+    sel = []
+    for it in _tnm_items("Lidar Point Cloud (LPC)"):
         proj = it["title"].split()[4]
-        if proj in LIDAR_PROJECTS:
-            dest = priors_dir("raw") / "lidar" / proj / Path(it["downloadURL"]).name
-            _download(it["downloadURL"], dest)
-            keep.append(dict(project=proj, url=it["downloadURL"], path=str(dest), bbox=it["boundingBox"],
-                             published=it.get("publicationDate"), bytes=dest.stat().st_size))
+        bb = it["boundingBox"]
+        hit = not (bb["maxX"] < cb[0] or bb["minX"] > cb[2] or bb["maxY"] < cb[1] or bb["minY"] > cb[3])
+        if proj in LIDAR_PROJECTS and hit:
+            sel.append((LIDAR_PROJECTS.index(proj), proj, it))
+    sel.sort(key=lambda t: t[0])
+
+    def one(t):
+        _, proj, it = t
+        dest = priors_dir("raw") / "lidar" / proj / Path(it["downloadURL"]).name
+        _download(it["downloadURL"], dest)
+        log("lidar tile", dest.name, f"{dest.stat().st_size / 1e6:.0f} MB")
+        return dict(project=proj, url=it["downloadURL"], path=str(dest), bbox=it["boundingBox"],
+                    published=it.get("publicationDate"), bytes=dest.stat().st_size)
+
+    with ThreadPoolExecutor(workers) as ex:
+        keep = list(ex.map(one, sel))
     (priors_dir("raw") / "lidar" / "tiles.json").write_text(json.dumps(keep, indent=1))
     log(f"lidar: {len(keep)} tiles, {sum(k['bytes'] for k in keep) / 1e6:.0f} MB")
     return keep
+
+
+# ------------------------------------------------------------------ lidar via Entwine Point Tiles on AWS (fast)
+EPT_ROOT = "https://s3-us-west-2.amazonaws.com/usgs-lidar-public"
+
+
+def _collection_year(name: str, pub: str = "") -> int:
+    """Best-effort acquisition year from a USGS project/work-unit name (..._2018..., ..._D22 -> 2022)."""
+    import re
+
+    m = re.findall(r"(20\d\d)", name)
+    if m:
+        return int(m[-1])
+    m = re.search(r"_D(\d\d)$", name) or re.search(r"_D(\d\d)_", name)
+    if m:
+        return 2000 + int(m.group(1))
+    return int(pub[:4]) if pub[:4].isdigit() else 0
+
+
+def lidar_workunits(core_radius_m: float = 700.0) -> list[str]:
+    """LPC work units ranked by how much of the CORE area (site centre +- core_radius_m) their tiles cover,
+    then by collection year (newest first). A newer survey that only clips the edge of the box loses to an
+    older one that covers the field. (EPT names = work-unit names.)"""
+    s = site()["site"]
+    dlat = core_radius_m / 111_320.0
+    dlon = core_radius_m / (111_320.0 * np.cos(np.radians(s["center_lat"])))
+    core = (s["center_lon"] - dlon, s["center_lat"] - dlat, s["center_lon"] + dlon, s["center_lat"] + dlat)
+    core_area = (core[2] - core[0]) * (core[3] - core[1])
+    seen: dict[str, dict] = {}
+    for it in _tnm_items("Lidar Point Cloud (LPC)"):
+        parts = it["downloadURL"].split("/")
+        if "Projects" not in parts:
+            continue
+        i = parts.index("Projects")
+        proj, wu = parts[i + 1], parts[i + 2]
+        if wu == "LAZ":
+            wu = proj
+        bb = it["boundingBox"]
+        ix = max(0.0, min(bb["maxX"], core[2]) - max(bb["minX"], core[0]))
+        iy = max(0.0, min(bb["maxY"], core[3]) - max(bb["minY"], core[1]))
+        r = seen.setdefault(wu, dict(year=_collection_year(wu, it.get("publicationDate") or ""), cover=0.0))
+        r["cover"] = min(1.0, r["cover"] + ix * iy / core_area)
+    ranked = sorted(seen.items(), key=lambda kv: (-int(kv[1]["cover"] >= 0.6), -kv[1]["year"], -float(kv[1]["cover"])))
+    log("lidar work units (core coverage, year):", [(w, round(r["cover"], 2), r["year"]) for w, r in ranked])
+    return [w for w, _ in ranked]
+
+
+def ept_projects(max_n: int = 2) -> list[str]:
+    """Newest work units that have an Entwine (EPT) copy on AWS, cached per site in raw/ept/order.json."""
+    f = priors_dir("raw") / "ept" / "order.json"
+    if f.exists():
+        return json.loads(f.read_text())
+    out = []
+    for wu in lidar_workunits():
+        try:
+            r = requests.head(f"{EPT_ROOT}/{wu}/ept.json", headers=UA, timeout=20)
+            if r.status_code == 200:
+                out.append(wu)
+        except requests.RequestException:
+            pass
+        if len(out) >= max_n:
+            break
+    f.parent.mkdir(parents=True, exist_ok=True)
+    f.write_text(json.dumps(out))
+    log("ept work units (newest first):", out)
+    return out
+
+
+EPT_PROJECTS = ["NY_Hudson_1_D22", "NY_FEMAR2_Central_4_2018"]  # legacy '86 Field order (kept for reference)
+
+
+def fetch_ept(core_radius_m: float = 700.0, workers: int = 16, max_depth: int = 20) -> list[dict]:
+    """Download every EPT octree node (all depths) that intersects the core box around the field.
+    The union of nodes over all depths is the full-density point cloud for that box."""
+    from concurrent.futures import ThreadPoolExecutor
+
+    from cloudbreak.common.geodesy import _tf
+
+    s = site()["site"]
+    tf = _tf("EPSG:4326", "EPSG:3857")
+    cx, cy = tf.transform(s["center_lon"], s["center_lat"])
+    k = 1.0 / np.cos(np.radians(s["center_lat"]))          # web-mercator scale factor
+    r = core_radius_m * k
+    box = (cx - r, cy - r, cx + r, cy + r)
+    out = []
+    for name in ept_projects():
+        meta = _get(f"{EPT_ROOT}/{name}/ept.json").json()
+        b = meta["bounds"]
+        size0 = b[3] - b[0]
+
+        def node_box(key):
+            d, x, y, _ = map(int, key.split("-"))
+            sz = size0 / (2 ** d)
+            return (b[0] + x * sz, b[1] + y * sz, b[0] + (x + 1) * sz, b[1] + (y + 1) * sz)
+
+        def hits(key):
+            nb = node_box(key)
+            return not (nb[2] < box[0] or nb[0] > box[2] or nb[3] < box[1] or nb[1] > box[3])
+
+        nodes, pending = {}, ["0-0-0-0"]
+        while pending:
+            hk = pending.pop()
+            h = _get(f"{EPT_ROOT}/{name}/ept-hierarchy/{hk}.json").json()
+            for key, cnt in h.items():
+                if int(key.split("-")[0]) > max_depth or not hits(key):
+                    continue
+                if cnt == -1:
+                    pending.append(key)
+                elif cnt > 0:
+                    nodes[key] = cnt
+        dest_dir = priors_dir("raw") / "ept" / name
+        dest_dir.mkdir(parents=True, exist_ok=True)
+        (dest_dir / "ept.json").write_text(json.dumps(meta))
+
+        def one(key):
+            return _download(f"{EPT_ROOT}/{name}/ept-data/{key}.laz", dest_dir / f"{key}.laz")
+
+        with ThreadPoolExecutor(workers) as ex:
+            files = list(ex.map(one, sorted(nodes)))
+        tot = sum(f.stat().st_size for f in files)
+        info = dict(project=name, nodes=len(nodes), points=int(sum(nodes.values())), bytes=tot, box3857=box,
+                    max_depth=max(int(k.split("-")[0]) for k in nodes) if nodes else None, dir=str(dest_dir))
+        (dest_dir / "nodes.json").write_text(json.dumps(dict(info=info, nodes=nodes)))
+        log(f"ept {name}: {len(nodes)} nodes, {info['points'] / 1e6:.1f} M pts, {tot / 1e6:.0f} MB, depth<={info['max_depth']}")
+        out.append(info)
+    return out
 
 
 # ------------------------------------------------------------------ DEM (COG windowed read)
@@ -140,10 +284,14 @@ def fetch_dem() -> list[dict]:
 
     g = site_grid(res=1.0)
     out = []
+    items = []
     for it in _tnm_items("Digital Elevation Model (DEM) 1 meter"):
-        proj = next((p for p in DEM_PROJECTS if p in it["title"]), None)
-        if not proj:
-            continue
+        proj = it["downloadURL"].split("/Projects/")[1].split("/")[0] if "/Projects/" in it["downloadURL"] else it["title"]
+        items.append((_collection_year(proj, it.get("publicationDate") or ""), proj, it))
+    items.sort(key=lambda t: -t[0])
+    (priors_dir("raw") / "dem").mkdir(parents=True, exist_ok=True)
+    (priors_dir("raw") / "dem" / "order.json").write_text(json.dumps([p for _, p, _ in items]))
+    for _, proj, it in items:
         dest = priors_dir("raw") / "dem" / f"dem1m_{proj}.tif"
         if not dest.exists():
             dest.parent.mkdir(parents=True, exist_ok=True)
@@ -229,14 +377,24 @@ def fetch_weather() -> Path:
     return dest
 
 
-STEPS = dict(osm=fetch_osm, dof=fetch_dof, weather=fetch_weather, dem=fetch_dem, ortho=lambda: (fetch_ortho("2024"), fetch_ortho("2024_cir")),
-             lidar=fetch_lidar)
+STEPS = dict(osm=fetch_osm, dof=fetch_dof, weather=fetch_weather, dem=fetch_dem, ortho=lambda: (fetch_ortho(_ortho_year()), fetch_ortho(_ortho_year() + "_cir")),
+             ept=fetch_ept, lidar=fetch_lidar)
+
+
+def _ortho_year() -> str:
+    return str(site().get("priors", {}).get("ortho_year", "2024"))
 
 
 def main(argv=None):
     ap = argparse.ArgumentParser()
-    ap.add_argument("--only", default=",".join(STEPS))
+    ap.add_argument("--only", default="osm,dof,weather,dem,ortho,ept")   # 'lidar' (rockyweb tiles) is slow; EPT replaces it
+    ap.add_argument("--site", default=None, help="site key (config/site_<key>.toml); default CLOUDBREAK_SITE or 86field")
     a = ap.parse_args(argv)
+    if a.site:
+        from cloudbreak.common.config import set_site
+
+        set_site(a.site)
+    log("site:", site()["site"]["name"], "->", priors_dir())
     status = {}
     for name in a.only.split(","):
         t0 = time.time()
