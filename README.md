@@ -9,7 +9,8 @@ Cloudbreak is an RC plane (Flite Test Tutor, ArduPlane 4.7.2 on a CoreWing F405 
   - The Pi 3 camera, frame server and MAVLink bridge run on the bench.
   - The real FC streams signed MAVLink2 over UART4 (TELEM) at 230400 to the Pi, and on to the laptop.
   - The signed uplink (HITL) test has not been run yet.
-- **Not done:** no real flight has happened. See `docs/CHECKLIST.md` for what is and isn't verified.
+- **Airframe:** the Tutor is mechanically built (fuselage, wing, power pod, landing gear, servos linked). It hasn't been powered yet; the camera opening, avionics mounting, surface setup and CG are left. See `progress/airframe.md`.
+- **Not done:** no real flight has happened. See `docs/CHECKLIST.md` for what is and isn't verified, and `progress/` for each workstream's status and the combined plan.
 
 ## Hardware baseline
 
@@ -127,6 +128,7 @@ python -m cloudbreak.heartbeat --device /dev/serial0 --baud 230400  # Pi UART to
 - `cloudbreak/{heartbeat,capture,landability,planner,governor}.py`: the initial skeleton modules, with tests in `tests/test_landability.py` and `tests/test_governor_skeleton.py`. `heartbeat.py` is the listen-only link check.
 - `sim/`: SITL scripts, synthetic camera, sim pilot.
 - `config/`: site, targets, aircraft, flight gates.
+- `progress/`: per-workstream team progress updates and the combined remaining plan.
 - `scripts/`: Pi deploy and FC USB setup.
 
 Data, keys, weights and sessions live in `C:\cb-data`, never in git.

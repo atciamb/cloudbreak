@@ -54,6 +54,7 @@ Legend: **passed** means evidence is recorded here. *Proposed* means it is writt
 | Pi ↔ FC UART4 link | **passed (FC → Pi direction)** 2026-11-07 17:14, after rewiring the TELEM pigtail. Before the rewire, pin 10 was held LOW and 0 bytes arrived. Afterwards: pin 10 toggles. `/dev/serial0` at 230400 gets 10,395 bytes in 2.5 s (252 MAVLink2 frames). Decoded: 540 msgs in 6 s, 528 signed, heartbeat sysid 42, MANUAL. Bridge → laptop over TCP :14561 gives 539 msgs in 6 s, after fixing a bridge crash on the first TCP client. Pi → FC direction is not tested yet (part of HITL) |
 | FC settings after the wiring incident | **partly verified**: sysid 42 and signing are confirmed over the UART. The full USB dry run is pending, because COM5 enumerates but won't open (Windows error 31). Unplug the USB for ~5 s to clear it. The FC reports no board voltage (POWER_STATUS Vcc = 0), so a 4V5 back-feed can't be ruled out from software. TELEM pin 6 must stay disconnected |
 | HITL: signed upload/read-back through the Pi, unsigned ignored, props off | *proposed* |
+| Airframe (Tutor) build | **built, nothing checked yet** (2026-11-07): fuselage, wing, power pod, landing gear, wing hold-down skewers done; motor mounted (not wired); 4 servos installed and linked. Camera opening, avionics mounting, wing fit, surface setup and CG still to do; see `progress/airframe.md` |
 
 ### Pi ↔ FC wiring (UART4 = SERIAL4, TELEM connector)
 
