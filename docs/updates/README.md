@@ -28,5 +28,6 @@ Software work (SITL, core, planner, governor, agent, HITL) is logged in the comm
 | [P1_2026-11-07_1731.md](P1_2026-11-07_1731.md) | P1 | G0 pass; output-mapping hazard found |
 | [P1_2026-11-07_1737.md](P1_2026-11-07_1737.md) | P1 | Waiting for the FC; wiring-incident questions; new marshal rule |
 | [P2_2026-11-07_1721.md](P2_2026-11-07_1721.md) | P2 | Tutor built; airframe steps A1–A7 |
+| [P2_2026-11-07_1830.md](P2_2026-11-07_1830.md) | P2 | Correction: code freeze 11:00, so plan to fly Sunday; wiring diagram; airframe timeline |
 
 Path note: P1's updates refer to `docs/inav_backup.txt` (P1's local copy). In the repo it's [`docs/hardware/fc/inav_8.0.1_backup_20261107.txt`](../hardware/fc/inav_8.0.1_backup_20261107.txt).

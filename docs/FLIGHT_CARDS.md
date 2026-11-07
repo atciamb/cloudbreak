@@ -27,7 +27,8 @@ Read these aloud before each gate. The governor enforces gate order through `con
 - [ ] TX-off failsafe tested on the bench, prop off
 - [ ] Fence loaded and enabled for THIS site; RTL altitude 50 m (`scripts/fc_params_pi.py audit --site <key>` shows 0 differences and the right vertex count)
 - [ ] Pi recording (`/status` shows frames and the bridge); governor shows target **REAL** in red, sysid 42
-- [ ] Daylight: sunset 16:40, civil dusk 17:10 (7 Nov)
+- [ ] Daylight: sunset 16:40, civil dusk 17:10 (7 Nov) · sunrise ≈06:35 (8 Nov)
+- [ ] Remote ID broadcast module fitted, **or** flying at a FAA-Recognized Identification Area (FRIA); LAANC authorization if the site is in controlled airspace (Schuyler: KALB Class C)
 
 ## F1: maiden flight (FBWA)
 Hand launch in FBWA at full throttle with wings level. Climb to 40–60 m and trim. Check that RTL and LOITER switch in and out cleanly at altitude. Land in FBWA. Download the DataFlash log and the Pi session for `sysid.py`.

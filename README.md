@@ -11,7 +11,8 @@ Cloudbreak is an RC plane (Flite Test Tutor, ArduPlane 4.7.2 on a CoreWing F405 
   - The signed uplink passed the HITL bench test (`scripts/hitl_bench.py`). Signed commands work through the Pi; unsigned, wrong-key and disallowed commands are dropped at the Pi or ignored by the FC.
 - **Airframe:** the Tutor is mechanically built (fuselage, wing, power pod, landing gear, servos linked). It hasn't been powered yet; the camera opening, avionics mounting, surface setup and CG are left. See `docs/updates/P2_2026-11-07_1721.md`.
 - **Hardware commissioning (critical path):** the FC goes to the power marshal for power-board soldering (G1/G2), then radio, servos, GPS and the Pi on the UBEC (G3–G5). Output mapping must be fixed before the ESC goes on S1.
-- **Not done:** no real flight has happened, and one before judging is unlikely (flight scope is a pending team decision, `STATUS.md` §5). See `docs/CHECKLIST.md` for what is and isn't verified.
+- **Not done:** no real flight yet. The plan is an F1 maiden at first light on Sunday 11/8, if F0 passes overnight and the field go/no-go is met (`STATUS.md` §5–6). Coding stops at 11:00; flying can continue. See `docs/CHECKLIST.md` for what is and isn't verified.
+- **Wiring:** full diagram and connection tables in `docs/hardware/WIRING.md`.
 
 ## Hardware baseline
 
@@ -147,7 +148,7 @@ python -m cloudbreak.heartbeat --device /dev/serial0 --baud 230400  # Pi UART to
 - `config/`: site, targets, aircraft, flight gates.
 - `STATUS.md`: master team status (gate board, blockers, decisions, remaining plan).
 - `docs/updates/`: timestamped personal updates (P1–P4) and the update template.
-- `docs/hardware/fc/`: FC configuration backups (INAV 8.0.1, pre-ArduPlane).
+- `docs/hardware/`: wiring diagram + connection tables (`WIRING.md`, `wiring.svg`, generator `wiring_svg.py`) and FC configuration backups (`fc/`, INAV 8.0.1 pre-ArduPlane).
 - `scripts/`: Pi deploy, FC setup through the Pi (`fc_params_pi.py`) or over USB (`fc_setup_usb.py`), and the HITL bench test.
 
 Data, keys, weights and sessions live in `C:\cb-data`, never in git.
