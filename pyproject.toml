@@ -1,0 +1,22 @@
+[build-system]
+requires = ["setuptools>=68"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "cloudbreak"
+version = "0.0.1"
+description = "HackRPI 2026: RC aircraft imagery to human-approved landing plans"
+readme = "README.md"
+requires-python = ">=3.9"
+dependencies = [
+    "pymavlink>=2.4.40",
+]
+
+[project.optional-dependencies]
+dev = ["pytest"]
+
+[tool.setuptools]
+packages = ["cloudbreak"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]

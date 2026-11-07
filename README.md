@@ -29,19 +29,39 @@ HackRPI 2026 project: a small RC aircraft photographs the ground, a ground lapto
 
 ## Repo layout
 
-```
-cloudbreak/          Python package (ground + companion code lives here)
-  heartbeat.py       read-only MAVLink link check (Pi↔FC or SITL)
-requirements.txt     Python dependencies
-```
+| File | Runs on | Pipeline stage | State |
+|---|---|---|---|
+| `cloudbreak/heartbeat.py` | Pi or laptop | MAVLink link check (Pi↔FC or SITL) | working, listen-only |
+| `cloudbreak/capture.py` | Pi | 1 Capture: frames + pose metadata | `FrameRecord` only |
+| `cloudbreak/landability.py` | laptop | 2 Map: ground-class grid | grid + classes |
+| `cloudbreak/planner.py` | laptop | 3 Plan: ranked landing candidates | data types, ranking stub |
+| `cloudbreak/governor.py` | laptop | 5 Govern: pre-upload checks | approval + link checks, tested |
+| `tests/` | laptop | | `pytest` |
+
+The AI agent (stage 4) and the SITL mission upload are not started yet.
 
 ## Quick start
+
+Laptop:
 
 ```bash
 python3 -m venv .venv
 source .venv/bin/activate
-pip install -r requirements.txt
+pip install -e ".[dev]"
+pytest
+```
 
+Raspberry Pi (Picamera2 is installed by apt, so let the venv see system packages):
+
+```bash
+python3 -m venv --system-site-packages .venv
+source .venv/bin/activate
+pip install -e .
+```
+
+Link check:
+
+```bash
 # SITL (ArduPlane's default TCP port)
 python -m cloudbreak.heartbeat --device tcp:127.0.0.1:5760
 
