@@ -1,6 +1,8 @@
 # Cloudbreak — Master Status
 
-**Last merged:** 2026-11-07 ≈18:30 (≈H7.5; H0 = Sat 11:00) · **Devpost due H22 (Sun 09:00)** · **Code freeze = coding stops H24 (Sun 11:00)**. Flying and testing continue after the freeze.
+**Last merged:** 2026-11-07 ≈18:45 (≈H7.75; H0 = Sat 11:00) · **Hard end H24 (Sun 11:00): flying and coding both stop.** Devpost isn't a deadline or a blocker.
+
+**Per-person work plan with checklists: [`docs/WORKPLAN.md`](docs/WORKPLAN.md).**
 
 **Merged so far:**
 - **P1** updates 17:11, 17:31, 17:37
@@ -17,29 +19,23 @@
 ---
 
 ## 0 · Headline
-- 🎯 **End goal for Sunday:** demo the full governed autoland in SITL **plus real flight data from the Tutor**.
+- 🎯 **End goal by 11:00 Sunday:** real Tutor flight data in the demo, next to the SITL governed autoland.
   - **F1** FBWA maiden at first light (≈06:35), with the Pi recording.
-  - Then the **F2** AUTO survey through the signed uplink, if time allows.
-  - Coding stops at 11:00, but flying and testing don't, so flights can continue into the demo window.
-  - Real autoland (F3/F4) is *not* this weekend (§5).
+  - **F2** AUTO survey through the signed uplink (08:00–09:15).
+  - Real imagery into the landability map by ≈10:30.
+  - Everything (flying + coding) stops at 11:00. Real autoland (F3/F4) is *not* this weekend (§5).
 - ⏱️ **To fly at ≈06:35, F0 has to pass by ≈04:00.** That means G1 → G5 tonight with almost no slack.
-  - The hardware lane (P1) is the critical path.
-  - **The first blocker is handing the FC to P1, cold, now.**
+  - **Iain + Andrew are soldering the power board now** (M1.C → G1 → G2 by ≈20:30). This is the critical path.
+  - P3 takes over the camera opening (A1); P4 preps the radio, the parameter sheet and the field config (`docs/WORKPLAN.md`).
 - ✅ **Software is essentially done.** S1–S3 pass; the S4 SITL flow passes; HITL passes on the real FC (10/10); the fence is set and the audit is 17/17. FC parameters can be changed through the Pi.
-- ✈️ **The airframe is built** (P2). Camera opening, bay layout and wing fit happen now; surfaces at G3 (≈21:30); install + CG ≈23:30.
+- ✈️ **The airframe is built** (P2). Wing fit + layout ≈20:30; surfaces at G3 (≈21:30); install + CG ≈23:30.
 - 🔌 **Wiring:** full diagram + connection tables in [`docs/hardware/WIRING.md`](docs/hardware/WIRING.md).
 - ⚠️ **Top hazards:**
   - Output map still at defaults (no ESC on S1 yet).
   - Possible 4V5 back-feed.
-  - The fence blocks arming at the bench, which affects ESC calibration and the motor direction check (§2 #6).
+  - The FC can't arm at the bench (fence + no GPS indoors), so ESC calibration and motor direction need the method in §2 #6.
   - Pi pin 6 is double-booked (§2 #7).
-- 🟡 **Before F1** (go/no-go at the field, not a bench item):
-  - site permission
-  - **Remote ID**: a broadcast module or a FRIA site; none was ordered
-  - LAANC if Schuyler (KALB Class C)
-  - the right site fence loaded
-  - wind
-  - four roles staffed
+- 🟡 **Physical blockers for F1:** the FC won't arm outside the uploaded fence, so **load the flight site's fence**. Plus wind, field clear, roles staffed. Remote ID can't block arming on our firmware (§2 #8).
 
 ## 1 · Gate board
 ### Hardware commissioning (prop off throughout)
@@ -66,11 +62,11 @@
 | HITL signed command path via Pi | ✅ Pass | `hitl_20261107T173318.json`: 10/10. Unsigned, wrong-sysid, PARAM_SET and DO_SET_MODE dropped at the Pi; wrong-key and direct-unsigned ignored by the FC |
 | Param audit for real uploads | ✅ Pass | 17:49: 17/17 audited values match, including the fence and RTL altitude (`hitl_20261107T174904.json`). HITL re-run 10/10 |
 | FC configuration through the Pi | ✅ Pass | `scripts/fc_params_pi.py` backup/audit/apply/fence. PARAM_SET only forwarded in an SSH-opened maintenance window while disarmed. Link/identity/arming params stay USB-only |
-| **D1** Demo recorded + Devpost | ⬜ | — |
+| **D1** Demo assembled (Devpost optional, not a blocker) | ⬜ | Due before 11:00 |
 
 ### Flight ladder (`config/flight_gates.toml`)
 F0 ground checks · F1 maiden · F2 AUTO survey · F3 practice approaches · F4 end-to-end: **all not started.** F0 can't start before G5.
-**Targets:** F0 02:30–04:00 Sun · F1 ≈06:35 · F2 09:00–11:00 if F1 is clean · F3/F4 after the event.
+**Targets:** F0 02:30–04:00 Sun · F1 ≈06:35 · F2 08:00–09:15 · real map by ≈10:30 · hard end 11:00 · F3/F4 after the event.
 
 ## 2 · Safety flags (read before touching hardware)
 1. 🔴 **No ESC on S1 until the output mapping is fixed and P1 has checked it on screen.** Required values:
@@ -86,30 +82,28 @@ F0 ground checks · F1 maiden · F2 AUTO survey · F3 practice approaches · F4 
 3. 🟠 **Every session with the Pi wired to the FC goes through the power marshal (P1)**, the same as USB and battery sessions.
 4. The prop stays in its bag. No soldering unless the hardware is COLD. Electronics booting ≠ flight readiness.
 5. During USB-only FC sessions, the GPS and the Pi link are unplugged or both boards are powered (the 4V5 pins are live on USB).
-6. 🟠 **Fence + arming.** With FENCE_ENABLE=1, the FC refuses to arm outside the Schuyler polygon, and the bench is outside it. Arming also needs every other pre-arm item cleared (RC, accel, compass, GPS home), so indoors isn't possible anyway. **ArduPilot's plane ESC calibration arms the FC**, and so does a motor direction check through the FC. P4 + software pick a method and P1 approves it:
-   - **(a)** ESC calibration + motor direction with a **servo tester** instead of the FC (no arming), if we have one;
+6. 🟠 **Fence + arming.** With FENCE_ENABLE=1, the FC refuses to arm outside the Schuyler polygon, and the bench is outside it. Arming also needs every other pre-arm item cleared (RC, accel, compass, GPS home), so indoors isn't possible anyway. **ArduPilot's plane ESC calibration arms the FC**, and so does a motor direction check through the FC. P4 + P1 agree a method before ≈20:30:
+   - **(a)** ESC calibration + motor direction with a **servo tester**, if anyone has one: no arming, any time after G2;
    - **(b)** check P1's ESC label photo: if the ESC doesn't need calibrating, only motor direction remains;
-   - **(c)** in the outdoor G3b slot, a supervised prop-off session with FENCE_ENABLE=0 set through `fc_params_pi.py`. Then **re-enable and re-audit to 17/17 before anything else**.
+   - **(c)** in the outdoor **G3b** slot with a GPS fix, under a temporary fence arrangement P1 approves. Then **re-upload the flight-site fence and re-audit to 17/17 before anything else**.
 
    Before flying anywhere, upload that site's fence (`fc_params_pi.py fence --site <key>`).
 7. 🟠 **Pi pin 6 is double-booked.** The proven TELEM GND is on Pi pin 6. P1's UBEC→Pi lead was drafted as pin 2 (+5 V) / pin 6 (GND). **Move the UBEC GND to pin 14** (or 9 / 20). The GPIO 5 V pins have no reverse-polarity protection, so meter polarity before plugging in.
-8. 🟡 **F1 go/no-go** (legal + safety, decided at the field; not a bench item). Any "no" means no flight:
-   - Site permission (Aeromodeling Club).
-   - **Remote ID**: the Tutor is well over 0.55 lb, so it needs a broadcast module, or must fly at a FAA-Recognized Identification Area (FRIA). None was ordered.
-   - Schuyler is inside KALB Class C, so it needs **LAANC** before every flight.
-   - That site's fence loaded, with the audit at 17/17.
-   - Wind ≤ 5 m/s.
-   - All four flight-card roles staffed, and the pilot comfortable.
+8. 🟡 **F1 go/no-go at the field.** Any "no" means no flight:
+   - The **flight site's fence is loaded** and the audit is 17/17. The FC physically won't arm outside it.
+   - Wind ≤ 5 m/s; field clear.
+   - All four flight-card roles staffed, and the pilot ready.
+
+   *Remote ID:* the team handles it, and it can't block arming. ArduPilot only enforces it when OpenDroneID is compiled in, which standard firmware doesn't do, and the CoreWing build doesn't enable it.
 
 ## 3 · Workstream status
 ### Tonight at a glance
 | Who | Now → ≈21:30 | Later tonight | Sunday |
 |---|---|---|---|
-| **P1** Iain (power) | Take the FC cold → M1.C soldering → G1 → **G2 by ≈20:30** | Radio/ESC with P4 → G3 → GPS → G4 → install → G3b → G5 → F0 | Power owner at the field (proposed) |
-| **P2** Andrew (airframe) | A1 camera opening · A2 bay dry-fit (agree with P1/P4) · A3 wing fit · motor label · CG marks | G3 servos (≈21:30) · install + **CG/weight** (≈23:30) · F0 CG + structure | Devpost lead: draft overnight, **submit by 09:00**. Flight role TBD |
-| **P3** (Pi & camera) | Zero 2 W swap (SD card, 22-pin ribbon, hotspot Wi-Fi) · re-pin the UBEC lead (§2 #7) · tell P2 the ribbon length | **G4** (≈23:00) · Pi recording checked in G5 | Pi recording during F1/F2 |
-| **P4** (FC & radio) | Output map + accel cal before the hand-over · Pocket switches (FBWA/AUTO/RTL, RC7 consent) · ELRS bind prep · ESC-calibration method (§2 #6) | Bind + radio cal + ESC (≈20:30) → G3 → GPS → G3b | Flight role TBD |
-| **Software** | **Hand the FC to P1 now** · field config (Pi hotspot address in `config/targets.toml`, fence for the flight site) · Devpost skeleton | G5 support · fence audit for F0 | sysid on the F1 log · ground operator for F2 (proposed) |
+| **P1** Iain (power) | **Soldering M1.C with Andrew** → G1 → **G2 by ≈20:30** · lift the ESC red contact · capacitor location | Map check, XR1, accel cal with P4 → G3 → GPS harness + log card → G4 with P3 → install with Andrew → G3b → G5 → F0 | Power owner (proposed) |
+| **P2** Andrew (airframe) | **Soldering M1.C with Iain** (heat-shrink, photos, meter, G2 readings) · hands A1 to P3 | A3 wing fit + approve layout (≈20:30) → **G3** servos (≈21:30) → install + **CG/weight** (≈23:30) → F0 CG + structure | Between-flight inspections · flight role TBD |
+| **P3** (Pi & camera, air software) | Zero 2 W swap · UBEC lead re-pinned (pin 2 / pin 14) · **A1 camera opening + mount** · propose the Pi spot · ribbon length to Andrew | **G4** (≈23:00) · recording checked in G5 | Pi recording on F1/F2 · real imagery into core |
+| **P4** (FC & radio, ground software) | Pocket model + switches + bind prep · parameter sheet · ESC-calibration method with Iain · flight-site fence + hotspot config · propose receiver/GPS spots | Map + bind + radio/accel cal (≈20:30) → G3 → GPS → G3b → **G5** (governor read-only) → F0 fence audit | Ground operator (proposed) · `sysid.py` · F2 on the governor |
 
 ### P1 · Power & integration (power marshal) · Iain — *update 17:37*
 - **Done:** G0; M1.B power prep (UBEC set to 5 V, ESC photographed with red contact not lifted, XT60 lead on 14 AWG, leads tinned).
@@ -119,14 +113,15 @@ F0 ground checks · F1 maiden · F2 AUTO survey · F3 practice approaches · F4 
 ### P2 · Airframe · Andrew — *updates 17:21, 18:30*
 - **Done:** Tutor fuselage, wing, power pod, landing gear, wing hold-down skewers. Motor mounted (not wired). 4 servos glued in, horns on and linked.
 - **Untested:** motor direction; servo neutral, direction and throw; wing fit; CG; all-up weight.
-- **Now (no power needed):**
-  - A1 camera opening (nadir, recessed, foam soft-mount)
-  - A2 bay layout dry-fit
+- **After soldering (≈20:30, no power needed):**
+  - A2 bay layout approval (P3/P4 propose spots)
   - A3 wing fit and aileron lead reach to S3/S4
+  - A1 camera opening is with P3 tonight
 - **Later:**
   - A4 surface setup at G3 (≈21:30)
   - Install, then A5 CG at 57–63 mm and weight (≈23:30–00:30)
-  - F0: CG + structural check (A7); Devpost lead by 09:00
+  - F0: CG + structural check (A7)
+- **Now:** soldering M1.C with Iain; A1 camera opening handed to P3 (`docs/WORKPLAN.md`).
 - **Needs:** camera cable length (P3); bay layout agreement (P1 + P4); output mapping (P4).
 - Full detail: [`docs/updates/P2_2026-11-07_1721.md`](docs/updates/P2_2026-11-07_1721.md) and [`P2_2026-11-07_1830.md`](docs/updates/P2_2026-11-07_1830.md).
 
@@ -171,8 +166,8 @@ F0 ground checks · F1 maiden · F2 AUTO survey · F3 practice approaches · F4 
 | No receiver bound | G3, all pre-arm | P4 | XR1 wired after G2 |
 | Bay layout not agreed | P2 A2 (gluing), install at ≈23:00 | P2 + P1 + P4 | Layout agreed on the dry-fit |
 | Camera cable length unknown | P2 A1 final cut | P3 | P3 confirms which Zero ribbon we have |
-| Fence blocks arming off-site | Any bench test that needs the FC armed | P4 + software | Agreed bench procedure, re-audit afterwards (§2 flag 6) |
-| Remote ID / site / LAANC | F1 (not the bench) | Team + Aeromodeling Club | FRIA site or Remote ID module; LAANC if Schuyler; site permission (§2 #8) |
+| Fence blocks arming off-site | ESC calibration + motor direction through the FC | P4 + P1 | Method agreed by ≈20:30 (§2 #6) |
+| Flight-site fence | F1 (the FC won't arm outside it) | P4 | Site picked; `config/site_<key>.toml` fence drawn if not Schuyler; uploaded + 17/17 at F0 |
 | Pi pin 6 double-booked | G4 | P1 + P3 | UBEC GND moved to pin 14 (§2 #7) |
 | No autoland-capable site with a fence | Real governed autoland (F3/F4, after the event) | Team | Anderson Field fence + permission |
 
@@ -187,40 +182,39 @@ F0 ground checks · F1 maiden · F2 AUTO survey · F3 practice approaches · F4 
 | Pi Zero 2 W swap timing | ⬜ recommend **before G4-on-UBEC**, so the power test uses the real load |
 | Camera mount | ⬜ P2 proposes nadir, recessed, foam soft-mount. Confirm with P3 |
 | Fence parameters | ✅ Schuyler polygon (21 vertices, 12.3 ha, ≥19 m from buildings), FENCE_TYPE 5, ACTION 1 (RTL), ALT_MAX 100 m, RET_ALT 50, OPTIONS 0; RTL_ALTITUDE 50. Planner/governor margin 20 m inside |
-| **Scope: real flight** | ✅ **Plan (Andrew, 18:05): fly Sunday.** Coding stops at 11:00 (H24); the earlier internal 07:00 freeze is dropped, and flying/testing continue after 11:00. Target: F0 overnight, then the F1 FBWA maiden at ≈06:35, then the F2 AUTO survey if time allows. Every flight is still subject to the go/no-go in §2 #8. **F3/F4 (real autoland) are not this weekend**: they need sysid + BO re-tuning from real logs, practice approaches, and a site where the pattern fits (Schuyler doesn't; Anderson Field has no fence) |
-| Flight site for F1 | ⬜ The Schuyler fence is on the FC (needs LAANC + Remote ID or a FRIA). A club field needs its own fence uploaded first |
-| Flight roles | ⬜ PIC · ground operator · safety observer · power owner, one each (`docs/FLIGHT_CARDS.md`). Proposed: P1 power owner, software ground operator |
-| ESC calibration method under the fence | ⬜ servo tester / skip if not needed / supervised outdoor fence-off (§2 #6) |
+| **Scope: real flight** | ✅ **Plan (Andrew): fly Sunday; hard end 11:00 for flying and coding.** Devpost isn't a blocker. Target: F0 overnight → F1 FBWA maiden at ≈06:35 → F2 AUTO survey 08:00–09:15 → real imagery into core by ≈10:30. Every flight is subject to the go/no-go in §2 #8. **F3/F4 (real autoland) are not this weekend**: they need sysid + BO re-tuning from real logs, practice approaches, and a site where the pattern fits (Schuyler doesn't; Anderson Field has no fence) |
+| Flight site for F1 | ⬜ The Schuyler fence is on the FC. Any other site needs its fence drawn and uploaded first (the FC won't arm outside it). Legal/airspace items are handled by the team |
+| Remote ID | ✅ Team handling. No arming block on our firmware (OpenDroneID isn't compiled in) |
+| Flight roles | ⬜ PIC · ground operator · safety observer · power owner, one each (`docs/FLIGHT_CARDS.md`). Proposed: P1 power owner, P4 ground operator |
+| ESC calibration method under the fence | ⬜ (a) servo tester · (b) skip if not needed · (c) outdoor G3b slot under P1 (§2 #6). Due ≈20:30 |
 | UBEC → Pi pins | ⬜ +5 V pin 2, GND **pin 14** (§2 #7) |
-| Rest rota | ⬜ 04:00–06:00, at least 2 awake (attended LiPo charging) |
+| Rest rota | ⬜ 04:00–05:45, at least 2 awake (attended LiPo charging) |
 
-## 6 · Remaining plan — tonight → first flight → demo
-P1's hardware path, re-baselined at H7.5 for a Sunday-morning flight. Each window starts as soon as the one before it passes; if the FC hand-over slips, shift everything after it by the same amount.
+## 6 · Remaining plan — tonight → first flight → 11:00
+P1's hardware path, re-baselined at H7.75. Each window starts as soon as the one before it passes; if a step slips, shift everything after it by the same amount. Checklists per person: [`docs/WORKPLAN.md`](docs/WORKPLAN.md).
 
 | Window (H) | Clock | Step | Who |
 |---|---|---|---|
-| 7.5 | 18:30 | **FC handed over COLD** (USB + Pi pigtail off). If there's time first: output map (`fc_params_pi.py` or USB; P1 checks on screen) + accel cal | Software / P4 |
-| 7.5 – 9.0 | 18:30–20:00 | **M1.C** power-board soldering → **G1** cold checks | P1 |
-| 7.5 – 10.5 | 18:30–21:30 | *Parallel, no power:* airframe A1–A3, motor label, CG marks | P2 |
-| 7.5 – 10.5 | 18:30–21:30 | *Parallel:* Zero 2 W swap; UBEC lead re-pinned; ribbon length to P2 | P3 |
-| 7.5 – 9.0 | 18:30–20:00 | *Parallel:* Pocket model + switches; ELRS bind prep; ESC-calibration method agreed | P4 (+ software) |
-| 7.5 – 15.5 | 18:30–02:30 | *Parallel:* field config (hotspot address, site fence), Devpost skeleton | Software |
-| 9.0 – 9.5 | 20:00–20:30 | **G2** first power; log the readings (`WIRING.md` §9) | P1 |
-| 9.5 – 10.5 | 20:30–21:30 | XR1 wiring + bind + radio cal → ESC on S1 (after the map check) → ESC calibration + motor direction, prop off (§2 #6) | P4 + P1 |
-| 10.5 – 11.5 | 21:30–22:30 | **G3** servos: centre, pushrods to neutral, throws, directions in MANUAL **and FBWA**, TX-off failsafe | P2 + P4 + P1 |
-| 11.5 – 12.0 | 22:30–23:00 | GPS harness on, indoor detection, log card | P1 + P4 |
-| 12.0 – 12.5 | 23:00–23:30 | **G4** Pi Zero on the UBEC + TELEM; ≥5.1 V at the Pi with the camera running | P3 + P1 |
-| 12.5 – 13.5 | 23:30–00:30 | **Install in the airframe** per the A2 layout → **CG + all-up weight** | P2 + P1 |
-| 13.5 – 14.0 | 00:30–01:00 | Outdoor GPS fix + compass calibration → **G3b** | P1 + P4 |
-| 14.0 – 15.5 | 01:00–02:30 | **G5** integrated bench run (real bridge + governor read-only) | P1 + software |
-| 15.5 – 17.0 | 02:30–04:00 | **F0 ground checks**: CG, MANUAL + FBWA directions, TX-off failsafe (prop off), flight-site fence loaded + audit 17/17, range check, switches, abort drill → evidence in `config/flight_gates.toml` | All |
-| 17.0 – 19.0 | 04:00–06:00 | Rest rota (≥2 awake): attended pack charging, Devpost draft, field kit packed | Rota |
-| 19.0 – 19.5 | 06:00–06:30 | At the field: **go/no-go** (§2 #8) | All |
-| 19.6 – 20.5 | ≈06:35–07:30 | **F1** FBWA maiden: hand launch, Pi recording. Download the DataFlash log + Pi session | All |
-| 20.5 – 22.0 | 07:30–09:00 | `sysid.py` on the F1 log · **Devpost submitted by 09:00** · F2 prep if F1 was clean | Software · P2 (Devpost) |
-| 22.0 – 24.0 | 09:00–11:00 | **F2** AUTO survey at 40 m through the signed uplink (stretch; needs F0 + F1 recorded) → real imagery into core. Any code or param changes done by 11:00 | All |
-| **24.0** | 11:00 | **Coding stops.** Flying and testing can continue | All |
-| 24.0+ | 11:00→ | Demo: SITL end-to-end governed autoland + real F1/F2 data (live flight if permitted) | All |
+| 7.5 – 9.0 | 18:30–20:00 | **M1.C** power-board soldering (P10 red contact lifted first) → **G1** cold checks | P1 + P2 |
+| 7.5 – 9.5 | 18:30–20:30 | *Parallel:* Zero 2 W swap; UBEC lead re-pinned; **A1 camera opening + mount**; Pi spot proposed | P3 |
+| 7.5 – 9.5 | 18:30–20:30 | *Parallel:* Pocket model + switches; bind prep; parameter sheet; ESC-calibration method; flight-site fence + hotspot config; receiver/GPS spots proposed | P4 |
+| 9.0 – 9.5 | 20:00–20:30 | **G2** first power; log the readings (`WIRING.md` §9) | P1 + P2 |
+| 9.5 – 10.5 | 20:30–21:30 | Output map (Iain checks on screen) → XR1 wired + bound → radio cal → accel cal (bare stack) → ESC plugged into S1. *Parallel:* A3 wing fit + A2 layout approved | P4 + P1 · P2 |
+| 10.5 – 11.5 | 21:30–22:30 | **G3** servos: FC centres, pushrods to neutral, throws, **FBWA then MANUAL** directions, TX-off failsafe | P2 + P4 + P1 |
+| 11.5 – 12.0 | 22:30–23:00 | GPS harness by function, indoor detection, **microSD log card in the FC** | P1 + P4 |
+| 12.0 – 12.5 | 23:00–23:30 | **G4** Pi Zero on the UBEC (pin 2 / pin 14) + TELEM; ≥5.1 V at the Pi with the camera running | P3 + P1 |
+| 12.5 – 13.5 | 23:30–00:30 | **Install in the airframe** per A2 → Calibrate Level → **CG + all-up weight** | P2 + P1 (+ P4) |
+| 13.5 – 14.25 | 00:30–01:15 | Outdoors: GPS fix + compass cal → **G3b**. ESC cal + motor direction here if method (c) | P1 + P4 |
+| 14.25 – 15.5 | 01:15–02:30 | **G5** integrated bench run (real bridge + governor read-only) | All |
+| 15.5 – 17.0 | 02:30–04:00 | **F0 ground checks** → evidence in `config/flight_gates.toml` | All |
+| 17.0 – 18.75 | 04:00–05:45 | Rest rota (≥2 awake): attended pack charging, field kit packed | Rota |
+| 19.0 – 19.5 | 06:00–06:30 | At the field: fence for the site loaded + 17/17; **go/no-go** (§2 #8) | All |
+| 19.6 – 20.25 | ≈06:35–07:15 | **F1** FBWA maiden: hand launch, trim, RTL/LOITER at altitude, land. Download the DataFlash log + Pi session | All |
+| 20.25 – 21.0 | 07:15–08:00 | Inspect; `sysid.py`; check the frames; fix trim/CG; record F1 evidence | P4 · P3 · P2 |
+| 21.0 – 22.25 | 08:00–09:15 | **F2** AUTO survey at 40 m through the signed uplink (needs F0 + F1 recorded) | All |
+| 22.25 – 23.5 | 09:15–10:30 | Real imagery → core map + candidates; demo assembly; optional re-fly for coverage | P3 + P4 · P1 + P2 |
+| 23.5 – 24.0 | 10:30–11:00 | Last landing by 10:45; commit final code, data and evidence | All |
+| **24.0** | **11:00** | **Hard end: flying and coding stop** | All |
 
 ### Decision points
 - **20:30 (H9.5):** G2 not passed → bench-demo fallback (FC USB telemetry + Pi camera on its own supply). A flight becomes unlikely.
@@ -231,12 +225,12 @@ P1's hardware path, re-baselined at H7.5 for a Sunday-morning flight. Each windo
 - **Never cut:** human approval · governor · signed, SITL-separated command path · logging · labels on synthetic data · pilot takeover · pre-arm checks.
 
 ## 7 · Questions for the next round of updates
-- **FC holder:** hand the FC over now. What was the wiring incident?
-- **P1:** UBEC GND moved to Pi pin 14? Capacitor location?
+- **FC holder (P4?):** short write-up of the wiring incident for Iain.
+- **P1:** G1/G2 results + readings? Capacitor location? UBEC GND on Pi pin 14?
 - **P4:** output map + accel cal done? Pocket EdgeTX/ELRS versions? Which ESC-calibration method (§2 #6)?
 - **P3:** which Zero ribbon (length)? Zero 2 W swap done?
-- **P2:** motor label; A1–A3 done? CG marks checked against the kit manual?
-- **Team / club:** flight site, Remote ID (module or FRIA), LAANC, flight roles, who's PIC.
+- **P2:** motor label; A3 + layout done? CG marks checked against the kit manual?
+- **Team:** flight site (decides which fence goes on the FC), flight roles, who's PIC.
 
 ## 8 · Where things live
 | What | Where |
@@ -247,11 +241,12 @@ P1's hardware path, re-baselined at H7.5 for a Sunday-morning flight. Each windo
 | Flight gates F0–F4 (governor reads these) | `config/flight_gates.toml` |
 | Flight roles, abort drills, go/no-go | `docs/FLIGHT_CARDS.md` |
 | Software session log + design decisions | `docs/SESSION_LOG.md`, `docs/sitl_notes.md` |
+| Per-person work plan + checklists | [`docs/WORKPLAN.md`](docs/WORKPLAN.md) |
 | Wiring diagram + connection tables + remaining-step guides | [`docs/hardware/WIRING.md`](docs/hardware/WIRING.md) |
 | FC backups | `docs/hardware/fc/` |
 
 ## 9 · Sources
 - `docs/updates/P1_2026-11-07_1711_M1B.md`, `P1_2026-11-07_1731.md`, `P1_2026-11-07_1737.md`, `P2_2026-11-07_1721.md`, `P2_2026-11-07_1830.md`
-- ArduPilot CoreWingF405WMiniV2 board README (Plane-4.7.2); ArduPilot plane ESC calibration (arming required); FAA Remote ID / FRIA rules
+- ArduPilot CoreWingF405WMiniV2 board README (Plane-4.7.2); ArduPilot plane ESC calibration (arming required); ArduPilot OpenDroneID docs (build-time feature)
 - Repo `atciamb/cloudbreak` `main`, including `9cd547e` (HITL), `cb18601` (geofence + FC config through the Pi) and `docs/CHECKLIST.md`
 - `docs/hardware/fc/inav_8.0.1_backup_20261107.txt`; P1's Mission Planner tlogs (13:50, 14:25)

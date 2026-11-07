@@ -2,7 +2,7 @@
 
 ![Cloudbreak Tutor wiring diagram](wiring.svg)
 
-**v1 · 2026-11-07 18:30.** This page lists every connection on the plane in one place. It's the reference for the hardware gates G1–G5 and for F0.
+**v1.1 · 2026-11-07 18:45.** Per-person checklists: [`docs/WORKPLAN.md`](../WORKPLAN.md). This page lists every connection on the plane in one place. It's the reference for the hardware gates G1–G5 and for F0.
 
 **Sources:**
 - Pad labels: the ArduPilot [CoreWingF405WMiniV2 board README](https://github.com/ArduPilot/ardupilot/blob/Plane-4.7.2/libraries/AP_HAL_ChibiOS/hwdef/CoreWingF405WMiniV2/README.md) and its pinout images (Plane-4.7.2)
@@ -136,9 +136,8 @@ The 4V5 and 5 V readings also settle the wiring-incident question: the FC report
 | Receiver protocol, then radio calibration | G3 | P4 | [ArduPilot: RC systems](https://ardupilot.org/plane/docs/common-rc-systems.html) |
 | Accelerometer calibration (can't be done armed) | G3 | P4 | [ArduPilot: accelerometer calibration](https://ardupilot.org/plane/docs/common-accelerometer-calibration.html) |
 | Servo functions, reversal (checked in FBWA), trims | G3 | P2 + P4 | [ArduPilot: four-channel planes](https://ardupilot.org/plane/docs/guide-four-channel-plane.html) |
-| ESC calibration + motor direction, **prop off** | G3 | P4 + P1 | [ArduPilot: ESC calibration (Plane)](https://ardupilot.org/plane/docs/common-esc-calibration.html). ⚠️ This method **arms the FC**, and the fence blocks arming off-site (`STATUS.md` §2 #6) |
+| ESC calibration + motor direction, **prop off** | G3 | P4 + P1 | [ArduPilot: ESC calibration (Plane)](https://ardupilot.org/plane/docs/common-esc-calibration.html). ⚠️ This method **arms the FC**, and the FC can't arm at the bench (fence + no GPS indoors). Use a servo tester, or the outdoor G3b slot (`STATUS.md` §2 #6) |
 | Compass calibration (outdoors, away from steel) | G3b | P1 + P4 | [ArduPilot: compass calibration](https://ardupilot.org/copter/docs/common-compass-calibration-in-mission-planner.html) |
 | Balance at 57–63 mm behind the leading edge | F0 | P2 | [FT Tutor MKR2 page (full build playlist)](https://store.flitetest.com/ft-tutor-mkr2) · [FT Tutor (1055 mm) plans](https://ftca.flitetest.com/?p=8472) |
 | FBWA hand check before every flight | F0 / F1 | Pilot | [ArduPilot: starting up and calibrating Plane](https://ardupilot.org/plane/docs/starting-up-and-calibrating-arduplane.html) |
 | Hand launch in FBWA | F1 | Pilot | [ArduPilot: takeoff (hand launch)](https://ardupilot.org/plane/docs/takeoff-landingpage.html) · `docs/FLIGHT_CARDS.md` |
-| Remote ID: broadcast module **or** fly at a FRIA | F1 go/no-go | Team + Aeromodeling Club | [FAA: Remote ID](https://www.faa.gov/uas/getting_started/remote_id) · [FAA: FRIAs](https://www.faa.gov/uas/getting_started/remote_id/fria) |

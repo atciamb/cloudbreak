@@ -11,7 +11,7 @@ Cloudbreak is an RC plane (Flite Test Tutor, ArduPlane 4.7.2 on a CoreWing F405 
   - The signed uplink passed the HITL bench test (`scripts/hitl_bench.py`). Signed commands work through the Pi; unsigned, wrong-key and disallowed commands are dropped at the Pi or ignored by the FC.
 - **Airframe:** the Tutor is mechanically built (fuselage, wing, power pod, landing gear, servos linked). It hasn't been powered yet; the camera opening, avionics mounting, surface setup and CG are left. See `docs/updates/P2_2026-11-07_1721.md`.
 - **Hardware commissioning (critical path):** the FC goes to the power marshal for power-board soldering (G1/G2), then radio, servos, GPS and the Pi on the UBEC (G3–G5). Output mapping must be fixed before the ESC goes on S1.
-- **Not done:** no real flight yet. The plan is an F1 maiden at first light on Sunday 11/8, if F0 passes overnight and the field go/no-go is met (`STATUS.md` §5–6). Coding stops at 11:00; flying can continue. See `docs/CHECKLIST.md` for what is and isn't verified.
+- **Not done:** no real flight yet. The plan is an F1 maiden at first light on Sunday 11/8 and an F2 survey, if F0 passes overnight; flying and coding both stop at 11:00 (`STATUS.md` §5–6, `docs/WORKPLAN.md`). See `docs/CHECKLIST.md` for what is and isn't verified.
 - **Wiring:** full diagram and connection tables in `docs/hardware/WIRING.md`.
 
 ## Hardware baseline
