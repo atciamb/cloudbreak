@@ -1,0 +1,30 @@
+# Python
+__pycache__/
+*.py[cod]
+*.egg-info/
+.venv/
+venv/
+.pytest_cache/
+
+# Editors / OS
+.vscode/
+.idea/
+.DS_Store
+
+# Flight data, captures and logs (large; keep out of git)
+logs/
+captures/
+*.bin
+*.tlog
+*.tlog.raw
+*.log
+*.h264
+*.mp4
+
+# ArduPilot SITL working files
+eeprom.bin
+mav.parm
+terrain/
+
+# Secrets
+.env
