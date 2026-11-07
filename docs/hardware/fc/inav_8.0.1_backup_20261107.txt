@@ -1,0 +1,168 @@
+
+
+# version
+# INAV/COREWINGF405WMINIV2 8.0.1 Apr 23 2026 / 07:07:03 (a50fa46b) 
+# GCC-13.2.1 20231009
+
+# status
+INAV/COREWINGF405WMINIV2 8.0.1 Apr 23 2026 / 07:07:03 (a50fa46b) 
+GCC-13.2.1 20231009
+System Uptime: 27 seconds
+Current Time: 2041-06-28T01:04:00.000+00:00
+Voltage: 0.01V (0S battery - NOT PRESENT)
+CPU Clock=168MHz, GYRO=BMI270, ACC=BMI270, BARO=DPS310
+STM32 system clocks:
+  SYSCLK = 168 MHz
+  HCLK   = 168 MHz
+  PCLK1  = 42 MHz
+  PCLK2  = 84 MHz
+Sensor status: GYRO=OK, ACC=OK, MAG=NONE, BARO=OK, RANGEFINDER=NONE, OPFLOW=NONE, GPS=NONE
+SD card: Startup failed
+Stack size: 6144, Stack address: 0x10010000, Heap available: 2028
+I2C Errors: 0, config size: 13463, max available config: 131072
+ADC channel usage:
+   BATTERY : configured = ADC 1, used = ADC 1
+      RSSI : configured = none, used = none
+   CURRENT : configured = ADC 2, used = ADC 2
+  AIRSPEED : configured = ADC 3, used = none
+System load: 7, cycle time: 507, PID rate: 1972, RX rate: 9, System rate: 9
+Arming disabled flags: CAL ACC RX CLI
+OSD: MAX7456 [30 x 16]
+VTX: not detected
+
+# diff all 
+
+# version
+# INAV/COREWINGF405WMINIV2 8.0.1 Apr 23 2026 / 07:07:03 (a50fa46b) 
+# GCC-13.2.1 20231009
+
+# start the command batch
+batch start
+
+# reset configuration to default settings
+defaults noreboot
+
+# resources
+
+# Timer overrides
+
+# Outputs [servo]
+
+# safehome
+
+# Fixed Wing Approach
+
+# geozone
+
+# geozone vertices
+
+# features
+
+# beeper
+
+# blackbox
+blackbox -NAV_ACC
+blackbox NAV_POS
+blackbox NAV_PID
+blackbox MAG
+blackbox ACC
+blackbox ATTI
+blackbox RC_DATA
+blackbox RC_COMMAND
+blackbox MOTORS
+blackbox -GYRO_RAW
+blackbox -PEAKS_R
+blackbox -PEAKS_P
+blackbox -PEAKS_Y
+blackbox SERVOS
+
+# Receiver: Channel map
+
+# Ports
+
+# LEDs
+
+# LED color
+
+# LED mode_color
+
+# Modes [aux]
+
+# Adjustments [adjrange]
+
+# Receiver rxrange
+
+# temp_sensor
+
+# Mission Control Waypoints [wp]
+#wp 0 invalid
+
+# OSD [osd_layout]
+
+# Programming: logic
+
+# Programming: global variables
+
+# Programming: PID controllers
+
+# OSD: custom elements
+
+# master
+set gyro_zero_x = 1
+set gyro_zero_y = -4
+set gyro_zero_z = -1
+set acc_hardware = BMI270
+set align_mag = CW270FLIP
+set mag_hardware = NONE
+set baro_hardware = DPS310
+set blackbox_rate_denom = 2
+
+# control_profile
+control_profile 1
+
+
+# control_profile
+control_profile 2
+
+
+# control_profile
+control_profile 3
+
+
+# mixer_profile
+mixer_profile 1
+
+
+# Mixer: motor mixer
+
+# Mixer: servo mixer
+
+# mixer_profile
+mixer_profile 2
+
+
+# Mixer: motor mixer
+
+# Mixer: servo mixer
+
+# battery_profile
+battery_profile 1
+
+
+# battery_profile
+battery_profile 2
+
+
+# battery_profile
+battery_profile 3
+
+
+# restore original profile selection
+control_profile 1
+mixer_profile 1
+battery_profile 1
+
+# save configuration
+save
+
+# 
