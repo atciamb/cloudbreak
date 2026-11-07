@@ -1,0 +1,15 @@
+[Unit]
+Description=Cloudbreak read-only frame server (HTTP :8080)
+After=network-online.target
+
+[Service]
+User=@USER@
+WorkingDirectory=/opt/cloudbreak/src
+Environment=PYTHONPATH=/opt/cloudbreak/src
+ExecStart=/opt/cloudbreak/venv/bin/python -m cloudbreak.air.frameserver --config /etc/cloudbreak/air.toml
+Restart=always
+RestartSec=2
+MemoryMax=100M
+
+[Install]
+WantedBy=multi-user.target

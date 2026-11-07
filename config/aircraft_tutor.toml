@@ -1,0 +1,33 @@
+# Flite Test Tutor (standard ~1055 mm wing), single tractor motor, NO airspeed sensor, NO rangefinder.
+# Landing-geometry numbers are conservative starting values; ground/autoland writes learned values to
+# C:\cb-data\autoland\dispersion.json, which overrides the [landing] block when present.
+[airframe]
+wingspan_m = 1.055
+cruise_mps = 13.0
+max_bank_deg = 30.0
+
+[landing]
+touchdown_disp_long_m = 18.0     # 95 % longitudinal touchdown scatter (+/-), before learning
+touchdown_disp_lat_m = 5.0       # 95 % lateral scatter (+/-)
+rollout_m = 15.0                 # ground roll after touchdown on grass
+aim_fraction = 0.3               # aim point as a fraction of strip length from the threshold
+nav_sigma_m = 2.5                # 1-sigma horizontal navigation error
+min_length_m = 40.0
+max_length_m = 120.0
+slope_max_deg = 4.0
+roughness_max_m = 0.30          # lidar object-height proxy (p90 HAG in 1.5 m); live SfM roughness can tighten this
+p_safe_min = 0.65                # STRIP mean of per-cell 5 % lower bounds (synthetic calibration: safe-cell median 0.72)
+p_safe_cell_min = 0.40           # EVERY cell: split-conformal tau at alpha=1 % on SITL truth (0.395; 91.6 % safe recall). Re-calibrate on labelled real frames before flight.
+hazard_buffer_m = 1.0            # extra clearance around mapped hazards (map geolocation error); dispersion is in the strip size
+vacuity_max = 0.5                # per-cell max "unknown" mass (K/S)
+# Approach geometry. Campus sweep (2026-11-07): 8 %/25 m approaches clear nothing near '86 Field or
+# Anderson Field; 12 %/20 m with a 15 % missed-approach climb clears Anderson Field (+2 m) on headings ~100 deg.
+# 12 % at ~12 m/s groundspeed is ~1.4 m/s sink (TECS_SINK_MAX default 5). Steeper than ArduPilot's "start <=10 %"
+# advice -> validate in SITL (autoland BO) and on practice approaches (gate F3) before relying on it.
+glide_slope_pct = 12.0
+approach_alt_m = 20.0
+hold_alt_m = 40.0
+clearance_enroute_m = 8.0       # required clearance above lidar DSM far from the strip
+clearance_final_m = 1.0         # ... tapering to this at 40 m from touchdown
+clearance_taper_m = 200.0
+missed_climb_gradient = 0.15    # missed approach from the short-final decision point

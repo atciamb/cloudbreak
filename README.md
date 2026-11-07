@@ -1,75 +1,59 @@
 # Cloudbreak
 
-HackRPI 2026 project: a small RC aircraft photographs the ground, a ground laptop turns the imagery into a conservative landability map, a planner ranks candidate landing strips, and an AI agent explains its pick. **A human approves the plan**, and a deterministic governor checks it before any mission command reaches the autopilot.
+Cloudbreak is an RC plane (Flite Test Tutor, ArduPlane 4.7.2 on a CoreWing F405 Wing Mini V2). It finds a landing strip from its own downward camera plus free public geodata, explains the choice, and lands only after a human approves and a deterministic governor agrees. Built for HackRPI 2026.
 
-> **Status:** initial skeleton. No hardware commissioning, bench or flight test is recorded as passed in this repo yet.
+**Status (7 Nov 2026)**
 
-## Pipeline
-
-1. **Capture (aircraft):** Raspberry Pi Zero 2 W + Camera Module 3 records downward-looking frames and tags them with autopilot position/attitude over MAVLink.
-2. **Map (ground):** frames become a landability grid: usable ground, obstacles, people, water, unknown. Unknown is never treated as safe.
-3. **Plan (ground):** rank candidate strips and approach paths by geometry, obstacles, evidence and wind (when defensible).
-4. **Explain (ground):** an AI agent inspects candidates and proposes one. It cannot command actuators or approve its own proposal.
-5. **Approve + govern:** a human approves a specific plan; a deterministic governor checks the plan and aircraft/link state before allowing mission upload.
-6. **Fly:** ArduPlane does flight control; the pilot keeps an independent radio takeover path. Everything is logged for replay.
-
-**Required demo:** live bench camera + telemetry, plus a full human-approved, governor-checked landing sequence in ArduPlane SITL. Simulated or synthetic inputs are labeled. Real flight is optional.
+- **Done and tested:** SITL, governor, planner, priors and core all work end to end. Unit tests pass. SITL behaviours are verified (see `docs/sitl_notes.md`).
+- **Bench hardware:**
+  - The Pi 3 camera, frame server and MAVLink bridge run on the bench.
+  - The real FC streams signed MAVLink2 over UART4 (TELEM) at 230400 to the Pi, and on to the laptop.
+  - The signed uplink (HITL) test has not been run yet.
+- **Not done:** no real flight has happened. See `docs/CHECKLIST.md` for what is and isn't verified.
 
 ## Hardware baseline
 
 | Role | Part |
 |---|---|
 | Airframe | Flite Test Tutor, standard ~1055 mm wing, single tractor motor, 4 servos |
-| Flight controller | CoreWing F405 Wing Mini (V2, pending board identification), ArduPlane |
+| Flight controller | CoreWing F405 Wing Mini V2 (banner: `CoreWingF405WMiniV2`), ArduPlane 4.7.2 |
 | Pilot link | RadioMaster Pocket ELRS 2.4 GHz → XR1 Nano receiver (CRSF) |
 | GPS / compass | RMRC SAM-M10Q + 5883 |
-| Companion | Raspberry Pi Zero 2 W on its own 5 V UBEC, MAVLink2 over UART |
+| Companion | Raspberry Pi Zero 2 W (developed on a Pi 3) on its own 5 V UBEC. MAVLink2 over the FC's TELEM port (UART4); wiring in `docs/CHECKLIST.md` |
 | Camera | Raspberry Pi Camera Module 3 Standard (IMX708) |
 | Battery | 3S 1300 mAh LiPo |
 
-## Repo layout
+## How it fits together
 
-| File | Runs on | Pipeline stage | State |
-|---|---|---|---|
-| `cloudbreak/heartbeat.py` | Pi or laptop | MAVLink link check (Pi↔FC or SITL) | working, listen-only |
-| `cloudbreak/capture.py` | Pi | 1 Capture: frames + pose metadata | `FrameRecord` only |
-| `cloudbreak/landability.py` | laptop | 2 Map: ground-class grid | grid + classes |
-| `cloudbreak/planner.py` | laptop | 3 Plan: ranked landing candidates | data types, ranking stub |
-| `cloudbreak/governor.py` | laptop | 5 Govern: pre-upload checks | approval + link checks, tested |
-| `tests/` | laptop | | `pytest` |
-
-The AI agent (stage 4) and the SITL mission upload are not started yet.
-
-## Quick start
-
-Laptop:
-
-```bash
-python3 -m venv .venv
-source .venv/bin/activate
-pip install -e ".[dev]"
-pytest
+```
+Pi Zero 2 W (air)                      Laptop (Windows)                                  WSL2
+ camera ─ capture.py ─ HTTP :8080 ◄─pull── core  (127.0.0.1:8700, UI)                    ArduPlane SITL
+ FC UART ─ mavbridge.py ─ TCP :14561 ──► core  (read-only telemetry)                      5762 governor (signed)
+                         TCP :14560 ◄──► governor (127.0.0.1:8710) ──signed MAVLink──►    5763 core (ro)
+                                          agent (local LLM via Ollama) ─► proposals only  5765 QGC / sim pilot
 ```
 
-Raspberry Pi (Picamera2 is installed by apt, so let the venv see system packages):
+**Core** fuses three inputs into a Dirichlet evidence grid (0.5 m, EPSG:32618):
+- camera frames, projected onto the LiDAR DTM;
+- priors (NYS 2024 ortho, USGS 3DEP LiDAR, OSM, FAA obstacles);
+- wind (forecast + EKF3).
 
-```bash
-python3 -m venv --system-site-packages .venv
-source .venv/bin/activate
-pip install -e .
-```
+A cell needs at least 3 good views before it can count as safe. A strip needs two things:
+- every cell's 5 % lower credible bound P(safe) ≥ 0.40;
+- the strip mean of that bound ≥ 0.65.
 
-Link check:
+Both thresholds are calibrated on SITL ground truth only, and must be redone on labelled real frames. Unknown is never safe.
 
-```bash
-# SITL (ArduPlane's default TCP port)
-python -m cloudbreak.heartbeat --device tcp:127.0.0.1:5760
+The **planner** searches strips at every heading and scores them with explained terms. It checks the approach and missed-approach path against the LiDAR surface model.
 
-# On the Pi, over the UART to the flight controller
-python -m cloudbreak.heartbeat --device /dev/serial0 --baud 115200
-```
+The **governor** is the only process that writes to the aircraft:
+- It rebuilds the mission itself and hashes it.
+- A human approves it with a one-time code shown only in the governor console.
+- It checks the target fingerprint, telemetry, EKF, battery, clearance, flight gates and parameters.
+- It uploads the mission signed, reads it back and verifies the hash.
+- It flies hold, then last look, then commit, then land. It aborts by itself if the site is invalidated.
 
-The heartbeat check only listens; it never sends commands.
+The **agent** only proposes; it cannot approve or command anything.
 
 ## Ground rules
 
@@ -78,6 +62,74 @@ The heartbeat check only listens; it never sends commands.
 - Pre-arm checks stay on. Fix the specific failure instead of disabling checks.
 - SITL and real-aircraft command paths stay clearly separated.
 - Electronics booting is not flight readiness.
+
+## Quick start (laptop)
+
+```powershell
+python -m venv .venv                                     # Python 3.11+ (or: uv venv --python 3.11 .venv)
+.venv\Scripts\python -m pip install -e ".[dev]"
+.venv\Scripts\python -m pytest
+```
+
+## Run the SITL demo
+
+```powershell
+.\sim\sitl\run_sitl.ps1 -Speedup 1                       # WSL SITL at RPI '86 Field (window 1)
+.venv\Scripts\python sim\sitl\setup_signing.py           # install SITL signing key (once per SITL start)
+.venv\Scripts\python -m cloudbreak.ground.governor.governor --target sitl   # window 2: shows one-time codes
+.venv\Scripts\python -m cloudbreak.ground.core.api --target sitl --source synthetic --perception oracle
+.venv\Scripts\python sim\sim_pilot.py                    # SITL stand-in for the pilot (arming / mode switch)
+.venv\Scripts\python -m cloudbreak.ground.agent.agent    # optional local LLM proposals (Ollama qwen3:4b)
+```
+
+1. Open http://127.0.0.1:8700 and click **survey →** on a nomination.
+2. Approve it on http://127.0.0.1:8710 with the code from the governor window and `FLY xxxx`, then press **Execute**.
+3. After enough coverage, select a feasible candidate and click **Request approval**.
+4. Approve with `LAND xxxx` and press **Execute**. The plane flies to the hold.
+5. Press **Commit** once the last look has at least 3 views.
+6. Optional: **Inject person on strip** shows the automatic go-around.
+
+All synthetic inputs are watermarked and labelled SYNTHETIC or ORACLE.
+
+## Rebuild the priors
+
+```powershell
+.venv\Scripts\python -m cloudbreak.ground.core.priors.fetch      # ~0.3 GB into C:\cb-data\priors\raw
+.venv\Scripts\python -m cloudbreak.ground.core.priors.build_layers
+```
+
+Set `CLOUDBREAK_SITE=schuyler`, or pass `--site schuyler`, for Schuyler Flatts.
+
+## Pi (air side)
+
+```bash
+scripts/deploy_pi.sh <user>@<pi-ip> --setup     # once; then sudo reboot (UART change)
+scripts/deploy_pi.sh <user>@<pi-ip>             # later updates
+```
+
+The same SD card later moves to the Pi Zero 2 W. Swap the camera ribbon for the 22-pin Zero cable, and set the Zero's Wi-Fi to the field hotspot.
+
+The listen-only link check from the initial skeleton still works. On the Pi, stop `cloudbreak-mavbridge` first, because the UART can have only one reader:
+
+```bash
+python -m cloudbreak.heartbeat --device tcp:127.0.0.1:5760          # SITL
+python -m cloudbreak.heartbeat --device /dev/serial0 --baud 230400  # Pi UART to the FC (SERIAL4_BAUD=230)
+```
+
+## Layout
+
+- `cloudbreak/common/`: schemas, geodesy, MAVLink link and mission hash, mission builder, clearance, audit log, clock model.
+- `cloudbreak/air/`: Pi services.
+- `cloudbreak/ground/core/`: priors, geometry, mapping, planner, environment, API, UI.
+- `cloudbreak/ground/governor/`: approval, checks, execution, approval page.
+- `cloudbreak/ground/agent/`: local LLM agent and template fallback.
+- `cloudbreak/ground/autoland/`: SITL Bayesian optimisation and touchdown dispersion.
+- `cloudbreak/{heartbeat,capture,landability,planner,governor}.py`: the initial skeleton modules, with tests in `tests/test_landability.py` and `tests/test_governor_skeleton.py`. `heartbeat.py` is the listen-only link check.
+- `sim/`: SITL scripts, synthetic camera, sim pilot.
+- `config/`: site, targets, aircraft, flight gates.
+- `scripts/`: Pi deploy and FC USB setup.
+
+Data, keys, weights and sessions live in `C:\cb-data`, never in git.
 
 ## References
 

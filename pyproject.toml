@@ -1,22 +1,26 @@
-[build-system]
-requires = ["setuptools>=68"]
-build-backend = "setuptools.build_meta"
-
 [project]
 name = "cloudbreak"
-version = "0.0.1"
-description = "HackRPI 2026: RC aircraft imagery to human-approved landing plans"
+version = "0.1.0"
+description = "Cloudbreak: conservative landing-site mapping, governed autoland and ground station for a small fixed-wing UAV (HackRPI 2026)"
 readme = "README.md"
-requires-python = ">=3.9"
+requires-python = ">=3.11"
 dependencies = [
-    "pymavlink>=2.4.40",
+  "numpy", "scipy", "pydantic>=2", "pyproj", "shapely", "rasterio", "laspy[lazrs]", "pyserial",
+  "pymavlink>=2.4.40", "fastapi>=0.115", "uvicorn[standard]", "httpx", "requests", "pillow",
+  "opencv-python-headless", "pvlib", "openmeteo-requests", "optuna",
 ]
 
 [project.optional-dependencies]
+ml = ["torch", "torchvision"]
 dev = ["pytest"]
 
-[tool.setuptools]
-packages = ["cloudbreak"]
+[tool.setuptools.packages.find]
+include = ["cloudbreak*"]
 
 [tool.pytest.ini_options]
 testpaths = ["tests"]
+addopts = "-q"
+
+[build-system]
+requires = ["setuptools>=68"]
+build-backend = "setuptools.build_meta"

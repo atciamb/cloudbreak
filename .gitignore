@@ -11,10 +11,20 @@ venv/
 .idea/
 .DS_Store
 
+# Data, weights, keys and sessions live in C:\cb-data, never in the repo
+data/
+*.tif
+*.laz
+*.las
+*.key
+*.pt
+*.onnx
+
 # Flight data, captures and logs (large; keep out of git)
 logs/
 captures/
 *.bin
+*.BIN
 *.tlog
 *.tlog.raw
 *.log

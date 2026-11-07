@@ -1,0 +1,15 @@
+[Unit]
+Description=Cloudbreak downward camera capture
+After=cloudbreak-mavbridge.service
+
+[Service]
+User=@USER@
+WorkingDirectory=/opt/cloudbreak/src
+Environment=PYTHONPATH=/opt/cloudbreak/src
+ExecStart=/opt/cloudbreak/venv/bin/python -m cloudbreak.air.capture --config /etc/cloudbreak/air.toml
+Restart=always
+RestartSec=3
+MemoryMax=220M
+
+[Install]
+WantedBy=multi-user.target

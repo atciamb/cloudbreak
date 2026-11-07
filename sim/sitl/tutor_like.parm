@@ -1,0 +1,58 @@
+# Cloudbreak "Tutor-like" SITL overrides on top of Tools/autotest/models/plane.parm (ArduPlane 4.7.2 names, verified).
+# Sensor suite mirrors the real aircraft: NO airspeed sensor, NO rangefinder.
+# Landing values here are starting points; ground/autoland/sitl_bo.py tunes them and writes learned_landing.parm.
+MAV_SYSID 1
+ARSPD_TYPE 0
+ARSPD_USE 0
+TECS_SYNAIRSPEED 0
+AIRSPEED_CRUISE 15
+AIRSPEED_MIN 11
+AIRSPEED_MAX 24
+TRIM_THROTTLE 45
+TKOFF_ALT 40
+RTL_ALTITUDE 50
+RTL_AUTOLAND 0
+# --- landing (no airspeed: approach speed set by throttle) ---
+TECS_LAND_THR 30
+TECS_LAND_SINK 0.3
+LAND_FLARE_ALT 3
+LAND_FLARE_SEC 2
+LAND_PITCH_DEG 2
+LAND_ABORT_THR 1
+LAND_DISARMDELAY 3
+# --- failsafes: only the governor's heartbeat (sysid 245) keeps the GCS link "alive" ---
+THR_FAILSAFE 1
+FS_SHORT_ACTN 0
+FS_LONG_ACTN 1
+FS_LONG_TIMEOUT 20
+FS_GCS_ENABL 3
+MAV_GCS_SYSID 245
+# --- ports: SERIAL5 = QGC / Pi relay ---
+SERIAL5_PROTOCOL 2
+# --- stream rates (Hz). MAV2 = SERIAL1 (governor), MAV3 = SERIAL2 (core). Set by parameter because an
+#     unsigned read-only link cannot request streams once signing is enforced. bit2 of MAVn_OPTIONS = ignore
+#     stream-rate requests from GCS so nothing else can change them.
+MAV2_EXTRA1 20
+MAV2_POSITION 10
+MAV2_EXTRA2 5
+MAV2_EXTRA3 2
+MAV2_EXT_STAT 4
+MAV2_RC_CHAN 4
+MAV2_RAW_SENS 2
+MAV3_EXTRA1 20
+MAV3_POSITION 10
+MAV3_EXTRA2 5
+MAV3_EXTRA3 2
+MAV3_EXT_STAT 4
+MAV3_RC_CHAN 4
+MAV3_RAW_SENS 2
+MAV1_EXTRA1 2
+MAV1_POSITION 2
+# fence polygon is uploaded by the governor's site setup, then FENCE_ENABLE is set
+FENCE_ENABLE 0
+FENCE_ACTION 1
+FENCE_TYPE 4
+# SITL endurance only (the real Tutor flies a 1300 mAh 3S pack; the governor's battery check stays on)
+BATT_CAPACITY 30000
+# survey/approach tracking: stock WP_RADIUS (50 m in SITL plane.parm, 90 m firmware default) cuts 250 m survey lines short -> plane never flies them
+WP_RADIUS 20

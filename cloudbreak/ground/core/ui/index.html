@@ -1,0 +1,142 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Cloudbreak Ground Station</title>
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css">
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+<style>
+  :root { --bg:#0e1014; --panel:#161920; --ink:#e6e8ec; --mute:#98a1b0; --line:#262b35; --ok:#2fbf71; --bad:#ff5a5f; --warn:#f5b041; --acc:#4c8dff; }
+  * { box-sizing:border-box; }
+  html, body { margin:0; height:100%; background:var(--bg); color:var(--ink); font:13px/1.45 system-ui, Segoe UI, Roboto, sans-serif; }
+  #wrap { display:grid; grid-template-columns: 1fr 420px; height:100vh; }
+  #map { height:100%; background:#111; }
+  aside { overflow:auto; border-left:1px solid var(--line); padding:10px 12px; }
+  h2 { font-size:12px; text-transform:uppercase; letter-spacing:.08em; color:var(--mute); margin:14px 0 6px; }
+  .banner { padding:6px 10px; border-radius:6px; font-weight:700; margin-bottom:6px; }
+  .syn { background:#3a2a05; color:#ffd27a; } .real { background:#4a1214; color:#ff9a9d; } .live { background:#12351f; color:#7ef0a8; }
+  table { width:100%; border-collapse:collapse; } td, th { padding:3px 4px; border-bottom:1px solid var(--line); text-align:left; vertical-align:top; font-size:12px; }
+  tr.sel td { background:#1f2a3d; } tr { cursor:pointer; }
+  .ok { color:var(--ok); } .bad { color:var(--bad); } .mute { color:var(--mute); } .warn { color:var(--warn); }
+  button { font:inherit; padding:6px 10px; border-radius:6px; border:1px solid var(--line); background:#222734; color:var(--ink); cursor:pointer; margin:3px 4px 3px 0; }
+  button.primary { background:var(--acc); border-color:var(--acc); color:#fff; } button.danger { background:#5a1d20; border-color:var(--bad); }
+  #frame { width:100%; border-radius:6px; border:1px solid var(--line); display:block; }
+  .kv { display:grid; grid-template-columns: 130px 1fr; gap:2px 8px; }
+  .legend span { display:inline-block; width:10px; height:10px; margin:0 4px 0 8px; border-radius:2px; }
+  #msg { min-height:1.3em; }
+  @media (max-width: 900px) { #wrap { grid-template-columns: 1fr; grid-template-rows: 55vh auto; } aside { border-left:none; } }
+</style>
+</head>
+<body>
+<div id="wrap">
+  <div id="map"></div>
+  <aside>
+    <div id="banner" class="banner">…</div>
+    <div class="kv" id="ac"></div>
+    <h2>Camera (latest)</h2>
+    <img id="frame" alt="latest frame">
+    <h2>Proposal <span class="mute" id="propsrc"></span></h2>
+    <div id="proposal" class="mute">—</div>
+    <h2>Landing candidates</h2>
+    <div class="mute" id="planinfo"></div>
+    <table id="cands"></table>
+    <div>
+      <button class="primary" id="btnReq">Request approval for selected →</button>
+      <a href="http://127.0.0.1:8710/" target="_blank"><button>Open governor page</button></a>
+    </div>
+    <h2>Survey nominations (from priors)</h2>
+    <table id="noms"></table>
+    <h2>Governor (read-only mirror)</h2>
+    <div class="kv" id="gov"></div>
+    <h2>Demo / safety</h2>
+    <button id="btnPerson">Inject person on strip (SYNTHETIC)</button>
+    <button id="btnClear">Clear injected hazards</button>
+    <button class="danger" id="btnAbort">Abort / go-around</button>
+    <div id="msg"></div>
+    <h2>Layers</h2>
+    <div class="legend" id="legend"></div>
+  </aside>
+</div>
+<script>
+const $ = id => document.getElementById(id);
+const esc = s => String(s ?? "").replace(/[&<>"]/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+let map, B, overlays = {}, selected = null, lastState = null, layerTimer = 0;
+const groups = { track: L.layerGroup(), frames: L.layerGroup(), cands: L.layerGroup(), noms: L.layerGroup(), ac: L.layerGroup(), hz: L.layerGroup() };
+async function api(p, body){ const r = await fetch(p, {method: body===undefined?"GET":"POST", headers:{"Content-Type":"application/json"}, body: body===undefined?undefined:JSON.stringify(body)}); const j = await r.json().catch(()=>({})); if(!r.ok) throw new Error(j.detail||r.statusText); return j; }
+async function init(){
+  B = await api("/api/ro/bounds");
+  const bnds = [B.sw, B.ne];
+  map = L.map("map", {zoomSnap: 0.25, maxZoom: 22}).setView(B.home, 17);
+  const fit = () => { map.invalidateSize(); map.fitBounds(bnds, {padding: [10, 10]}); };
+  setTimeout(fit, 150); window.addEventListener("resize", () => map.invalidateSize());
+  overlays["Orthophoto 2024"] = L.imageOverlay("/api/ro/layer/ortho.png", bnds).addTo(map);
+  for (const [k, n] of [["Evidence classes","class"],["P(safe) lower bound","psafe"],["Camera coverage","coverage"],["Prior classes","prior"],["Lidar height above ground","hag"]]) {
+    overlays[k] = L.imageOverlay(`/api/ro/layer/${n}.png?v=0`, bnds, {opacity: 0.75});
+  }
+  overlays["Evidence classes"].addTo(map);
+  for (const g of Object.values(groups)) g.addTo(map);
+  L.control.layers(null, Object.assign({}, overlays, {"Track": groups.track, "Frame footprints": groups.frames, "Candidates": groups.cands, "Survey nominations": groups.noms}), {collapsed: true}).addTo(map);
+  const cls = [["short_grass","#50c85a"],["pavement","#969696"],["tree","#146e28"],["building","#c83c3c"],["water","#286ee6"],["person","#ff00c8"],["vehicle","#ff7800"],["rough","#783ca0"]];
+  $("legend").innerHTML = cls.map(([n,c])=>`<span style="background:${c}"></span>${n}`).join("");
+  poll(); setInterval(poll, 1000);
+}
+function refreshLayers(v){
+  for (const [k, n] of [["Evidence classes","class"],["P(safe) lower bound","psafe"],["Camera coverage","coverage"]]) overlays[k].setUrl(`/api/ro/layer/${n}.png?v=${v}`);
+}
+function render(s){
+  lastState = s;
+  const syn = (s.source||"").startsWith("synthetic");
+  $("banner").className = "banner " + (B.target==="real" ? "real" : (syn ? "syn" : "live"));
+  $("banner").textContent = `${B.target.toUpperCase()} · source ${s.source}${s.perception==="oracle"?" · SYNTHETIC-ORACLE perception":" · perception "+s.perception}`;
+  const p = s.pose || {};
+  const w = s.wind || {};
+  $("ac").innerHTML = [["mode", s.mode], ["position", p.lat ? `${p.lat.toFixed(6)}, ${p.lon.toFixed(6)}` : "—"], ["rel alt", p.rel_alt?.toFixed?.(1)+" m"],
+    ["wind", `${w.speed} m/s from ${w.from_deg}° (σ ${w.sigma}) · ${(w.sources||[]).join("+")}`], ["grid", `v${s.grid.version} · ${s.grid.frames} frames · ${s.grid.observed_cells} cells seen · ${s.grid.safe_cells} safe`]]
+    .map(([k,v])=>`<div class="mute">${k}</div><div>${esc(v)}</div>`).join("");
+  if (s.latest_frame) $("frame").src = "/api/ro/frame/latest.jpg?t=" + s.latest_frame.t;
+  // proposal
+  const pr = s.proposal;
+  if (pr) { $("propsrc").textContent = `(${pr.source}${pr.model?" · "+pr.model:""})`; $("proposal").innerHTML = `<b class="${pr.recommendation==='propose'?'ok':'warn'}">${esc(pr.recommendation)}${pr.candidate_id?" "+esc(pr.candidate_id):""}</b><div>${esc(pr.rationale)}</div>${(pr.concerns||[]).length?'<div class="warn">concerns: '+esc(pr.concerns.join("; "))+'</div>':''}`; }
+  // candidates
+  const plan = s.plan || {};
+  $("planinfo").textContent = plan.required_length_m ? `required strip ${plan.required_length_m} × ${plan.required_width_m} m · ${plan.landable_cells} landable cells · grid v${plan.grid_version}${plan.learned_dispersion?" · learned dispersion":""}` : "planning…";
+  const cands = plan.candidates || [];
+  $("cands").innerHTML = "<tr><th>id</th><th>ok</th><th>hdg</th><th>score</th><th>binding constraint</th></tr>" + cands.slice(0, 12).map(c =>
+    `<tr data-id="${c.id}" class="${c.id===selected?'sel':''}"><td>${c.id}</td><td class="${c.feasible?'ok':'bad'}">${c.feasible?'✔':'✘'}</td><td>${c.heading_deg}</td><td>${c.score}</td><td class="mute">${esc(c.binding)}</td></tr>`).join("");
+  for (const tr of $("cands").querySelectorAll("tr[data-id]")) tr.onclick = () => { selected = tr.dataset.id; render(lastState); };
+  groups.cands.clearLayers();
+  cands.slice(0, 12).forEach(c => {
+    const poly = L.polygon(c.corners_latlon, {color: c.feasible ? (c.id===selected?"#4c8dff":"#2fbf71") : "#ff5a5f", weight: c.id===selected?3:1, fillOpacity: c.id===selected?0.25:0.05});
+    poly.bindTooltip(`${c.id} ${c.feasible?'feasible':'rejected'} · ${c.binding}`); poly.on("click", ()=>{ selected=c.id; render(lastState); }); poly.addTo(groups.cands);
+    if (c.id===selected) { const td=c.touchdown_latlon; L.circleMarker(td,{radius:5,color:"#fff"}).addTo(groups.cands);
+      const h=c.heading_deg*Math.PI/180, d=250/111320; L.polyline([[td[0]-d*Math.cos(h), td[1]-d*Math.sin(h)/Math.cos(td[0]*Math.PI/180)], td], {color:"#4c8dff", dashArray:"6 6"}).addTo(groups.cands); }
+  });
+  const noms = plan.survey_nominations || [];
+  $("noms").innerHTML = "<tr><th>#</th><th>open length</th><th>axis</th><th></th></tr>" + noms.map((n,i)=>`<tr><td>${i}</td><td>${n.avail_len_m} m</td><td>${n.axis_deg}°</td><td><button data-i="${i}">survey →</button></td></tr>`).join("");
+  for (const b of $("noms").querySelectorAll("button")) b.onclick = () => act(()=>api("/api/action/request_survey", {idx: +b.dataset.i, sitl_takeoff: B.target==="sitl"}));
+  groups.noms.clearLayers(); noms.forEach((n,i)=> L.polygon(n.corners_latlon, {color:"#f5b041", weight:1, dashArray:"4 4", fillOpacity:0}).bindTooltip("survey nomination "+i).addTo(groups.noms));
+  // track, footprints, aircraft
+  groups.track.clearLayers(); if ((s.track||[]).length) L.polyline(s.track.map(t=>[t[0],t[1]]), {color:"#ffd27a", weight:1.5}).addTo(groups.track);
+  groups.frames.clearLayers(); (s.frames||[]).slice(-25).forEach(f => { if (f.footprint.length===4) L.polygon(f.footprint, {color:"#7fb2ff", weight:0.6, fill:false}).addTo(groups.frames); });
+  groups.ac.clearLayers(); if (p.lat) L.circleMarker([p.lat,p.lon], {radius:6, color:"#fff", fillColor:"#4c8dff", fillOpacity:1}).bindTooltip(`${s.mode} ${p.rel_alt?.toFixed(0)} m`).addTo(groups.ac);
+  groups.hz.clearLayers(); (s.scenario||[]).forEach(o => L.circleMarker([o.lat,o.lon], {radius:7, color:"#ff00c8"}).bindTooltip("SYNTHETIC "+o.kind).addTo(groups.hz));
+  // governor
+  const g = s.governor || {};
+  const m = g.mission || g.prepared || {};
+  $("gov").innerHTML = [["state", g.state], ["target", `${g.target||"?"} sysid ${g.sysid||"?"}`], ["mission", m.hash ? `${m.kind} ${m.candidate_id} ${m.hash.slice(0,10)}…` : "—"],
+    ["mission seq", g.mission_current], ["site", Object.entries(g.site||{}).map(([k,v])=>`${k}: ${v.valid?'valid':'INVALID'} (${v.reason}; views ${v.views_since_hold})`).join("; ") || "—"],
+    ["checks", (g.checks||[]).filter(c=>!c.ok).map(c=>c.name).join(", ") || ((g.checks||[]).length ? "all passed" : "—")]]
+    .map(([k,v])=>`<div class="mute">${k}</div><div>${esc(v)}</div>`).join("");
+  if (Date.now() - layerTimer > 3000) { layerTimer = Date.now(); refreshLayers(s.grid.version); }
+}
+async function poll(){ try { render(await api("/api/ro/state")); } catch(e) { $("banner").textContent = "core unreachable: " + e.message; } }
+async function act(fn){ $("msg").className=""; $("msg").textContent="…"; try { const r = await fn(); $("msg").className="ok"; $("msg").textContent = typeof r==="object" ? (r.hash ? `governor prepared ${r.kind} ${r.hash.slice(0,8)} — approve on the governor page (code in its console)` : JSON.stringify(r).slice(0,200)) : r; } catch(e){ $("msg").className="bad"; $("msg").textContent=e.message; } }
+$("btnReq").onclick = () => selected ? act(()=>api("/api/action/request_approval", {candidate_id: selected})) : ($("msg").textContent = "select a feasible candidate first");
+$("btnPerson").onclick = () => act(()=>api("/api/action/inject", {kind:"person"}));
+$("btnClear").onclick = () => act(()=>api("/api/action/clear_scenario", {}));
+$("btnAbort").onclick = () => act(()=>api("/api/action/abort", {}));
+init();
+</script>
+</body>
+</html>
