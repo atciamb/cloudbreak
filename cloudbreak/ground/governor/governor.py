@@ -231,6 +231,7 @@ class Governor:
         except Exception as e:
             return False, f"terrain layers unavailable: {e!r}"
         g = terrain.grid
+        from cloudbreak.common.fence import check_path, site_fence
         from cloudbreak.common.geodesy import lonlat_to_utm
 
         xmin, ymin, xmax, ymax = g.bounds
@@ -238,6 +239,21 @@ class Governor:
             x, y = lonlat_to_utm(lon, lat)
             if not (xmin + 50 < x < xmax - 50 and ymin + 50 < y < ymax - 50):
                 return False, f"path leaves the mapped operating area at {lat:.6f},{lon:.6f}"
+        # the FC flies RTL on a fence breach, so a governed mission must stay well inside the site's fence
+        try:
+            fence = site_fence(site())
+        except ValueError as e:
+            return False, f"site geofence invalid: {e}"
+        if fence is None:
+            if self.target_name != "sitl":
+                return False, "no geofence defined for this site ([fence] in the site config)"
+        else:
+            f = check_path(pts, fence)
+            if not f.ok:
+                return False, f.reason
+            if not r.ok:
+                return r.ok, r.reason
+            return True, f"{r.reason}; {f.reason}"
         return r.ok, r.reason
 
     def prepare(self, kind: str, spec: dict, candidate_id: str, grid_version: int):

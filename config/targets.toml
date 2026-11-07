@@ -29,7 +29,11 @@ max_rtt_ms = 800
 [real.param_audit]
 # name = [expected, tolerance]   (checked before every upload)
 FENCE_ENABLE = [1, 0]
-FENCE_ACTION = [1, 0]
+FENCE_ACTION = [1, 0]          # RTL on breach
+FENCE_TYPE = [5, 0]            # max altitude + polygon (polygon uploaded by scripts/fc_params_pi.py fence)
+FENCE_ALT_MAX = [100, 0]
+FENCE_OPTIONS = [0, 0]         # pilot can still change mode after a breach
+RTL_ALTITUDE = [50, 0]         # below the fence ceiling
 THR_FAILSAFE = [1, 0]
 LAND_ABORT_THR = [1, 0]
 FS_GCS_ENABL = [3, 0]          # heartbeat failsafe only in AUTO

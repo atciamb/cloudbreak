@@ -73,6 +73,45 @@ def test_mission_item_int_forwarded_mission_item_float_dropped():
     assert good.forward and not bad.forward
 
 
+def _param_set(name=b"FENCE_ENABLE", value=1.0):
+    return _roundtrip(_tx(), m2.MAVLink_param_set_message(42, 1, name, value, 9))
+
+
+def _maint_filter(window_s=300.0, armed=False, hb_age_s=0.5):
+    import time
+    f = UplinkFilter()
+    f.maintenance_until = time.time() + window_s
+    f.fc_armed = armed
+    f.fc_hb_mono = time.monotonic() - hb_age_s
+    return f
+
+
+def test_param_set_forwarded_in_window_when_disarmed():
+    v = _maint_filter().check(_param_set())
+    assert v.forward, v
+
+
+def test_param_set_dropped_when_armed_or_stale_or_no_window():
+    assert _maint_filter(armed=True).check(_param_set()).reason == "param armed"
+    assert _maint_filter(hb_age_s=10).check(_param_set()).reason == "param no-fresh-heartbeat"
+    assert _maint_filter(window_s=-1).check(_param_set()).reason == "msg PARAM_SET"
+    assert _maint_filter(window_s=3600).check(_param_set()).reason == "msg PARAM_SET"     # longer than MAINT_MAX_S
+    f = UplinkFilter()
+    f.fc_armed, f.fc_hb_mono = False, __import__("time").monotonic()
+    assert not f.check(_param_set()).forward                                             # never opened
+
+
+def test_link_and_arming_params_denied_even_in_window():
+    for name in (b"SERIAL4_BAUD", b"MAV_SYSID", b"MAV_GCS_SYSID", b"ARMING_SKIPCHK", b"MAV3_OPTIONS"):
+        v = _maint_filter().check(_param_set(name))
+        assert not v.forward and v.reason.startswith("param denied"), (name, v)
+
+
+def test_param_set_unsigned_still_dropped_in_window():
+    msg = _roundtrip(_tx(signed=False), m2.MAVLink_param_set_message(42, 1, b"FENCE_ENABLE", 1.0, 9))
+    assert _maint_filter().check(msg).reason == "unsigned"
+
+
 def test_rate_limit():
     f = UplinkFilter(max_per_s=5)
     tx = _tx()

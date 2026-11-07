@@ -24,7 +24,7 @@ os.environ.setdefault("MAVLINK20", "1")
 from pymavlink import mavutil  # noqa: E402
 
 from cloudbreak.air.config import load_air_config  # noqa: E402
-from cloudbreak.air.uplink_filter import UplinkFilter  # noqa: E402
+from cloudbreak.air.uplink_filter import MAINT_FLAG, UplinkFilter  # noqa: E402
 from cloudbreak.common.timebase import FcClockModel, boottime_ns  # noqa: E402
 
 mavlink = mavutil.mavlink
@@ -126,6 +126,8 @@ class Bridge:
             p.update(fix=msg.fix_type, sats=msg.satellites_visible, hdop=msg.eph / 100)
         elif typ == "HEARTBEAT":
             p.update(base_mode=msg.base_mode, custom_mode=msg.custom_mode, armed=bool(msg.base_mode & 128))
+            self.filter.fc_armed = bool(msg.base_mode & 128)      # maintenance window needs a fresh DISARMED
+            self.filter.fc_hb_mono = time.monotonic()
         elif typ == "WIND":
             p.update(wind_dir=msg.direction, wind_spd=msg.speed)
 
@@ -183,13 +185,13 @@ class Bridge:
 
         threading.Thread(target=sender, daemon=True).start()
         try:
-            self._uplink_rx(conn, parser, alive)
+            self._uplink_rx(conn, parser, alive, addr)
         finally:
             alive.clear()
             self.uplink_queues.pop(id(q), None)
             conn.close()
 
-    def _uplink_rx(self, conn, parser, alive):
+    def _uplink_rx(self, conn, parser, alive, addr=("?", 0)):
         while not self._stop.is_set() and alive.is_set():
             try:
                 data = conn.recv(4096)
@@ -207,6 +209,9 @@ class Bridge:
                 if m.get_type() == "BAD_DATA":
                     continue
                 v = self.filter.check(m)
+                if m.get_type() == "PARAM_SET":
+                    print(f"maintenance PARAM_SET {m.param_id}={m.param_value:g} from {addr[0]}: "
+                          f"{'forwarded' if v.forward else 'dropped (' + v.reason + ')'}", flush=True)
                 if v.forward:
                     with self.fc_lock:
                         self.fc.write(m.get_msgbuf())
@@ -256,11 +261,29 @@ class Bridge:
             if data.startswith(b"CBSUB"):
                 self.ground.add((addr[0], int(self.cfg["bridge"].get("ground_udp_port", 14551))))
 
+    def _read_maintenance_flag(self):
+        """Expiry (unix time) written by `scripts/fc_params_pi.py` over SSH; missing/garbage -> closed."""
+        try:
+            until = float(Path(MAINT_FLAG).read_text().strip() or 0)
+        except (OSError, ValueError):
+            until = 0.0
+        if until != self.filter.maintenance_until:
+            state = f"open for {until - time.time():.0f} s" if until > time.time() else "closed"
+            print(f"maintenance window {state}", flush=True)
+        self.filter.maintenance_until = until
+
     def publisher(self):
+        last_flag = 0.0
         while not self._stop.is_set():
+            if time.monotonic() - last_flag >= 1.0:
+                self._read_maintenance_flag()
+                last_flag = time.monotonic()
             fit = self.clock.update()
+            maint = self.filter.maintenance_open()
             snap = dict(self.pose, t_pub_ns=boottime_ns(), clock=fit.to_dict() if fit else None,
-                        stats=dict(self.stats, uplink=dict(self.filter.stats), ground=sorted(map(list, self.ground))))
+                        stats=dict(self.stats, uplink=dict(self.filter.stats), ground=sorted(map(list, self.ground)),
+                                   maintenance=dict(open=maint is None, why=maint,
+                                                    left_s=max(0.0, round(self.filter.maintenance_until - time.time())))))
             tmp = self.shm.with_suffix(".tmp")
             try:
                 tmp.write_text(json.dumps(snap))
