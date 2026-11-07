@@ -22,6 +22,8 @@ from scipy import ndimage
 
 from cloudbreak.common.classes import CLASSES, HAZARD_IDX, IDX, SAFE, SURFACE_PREF
 from cloudbreak.common.clearance import load_terrain, path_clearance
+from cloudbreak.common.config import site
+from cloudbreak.common.fence import check_path, site_fence
 from cloudbreak.common.config import CONFIG_DIR, data_dir
 from cloudbreak.common.geodesy import utm_to_lonlat
 from cloudbreak.common.missions import LandingSpec, landing_items, landing_path_points, path_points
@@ -198,8 +200,9 @@ def evaluate(raw: RawStrip, idx: int, ctx: dict) -> list[Candidate]:
                            hold_offset_m=round((0.5 - Lc["aim_fraction"]) * L, 1), approach_alt_m=Lc["approach_alt_m"],
                            glide_slope_pct=Lc["glide_slope_pct"], short_final_alt_m=min(8.0, Lc["approach_alt_m"] / 2),
                            entry_radius_m=35.0, hold_radius_m=40.0)
-        clr = path_clearance(landing_path_points(spec, Lc["missed_climb_gradient"]), home_lat, home_lon, td_lat, td_lon,
-                             terrain, margins_from_cfg(cfg))
+        path = landing_path_points(spec, Lc["missed_climb_gradient"])
+        clr = path_clearance(path, home_lat, home_lon, td_lat, td_lon, terrain, margins_from_cfg(cfg))
+        fen = check_path(path, ctx["fence"]) if ctx.get("fence") is not None else None
         rel_dir = math.radians(wind["from_deg"] - direction)
         headwind = wind["speed"] * math.cos(rel_dir)
         crosswind = abs(wind["speed"] * math.sin(rel_dir))
@@ -221,6 +224,10 @@ def evaluate(raw: RawStrip, idx: int, ctx: dict) -> list[Candidate]:
             dict(name="crosswind_mps", value=round(crosswind, 1), limit=5.0, ok=crosswind <= 5.0, slack=(5.0 - crosswind) / 5.0),
             dict(name="tailwind_mps", value=round(max(0.0, -headwind), 1), limit=1.5, ok=-headwind <= 1.5, slack=(1.5 + headwind) / 1.5),
         ]
+        if fen is not None:
+            lim = ctx["fence"].path_margin_m
+            cons.append(dict(name="geofence_margin_m", value=round(fen.worst_margin_m, 1), limit=lim, ok=fen.ok,
+                             slack=(fen.worst_margin_m - lim) / lim, detail=fen.reason))
         feasible = all(c["ok"] for c in cons)
         binding = min(cons, key=lambda c: c["slack"])
         len_margin = max(0.0, raw.avail_len_m - L)
@@ -310,7 +317,8 @@ def plan(ev, layers, wind: dict, home: tuple, cfg: dict | None = None, baro_bias
     landable = (p_lb >= Lc.get("p_safe_cell_min", Lc["p_safe_min"])) & (vac <= Lc["vacuity_max"]) & (layers.slope <= Lc["slope_max_deg"]) \
         & (rough <= Lc["roughness_max_m"]) & ~haz
     ctx = dict(cfg=cfg, layers=layers, ev=ev, L=L, W=W, p_lb=p_lb, vac=vac, rough=rough, class_map=ev.class_map(),
-               views=ev.views, wind=wind, home=home, terrain=load_terrain(), baro_bias_m=baro_bias_m)
+               views=ev.views, wind=wind, home=home, terrain=load_terrain(), baro_bias_m=baro_bias_m,
+               fence=site_fence(site()))
     raws = strip_search(landable, p_lb, layers.grid, L, W, step_deg=step_deg, per_heading=3)
     raws.sort(key=lambda r: -r.score_mean)
     cands = []

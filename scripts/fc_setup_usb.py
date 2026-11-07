@@ -9,8 +9,9 @@ What it sets (ArduPlane 4.7.2 names, verified in SITL):
   * no airspeed sensor; throttle-up landing abort; RC + GCS failsafes -> RTL; RTL never auto-lands
   * MAVLink2 signing key (C:\\cb-data\\keys\\mavlink_real.key) -- after this, only signed commands are accepted on
     non-USB ports (i.e. through the Pi). USB stays open for setup/recovery.
-It does NOT touch control tuning, servo outputs, mode switches or arming checks. Fence polygon + enable are set
-from config/site_86field.toml only if [fence] exists (decide the boundary on site first).
+It does NOT touch control tuning, servo outputs, mode switches or arming checks. The desired values live in
+config/fc_params.toml. Normal setup and the geofence go through the Pi (scripts/fc_params_pi.py). This USB script
+is for recovery and for the link/identity parameters the Pi refuses to change (SERIAL4_*, MAV_SYSID, signing key).
 Prop OFF and battery handling per the team's power-on rules while doing this.
 """
 from __future__ import annotations
@@ -21,13 +22,10 @@ import time
 
 from cloudbreak.common.mav import GCS_COMPID, Link, install_signing_key, load_key, mavlink
 
-PARAMS = {
-    "SERIAL4_PROTOCOL": 2, "MAV_SYSID": 42, "MAV_GCS_SYSID": 245,
-    # FS_GCS_ENABL=3: heartbeat failsafe ONLY in AUTO (verified in 4.7.2 source) -- governed missions get
-    # hold-then-RTL on governor link loss; manual/FBWA flying by the pilot is never interrupted by Wi-Fi loss.
-    "ARSPD_USE": 0, "LAND_ABORT_THR": 1, "THR_FAILSAFE": 1, "FS_GCS_ENABL": 3, "FS_LONG_ACTN": 1,
-    "FS_LONG_TIMEOUT": 20, "FS_SHORT_ACTN": 0, "RTL_AUTOLAND": 0, "BRD_RTC_TYPES": 1, "WP_RADIUS": 20,
-}
+from cloudbreak.common.config import load_toml  # noqa: E402
+
+# single source of truth, shared with scripts/fc_params_pi.py (SERIAL4_BAUD comes from --baud here)
+PARAMS = {k: v for k, v in load_toml("fc_params.toml")["params"].items() if k != "SERIAL4_BAUD"}
 STREAMS = {"EXTRA1": 20, "POSITION": 10, "EXTRA2": 5, "EXTRA3": 2, "EXT_STAT": 4, "RC_CHAN": 4, "RAW_SENS": 2}
 
 

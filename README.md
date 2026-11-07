@@ -109,6 +109,22 @@ scripts/deploy_pi.sh <user>@<pi-ip>             # later updates
 
 The same SD card later moves to the Pi Zero 2 W. Swap the camera ribbon for the 22-pin Zero cable, and set the Zero's Wi-Fi to the field hotspot.
 
+## FC configuration (through the Pi, no USB)
+
+Desired values are in `config/fc_params.toml`. Every command signs with the governor key, and writes only work while the FC is disarmed:
+
+```powershell
+.venv\Scripts\python scripts\fc_params_pi.py backup                       # full parameter backup (read-only)
+.venv\Scripts\python scripts\fc_params_pi.py audit --site schuyler        # desired vs FC, incl. fence (read-only)
+.venv\Scripts\python scripts\fc_params_pi.py apply --yes                  # set differing parameters
+.venv\Scripts\python scripts\fc_params_pi.py fence --site schuyler --yes  # upload + verify polygon, then enable
+.venv\Scripts\python scripts\hitl_bench.py --direct                       # re-verify the signed command path
+```
+
+The Pi forwards parameter writes only inside a 5-minute maintenance window, which the script opens over SSH and closes afterwards. Link and identity parameters (SERIAL4_*, MAV_SYSID, MAV_GCS_SYSID, ARMING_*) and the signing key can only be changed over USB (`scripts/fc_setup_usb.py`).
+
+**Geofence:** each site's `[fence]` polygon is uploaded to the FC (breach → RTL). The planner and governor require every planned path point to be 20 m inside it. With the fence enabled, the FC refuses to arm outside the polygon, so upload the right site's fence before flying somewhere else.
+
 The listen-only link check from the initial skeleton still works. On the Pi, stop `cloudbreak-mavbridge` first, because the UART can have only one reader:
 
 ```bash
@@ -127,7 +143,7 @@ python -m cloudbreak.heartbeat --device /dev/serial0 --baud 230400  # Pi UART to
 - `cloudbreak/{heartbeat,capture,landability,planner,governor}.py`: the initial skeleton modules, with tests in `tests/test_landability.py` and `tests/test_governor_skeleton.py`. `heartbeat.py` is the listen-only link check.
 - `sim/`: SITL scripts, synthetic camera, sim pilot.
 - `config/`: site, targets, aircraft, flight gates.
-- `scripts/`: Pi deploy and FC USB setup.
+- `scripts/`: Pi deploy, FC setup through the Pi (`fc_params_pi.py`) or over USB (`fc_setup_usb.py`), and the HITL bench test.
 
 Data, keys, weights and sessions live in `C:\cb-data`, never in git.
 

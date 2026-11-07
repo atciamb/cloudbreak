@@ -1,0 +1,34 @@
+# Desired parameters for the REAL flight controller (ArduPlane 4.7.2 names).
+#   over the Pi (normal):  scripts/fc_params_pi.py audit | apply | fence --site <key>
+#   over USB (recovery):   scripts/fc_setup_usb.py --port COMx [--apply]
+# The Pi bridge refuses to forward SERIAL4_*, MAV3_*, MAV_SYSID, MAV_GCS_SYSID and ARMING_* changes (they could cut
+# the link or weaken arming checks), so those can only be changed over USB. They are still audited here.
+# Not touched: control tuning, servo outputs, mode switches, arming checks.
+
+[params]
+SERIAL4_PROTOCOL = 2      # MAVLink2 on UART4 (TELEM connector) to the Pi            (USB only)
+SERIAL4_BAUD = 230        # 230400, must match the Pi's fc_baud                       (USB only)
+MAV_SYSID = 42            # 4.7 name for SYSID_THISMAV                                 (USB only)
+MAV_GCS_SYSID = 245       # only the governor counts as the GCS for the GCS failsafe   (USB only)
+ARSPD_USE = 0             # no airspeed sensor
+LAND_ABORT_THR = 1        # throttle > 90 % during landing = go-around
+THR_FAILSAFE = 1
+FS_GCS_ENABL = 3          # GCS heartbeat failsafe ONLY in AUTO (verified in 4.7.2 source): Wi-Fi loss never
+                          # interrupts the pilot's manual/FBWA flying
+FS_LONG_ACTN = 1          # RTL
+FS_LONG_TIMEOUT = 20
+FS_SHORT_ACTN = 0
+RTL_AUTOLAND = 0          # RTL loiters at home; it never lands by itself
+RTL_ALTITUDE = 50         # m; flight card says 50 m, and it must stay well below FENCE_ALT_MAX (100)
+BRD_RTC_TYPES = 1
+WP_RADIUS = 20
+
+[fence]
+# Applied by `fc_params_pi.py fence --site <key>` AFTER the site's polygon is uploaded and read back.
+# FENCE_ALT_MAX comes from the site's [fence] alt_max_m. FENCE_ENABLE is always written last.
+FENCE_TYPE = 5            # 1 max altitude + 4 inclusion polygon
+FENCE_ACTION = 1          # RTL on breach
+FENCE_OPTIONS = 0         # bit0 off: the pilot CAN change mode after a breach (radio can always take over)
+FENCE_AUTOENABLE = 0      # with FENCE_ENABLE=1 the fence is on whenever the FC runs; arming outside it fails pre-arm
+FENCE_RET_ALT = 50        # m, altitude flown back after a breach (= RTL_ALTITUDE)
+FENCE_ENABLE = 1

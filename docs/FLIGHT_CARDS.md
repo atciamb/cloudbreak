@@ -25,7 +25,7 @@ Read these aloud before each gate. The governor enforces gate order through `con
 - [ ] Battery charged and balanced; CG 57–63 mm behind the leading edge (verify against the kit manual)
 - [ ] Control directions correct in MANUAL **and** FBWA (stabilisation corrects the right way)
 - [ ] TX-off failsafe tested on the bench, prop off
-- [ ] Fence loaded and enabled; RTL altitude 50 m
+- [ ] Fence loaded and enabled for THIS site; RTL altitude 50 m (`scripts/fc_params_pi.py audit --site <key>` shows 0 differences and the right vertex count)
 - [ ] Pi recording (`/status` shows frames and the bridge); governor shows target **REAL** in red, sysid 42
 - [ ] Daylight: sunset 16:40, civil dusk 17:10 (7 Nov)
 

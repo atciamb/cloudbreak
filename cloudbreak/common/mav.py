@@ -347,8 +347,9 @@ class Link:
             sent.add(s)
         raise LinkError("mission upload timed out")
 
-    def download_mission(self, timeout=4.0, mission_type: int = 0) -> list[MissionItem]:
-        """Return items seq 1..N-1 as stored on the autopilot."""
+    def download_mission(self, timeout=4.0, mission_type: int = 0, skip_home: bool | None = None) -> list[MissionItem]:
+        """Return items as stored on the autopilot: seq 1..N-1 for missions (seq 0 = home), all items for fences."""
+        skip_home = (mission_type == 0) if skip_home is None else skip_home
         t = time.perf_counter()
         self.send("mission_request_list_send", self.ts, self.target_component, mission_type)
         cnt = self.wait("MISSION_COUNT", timeout=timeout, since=t)
@@ -367,7 +368,7 @@ class Link:
                 raise LinkError(f"no MISSION_ITEM_INT {s}")
             items.append(item_from_msg(got))
         self.send("mission_ack_send", self.ts, self.target_component, mavlink.MAV_MISSION_ACCEPTED, mission_type)
-        return items[1:]
+        return items[1:] if skip_home else items
 
     def upload_fence_polygon(self, polygon_latlon: list[tuple[float, float]]):
         """Inclusion polygon via the mission protocol (MAV_MISSION_TYPE_FENCE)."""

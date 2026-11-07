@@ -30,3 +30,22 @@ res_m = 0.5
 
 [priors]
 ortho_year = "2024"            # NYS 2024 orthos cover the park (verified by export test)
+
+[fence]
+# Inclusion polygon uploaded to the FC (scripts/fc_params_pi.py fence --site schuyler). Breach -> RTL.
+# It covers open ground only: the park plus the wooded strip east of it up to the creek. Drawn from OSM
+# (2026-11-07) with 30 m setbacks from buildings and 25 m from roads; it ends up >= 19 m from any building,
+# >= 25 m from Broadway / 2nd Ave and 72 m from I-787. 12.3 ha, ~530 x 405 m.
+# Houses border the park on the north, so landing patterns whose go-around climbs north over them do not fit.
+alt_max_m = 100.0              # FENCE_ALT_MAX; facility-map ceiling 400 ft = 122 m, so 22 m of margin for baro drift
+path_margin_m = 20.0           # planner + governor: every planned path point at least this far inside the polygon
+alt_margin_m = 10.0            # ... and at least this far below alt_max_m
+polygon = [
+  [42.704431, -73.713858], [42.706029, -73.712677], [42.706292, -73.712157],
+  [42.706423, -73.711221], [42.706806, -73.710915], [42.706453, -73.710713],
+  [42.706325, -73.710328], [42.706617, -73.709871], [42.706463, -73.709269],
+  [42.706862, -73.708756], [42.706548, -73.707394], [42.706139, -73.707369],
+  [42.705882, -73.707808], [42.705020, -73.708240], [42.704609, -73.708207],
+  [42.703221, -73.708966], [42.703693, -73.710441], [42.704185, -73.710983],
+  [42.704486, -73.711837], [42.704427, -73.712202], [42.703895, -73.712698],
+]
