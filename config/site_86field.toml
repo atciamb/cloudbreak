@@ -1,0 +1,38 @@
+# RPI '86 Field, Troy NY — site definition shared by priors, planner, governor and SITL.
+# Horizontal: WGS84 lon/lat. NAD83(2011)-based sources are treated as WGS84 (null transform);
+# the ~1-1.5 m systematic offset to live GNSS is estimated by frame-to-ortho registration.
+
+[site]
+name = "RPI '86 Field"
+center_lat = 42.7303
+center_lon = -73.6798
+ground_navd88_m = 67.8      # NYS Latest_DEM identify at field centre
+geoid18_n_m = -31.316       # NGS GEOID18 at field: ellipsoid h = H_navd88 + N
+mag_decl_deg = -12.96       # WMM2025, 2026-11
+
+[bbox]                      # priors area (WGS84 degrees)
+west = -73.6920
+south = 42.7213
+east = -73.6676
+north = 42.7393
+
+[grid]
+crs = "EPSG:32618"          # WGS84 / UTM 18N
+res_m = 0.5
+
+# FAA Digital Obstacle File entries near the field (verified 2026-11-07)
+[[obstacles]]
+id = "DOF-36-006078"
+type = "tower"
+lat = 42.72889
+lon = -73.67861
+height_agl_m = 19.2         # 63 ft
+source = "FAA DOF"
+
+[[obstacles]]
+id = "DOF-36-002662"
+type = "building"
+lat = 42.7345
+lon = -73.6839
+height_agl_m = 64.6         # 212 ft
+source = "FAA DOF"

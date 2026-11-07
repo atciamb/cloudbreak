@@ -1,0 +1,17 @@
+.venv/
+__pycache__/
+*.pyc
+.pytest_cache/
+*.egg-info/
+# data, weights, keys and sessions live in C:\cb-data, never in the repo
+data/
+*.tif
+*.laz
+*.las
+*.key
+*.pt
+*.onnx
+*.tlog
+*.bin
+*.BIN
+logs/
