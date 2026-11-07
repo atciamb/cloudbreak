@@ -2,10 +2,11 @@
 name = "cloudbreak"
 version = "0.1.0"
 description = "Cloudbreak: conservative landing-site mapping, governed autoland and ground station for a small fixed-wing UAV (HackRPI 2026)"
+readme = "README.md"
 requires-python = ">=3.11"
 dependencies = [
   "numpy", "scipy", "pydantic>=2", "pyproj", "shapely", "rasterio", "laspy[lazrs]", "pyserial",
-  "pymavlink", "fastapi>=0.115", "uvicorn[standard]", "httpx", "requests", "pillow",
+  "pymavlink>=2.4.40", "fastapi>=0.115", "uvicorn[standard]", "httpx", "requests", "pillow",
   "opencv-python-headless", "pvlib", "openmeteo-requests", "optuna",
 ]
 

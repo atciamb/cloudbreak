@@ -1,9 +1,17 @@
-.venv/
+# Python
 __pycache__/
-*.pyc
-.pytest_cache/
+*.py[cod]
 *.egg-info/
-# data, weights, keys and sessions live in C:\cb-data, never in the repo
+.venv/
+venv/
+.pytest_cache/
+
+# Editors / OS
+.vscode/
+.idea/
+.DS_Store
+
+# Data, weights, keys and sessions live in C:\cb-data, never in the repo
 data/
 *.tif
 *.laz
@@ -11,7 +19,22 @@ data/
 *.key
 *.pt
 *.onnx
-*.tlog
+
+# Flight data, captures and logs (large; keep out of git)
+logs/
+captures/
 *.bin
 *.BIN
-logs/
+*.tlog
+*.tlog.raw
+*.log
+*.h264
+*.mp4
+
+# ArduPilot SITL working files
+eeprom.bin
+mav.parm
+terrain/
+
+# Secrets
+.env

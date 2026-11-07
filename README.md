@@ -4,9 +4,24 @@ Cloudbreak is an RC plane (Flite Test Tutor, ArduPlane 4.7.2 on a CoreWing F405 
 
 **Status (7 Nov 2026)**
 
-- **Done and tested:** SITL, governor, planner, priors and core all work end to end. Unit tests pass (43). SITL behaviours are verified (see `docs/sitl_notes.md`).
-- **Written, not yet run on hardware:** the air-side code (Pi capture, MAVLink bridge, frame server).
+- **Done and tested:** SITL, governor, planner, priors and core all work end to end. Unit tests pass. SITL behaviours are verified (see `docs/sitl_notes.md`).
+- **Bench hardware:**
+  - The Pi 3 camera, frame server and MAVLink bridge run on the bench.
+  - The real FC streams signed MAVLink2 over UART4 (TELEM) at 230400 to the Pi, and on to the laptop.
+  - The signed uplink (HITL) test has not been run yet.
 - **Not done:** no real flight has happened. See `docs/CHECKLIST.md` for what is and isn't verified.
+
+## Hardware baseline
+
+| Role | Part |
+|---|---|
+| Airframe | Flite Test Tutor, standard ~1055 mm wing, single tractor motor, 4 servos |
+| Flight controller | CoreWing F405 Wing Mini V2 (banner: `CoreWingF405WMiniV2`), ArduPlane 4.7.2 |
+| Pilot link | RadioMaster Pocket ELRS 2.4 GHz → XR1 Nano receiver (CRSF) |
+| GPS / compass | RMRC SAM-M10Q + 5883 |
+| Companion | Raspberry Pi Zero 2 W (developed on a Pi 3) on its own 5 V UBEC. MAVLink2 over the FC's TELEM port (UART4); wiring in `docs/CHECKLIST.md` |
+| Camera | Raspberry Pi Camera Module 3 Standard (IMX708) |
+| Battery | 3S 1300 mAh LiPo |
 
 ## How it fits together
 
@@ -23,7 +38,11 @@ Pi Zero 2 W (air)                      Laptop (Windows)                         
 - priors (NYS 2024 ortho, USGS 3DEP LiDAR, OSM, FAA obstacles);
 - wind (forecast + EKF3).
 
-Every cell needs at least 3 good views and a 5 % lower credible bound P(safe) ≥ 0.75 to count as safe. Unknown is never safe.
+A cell needs at least 3 good views before it can count as safe. A strip needs two things:
+- every cell's 5 % lower credible bound P(safe) ≥ 0.40;
+- the strip mean of that bound ≥ 0.65.
+
+Both thresholds are calibrated on SITL ground truth only, and must be redone on labelled real frames. Unknown is never safe.
 
 The **planner** searches strips at every heading and scores them with explained terms. It checks the approach and missed-approach path against the LiDAR surface model.
 
@@ -35,6 +54,22 @@ The **governor** is the only process that writes to the aircraft:
 - It flies hold, then last look, then commit, then land. It aborts by itself if the site is invalidated.
 
 The **agent** only proposes; it cannot approve or command anything.
+
+## Ground rules
+
+- The AI agent never controls actuators and never approves its own plans.
+- The pilot's radio can always take over, independent of Wi-Fi or the Pi.
+- Pre-arm checks stay on. Fix the specific failure instead of disabling checks.
+- SITL and real-aircraft command paths stay clearly separated.
+- Electronics booting is not flight readiness.
+
+## Quick start (laptop)
+
+```powershell
+python -m venv .venv                                     # Python 3.11+ (or: uv venv --python 3.11 .venv)
+.venv\Scripts\python -m pip install -e ".[dev]"
+.venv\Scripts\python -m pytest
+```
 
 ## Run the SITL demo
 
@@ -63,6 +98,8 @@ All synthetic inputs are watermarked and labelled SYNTHETIC or ORACLE.
 .venv\Scripts\python -m cloudbreak.ground.core.priors.build_layers
 ```
 
+Set `CLOUDBREAK_SITE=schuyler`, or pass `--site schuyler`, for Schuyler Flatts.
+
 ## Pi (air side)
 
 ```bash
@@ -72,6 +109,13 @@ scripts/deploy_pi.sh <user>@<pi-ip>             # later updates
 
 The same SD card later moves to the Pi Zero 2 W. Swap the camera ribbon for the 22-pin Zero cable, and set the Zero's Wi-Fi to the field hotspot.
 
+The listen-only link check from the initial skeleton still works. On the Pi, stop `cloudbreak-mavbridge` first, because the UART can have only one reader:
+
+```bash
+python -m cloudbreak.heartbeat --device tcp:127.0.0.1:5760          # SITL
+python -m cloudbreak.heartbeat --device /dev/serial0 --baud 230400  # Pi UART to the FC (SERIAL4_BAUD=230)
+```
+
 ## Layout
 
 - `cloudbreak/common/`: schemas, geodesy, MAVLink link and mission hash, mission builder, clearance, audit log, clock model.
@@ -80,8 +124,17 @@ The same SD card later moves to the Pi Zero 2 W. Swap the camera ribbon for the 
 - `cloudbreak/ground/governor/`: approval, checks, execution, approval page.
 - `cloudbreak/ground/agent/`: local LLM agent and template fallback.
 - `cloudbreak/ground/autoland/`: SITL Bayesian optimisation and touchdown dispersion.
+- `cloudbreak/{heartbeat,capture,landability,planner,governor}.py`: the initial skeleton modules, with tests in `tests/test_landability.py` and `tests/test_governor_skeleton.py`. `heartbeat.py` is the listen-only link check.
 - `sim/`: SITL scripts, synthetic camera, sim pilot.
 - `config/`: site, targets, aircraft, flight gates.
 - `scripts/`: Pi deploy and FC USB setup.
 
 Data, keys, weights and sessions live in `C:\cb-data`, never in git.
+
+## References
+
+- [ArduPlane docs](https://ardupilot.org/plane/docs/)
+- [CoreWing F405 Wing V2 on ArduPilot](https://ardupilot.org/plane/docs/common-CoreWingF405WingV2.html)
+- [Raspberry Pi camera software](https://www.raspberrypi.com/documentation/computers/camera_software.html)
+- [ExpressLRS docs](https://www.expresslrs.org/)
+- [pymavlink](https://github.com/ArduPilot/pymavlink)
