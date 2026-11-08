@@ -35,5 +35,6 @@ Software work (SITL, core, planner, governor, agent, HITL) is logged in the comm
 | [P1_2026-11-07_1953.md](P1_2026-11-07_1953.md) | P1 | Capacitor across B+/B−; ESC on an XT60 pair; extra G1 checks |
 | [P1_2026-11-07_2003.md](P1_2026-11-07_2003.md) | P1 | UBEC jumper on 5 V (output measured at G2); ESC red-contact method; G1 → G2 next |
 | [P1_2026-11-07_2102_G2.md](P1_2026-11-07_2102_G2.md) | P1 | **G2 passed** (approximate readings); ESC has a BEC; XR1 on 4V5; M2 order |
+| [P1_2026-11-07_2127_MP-signing.md](P1_2026-11-07_2127_MP-signing.md) | P1 | 🔴 Mission Planner can't connect over USB: the FC signs everything and MP has no key. Options |
 
 Path note: P1's updates refer to `docs/inav_backup.txt` (P1's local copy). In the repo it's [`docs/hardware/fc/inav_8.0.1_backup_20261107.txt`](../hardware/fc/inav_8.0.1_backup_20261107.txt).

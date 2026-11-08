@@ -182,6 +182,7 @@ F0 ground checks · F1 maiden · F2 AUTO survey · F3 practice approaches · F4 
 |---|---|---|---|
 | ~~FC is on the Pi/HITL bench~~ | — | — | ✅ Closed: M1.C soldered (19:48) |
 | ~~G1 + G2 not done~~ | — | — | ✅ G2 passed ≈21:00 (G1 results still to record) |
+| 🔴 **Mission Planner can't connect over USB (21:27)** | M2 output map check, radio cal, accel cal, G3 surface/failsafe checks | Key holder (software) + P4 + P1 | The FC signs everything (USB too) and MP without the key drops it all: raw log 100 % signed sysid-42 frames, zero accepted. Options in `docs/updates/P1_2026-11-07_2127_MP-signing.md`: (1) output map via repo tools; (2) team key loaded into MP (untested); (3) P1-approved temporary signing removal, restored and re-audited 17/17 + HITL |
 | No servo tester confirmed | ESC-calibration method (a) | Anyone | Someone finds one (event hardware table / mentors), or the team picks (b)/(c) |
 | Output mapping at defaults | ESC on S1, servo centring, G3 / P2 A4 | P4 | Values confirmed on screen by P1 |
 | Wiring-incident details | Clearing the 4V5 back-feed concern | FC holder | Write-up in CHECKLIST + P1 inspection at G2 (4V5 / FC 5 V readings) |
