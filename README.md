@@ -30,7 +30,7 @@ Pi Zero 2 W (air)                      Laptop (Windows)                         
  camera ─ capture.py ─ HTTP :8080 ◄─pull── core  (127.0.0.1:8700, UI)                    ArduPlane SITL
  FC UART ─ mavbridge.py ─ TCP :14561 ──► core  (read-only telemetry)                      5762 governor (signed)
                          TCP :14560 ◄──► governor (127.0.0.1:8710) ──signed MAVLink──►    5763 core (ro)
-                                          agent (local LLM via Ollama) ─► proposals only  5765 QGC / sim pilot
+                                          agent (local JEV-9B yes/no)  ─► proposals only  5765 QGC / sim pilot
 ```
 
 **Core** fuses three inputs into a Dirichlet evidence grid (0.5 m, EPSG:32618):
@@ -53,7 +53,9 @@ The **governor** is the only process that writes to the aircraft:
 - It uploads the mission signed, reads it back and verifies the hash.
 - It flies hold, then last look, then commit, then land. It aborts by itself if the site is invalidated.
 
-The **agent** only proposes; it cannot approve or command anything.
+The **agent** only proposes; it cannot approve or command anything. It asks a local, free yes/no decision model (JEV-9B, open weights, Apache-2.0) one question per feasible candidate and ranks them by P(yes); the explanation stays the deterministic template. Without the model or a GPU it falls back to the template alone.
+
+**Landing pattern and fallback.** Governed landings fly a one-sided circuit: the hold and descent circle sits beside final and is tangent to it, the last look runs along the centreline, and turns go one known way via a downwind leg. Every turn is sized from the radius the aircraft actually flies (`turn_radius_m`, measured at gate F1). Below the decision point the governor enforces a stabilized-approach gate: off the centreline, off heading or off the glide path means an automatic go-around. After two unstable approaches, or when no site is feasible, the pilot lands manually.
 
 ## Ground rules
 
@@ -79,7 +81,7 @@ python -m venv .venv                                     # Python 3.11+ (or: uv 
 .venv\Scripts\python -m cloudbreak.ground.governor.governor --target sitl   # window 2: shows one-time codes
 .venv\Scripts\python -m cloudbreak.ground.core.api --target sitl --source synthetic --perception oracle
 .venv\Scripts\python sim\sim_pilot.py                    # SITL stand-in for the pilot (arming / mode switch)
-.venv\Scripts\python -m cloudbreak.ground.agent.agent    # optional local LLM proposals (Ollama qwen3:4b)
+.venv\Scripts\python -m cloudbreak.ground.agent.agent    # optional: JEV-9B yes/no ranking (--backend ollama for qwen3:4b)
 ```
 
 1. Open http://127.0.0.1:8700 and click **survey →** on a nomination.
@@ -90,6 +92,14 @@ python -m venv .venv                                     # Python 3.11+ (or: uv 
 6. Optional: **Inject person on strip** shows the automatic go-around.
 
 All synthetic inputs are watermarked and labelled SYNTHETIC or ORACLE.
+
+## JEV agent model (optional, free, local)
+
+```powershell
+uv pip install --python .venv\Scripts\python.exe -e ".[jev]"
+.venv\Scripts\python -c "from huggingface_hub import snapshot_download; from cloudbreak.ground.agent.jev import NEEDED, REPO; snapshot_download(REPO, allow_patterns=NEEDED, local_dir=r'C:\cb-data\models\JEV-9B')"   # ~18 GB
+.venv\Scripts\python scripts\jev_check.py      # sanity, ranking, speed, memory
+```
 
 ## Rebuild the priors
 
@@ -107,7 +117,11 @@ scripts/deploy_pi.sh <user>@<pi-ip> --setup     # once; then sudo reboot (UART c
 scripts/deploy_pi.sh <user>@<pi-ip>             # later updates
 ```
 
-The same SD card later moves to the Pi Zero 2 W. Swap the camera ribbon for the 22-pin Zero cable, and set the Zero's Wi-Fi to the field hotspot.
+The same SD card later moves to the Pi Zero 2 W. Swap the camera ribbon for the 22-pin Zero cable, and set the Zero's Wi-Fi to the field hotspot. The 40-pin header is the same, so the FC wiring (pins 6/8/10) and `/dev/serial0` (Bluetooth is disabled in `config.txt`) carry over unchanged. On the field, tell the laptop tools where the Zero is:
+
+```powershell
+$env:CLOUDBREAK_PI_HOST = "192.168.137.x"     # the Zero's Wi-Fi address (bench default: 169.254.77.2 over ethernet)
+```
 
 ## FC configuration (through the Pi, no USB)
 
@@ -138,7 +152,7 @@ python -m cloudbreak.heartbeat --device /dev/serial0 --baud 230400  # Pi UART to
 - `cloudbreak/air/`: Pi services.
 - `cloudbreak/ground/core/`: priors, geometry, mapping, planner, environment, API, UI.
 - `cloudbreak/ground/governor/`: approval, checks, execution, approval page.
-- `cloudbreak/ground/agent/`: local LLM agent and template fallback.
+- `cloudbreak/ground/agent/`: advisory agent: JEV-9B yes/no ranker (`jev.py`), optional Ollama backend, template fallback.
 - `cloudbreak/ground/autoland/`: SITL Bayesian optimisation and touchdown dispersion.
 - `cloudbreak/{heartbeat,capture,landability,planner,governor}.py`: the initial skeleton modules, with tests in `tests/test_landability.py` and `tests/test_governor_skeleton.py`. `heartbeat.py` is the listen-only link check.
 - `sim/`: SITL scripts, synthetic camera, sim pilot.
