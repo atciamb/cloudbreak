@@ -32,6 +32,16 @@ cp -n "$CFG" "${CFG}.cloudbreak.bak" || true
 grep -q '^enable_uart=1' "$CFG" || echo 'enable_uart=1' >> "$CFG"
 grep -q '^dtoverlay=disable-bt' "$CFG" || echo 'dtoverlay=disable-bt' >> "$CFG"
 grep -q '^camera_auto_detect=1' "$CFG" || echo 'camera_auto_detect=1' >> "$CFG"
+# Pi 3 only: auto-detect missed the Camera Module 3 at boot on 2026-11-08, so load its overlay explicitly there
+if ! grep -q 'cloudbreak-pi3cam' "$CFG"; then
+  cat >> "$CFG" <<'EOF'
+[pi3]
+# cloudbreak-pi3cam: load the Camera Module 3 (imx708) explicitly; auto-detect missed it at boot
+camera_auto_detect=0
+dtoverlay=imx708
+[all]
+EOF
+fi
 systemctl disable --now hciuart 2>/dev/null || true
 if command -v raspi-config >/dev/null; then
   raspi-config nonint do_serial_cons 1 || true   # 1 = disable login shell on serial

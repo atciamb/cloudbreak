@@ -39,5 +39,6 @@ Software work (SITL, core, planner, governor, agent, HITL) is logged in the comm
 | [SW_2026-11-07_2325_FC-ground-station.md](SW_2026-11-07_2325_FC-ground-station.md) | Software (key holder) | Signing proxy so Mission Planner can run on the signed FC (tested with repo clients; MP itself not yet); output map set + read back; S1 needed a reboot; SD card, GPS, compass checked; RC not bound |
 | [SW_2026-11-08_0026_bench-tests.md](SW_2026-11-08_0026_bench-tests.md) | Software (key holder) | Mission Planner connected; accel cal; XR1 bound; radio cal; flight modes; Pocket mode + consent switches; TX-off failsafe (FC side) |
 | [SW_2026-11-08_0100_motor.md](SW_2026-11-08_0100_motor.md) | Software (key holder) | Battery on the bench; ESC lead was on SBUS; motor spins (CCW from the front); low-battery failsafe; first-arm logging refusal |
+| [SW_2026-11-08_0425_servos-zero.md](SW_2026-11-08_0425_servos-zero.md) | Software (key holder) | Servo directions (rudder, pitch double reversal), XR1 + TELEM wiring fixed, signed HITL through the Zero, camera still missing |
 
 Path note: P1's updates refer to `docs/inav_backup.txt` (P1's local copy). In the repo it's [`docs/hardware/fc/inav_8.0.1_backup_20261107.txt`](../hardware/fc/inav_8.0.1_backup_20261107.txt).

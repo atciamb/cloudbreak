@@ -36,6 +36,11 @@ SERVO3_FUNCTION = 4       # S3: aileron (left)
 SERVO4_FUNCTION = 4       # S4: aileron (right)
 SERVO5_FUNCTION = 19      # S5: elevator
 SERVO6_FUNCTION = 21      # S6: rudder
+# Directions, set on the bench 2026-11-08 03:13-03:19 (MANUAL stick checks + FBWA tilt checks, docs/CHECKLIST.md)
+SERVO3_REVERSED = 0       # ailerons: the mirrored wing servos already move opposite ways on the same signal
+SERVO4_REVERSED = 0
+SERVO5_REVERSED = 1       # elevator: + moved it down. Pairs with RC2_REVERSED, or FBWA corrects pitch backwards
+SERVO6_REVERSED = 1       # rudder: moved left for right rudder
 
 [radio]
 # Flight modes + RC options from P4's parameter sheet (docs/WORKPLAN.md). A 3-position switch on FLTMODE_CH gives
@@ -45,6 +50,7 @@ FLTMODE1 = 5              # switch low: FBWA (was RTL: the FC sat in RTL wheneve
 FLTMODE4 = 10             # switch middle: AUTO
 FLTMODE6 = 11             # switch high: RTL
 RC7_OPTION = 0            # the consent switch (RC7) does nothing on the FC; the governor reads it (> 1700 us)
+RC2_REVERSED = 1          # ArduPlane reads RC2 HIGH as nose-up; the Pocket sends LOW for stick back (with SERVO5_REVERSED)
 
 [fence]
 # Applied by `fc_params_pi.py fence --site <key>` AFTER the site's polygon is uploaded and read back.

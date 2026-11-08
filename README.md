@@ -179,7 +179,11 @@ Bench checks and calibrations without Mission Planner (`scripts/fc_bench.py`; th
 .venv\Scripts\python scripts\fc_bench.py radio      # RCn_MIN/MAX/TRIM from stick sweeps (needs the receiver bound)
 .venv\Scripts\python scripts\fc_bench.py compass --accept   # outdoors, installed in the airframe
 .venv\Scripts\python scripts\fc_bench.py level      # installed, at flying attitude
+.venv\Scripts\python scripts\fc_bench.py servos     # live sticks -> surfaces (+ FC tilt): direction checks in MANUAL and FBWA
+.venv\Scripts\python scripts\fc_bench.py mode MANUAL   # / reverse 6: mode from the laptop, flip SERVOn_REVERSED (disarmed only)
 ```
+
+**Check directions in FBWA too, not only MANUAL.** If the pitch input (RC2) and the elevator servo are both reversed, MANUAL looks right while FBWA corrects pitch the wrong way. The Tutor needs RC2_REVERSED 1 and SERVO5_REVERSED 1 (both in `config/fc_params.toml`).
 
 Bench motor run (prop off, P1-approved; STATUS.md section 2 #6 (d)): `scripts\bench_motor_run.py` relaxes the fence and the GPS/compass/AHRS pre-arm checks for one run, with throttle capped at 40 %. It disarms on any mode change, RC loss or timeout, then restores and re-audits everything. `--restore` recovers from a crash.
 

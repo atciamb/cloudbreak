@@ -27,7 +27,7 @@ def test_accel_positions_are_six_distinct_axis_directions():
 
 
 def test_bench_output_map_matches_config_and_governor_audit():
-    outputs = load_toml("fc_params.toml")["outputs"]
+    outputs = {k: v for k, v in load_toml("fc_params.toml")["outputs"].items() if k.endswith("_FUNCTION")}
     want = {f"SERVO{n}_FUNCTION": f for n, f in fb.WANT_OUTPUTS.items()}
     assert outputs == want
     audit = load_toml("targets.toml")["real"]["param_audit"]

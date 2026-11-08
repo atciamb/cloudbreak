@@ -350,9 +350,13 @@ class Link:
     def download_mission(self, timeout=4.0, mission_type: int = 0, skip_home: bool | None = None) -> list[MissionItem]:
         """Return items as stored on the autopilot: seq 1..N-1 for missions (seq 0 = home), all items for fences."""
         skip_home = (mission_type == 0) if skip_home is None else skip_home
-        t = time.perf_counter()
-        self.send("mission_request_list_send", self.ts, self.target_component, mission_type)
-        cnt = self.wait("MISSION_COUNT", timeout=timeout, since=t)
+        cnt = None
+        for _ in range(3):        # one lost reply on the radio/Pi link must not fail a read-back (seen on the Pi 3, 05:17)
+            t = time.perf_counter()
+            self.send("mission_request_list_send", self.ts, self.target_component, mission_type)
+            cnt = self.wait("MISSION_COUNT", timeout=timeout, since=t)
+            if cnt is not None:
+                break
         if cnt is None:
             raise LinkError("no MISSION_COUNT")
         items = []

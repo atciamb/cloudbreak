@@ -1,8 +1,18 @@
 # Cloudbreak — Master Status
 
-**Last merged:** 2026-11-08 01:00 (≈H14.0; H0 = Sat 11:00) · **Hard end H24 (Sun 11:00): flying and coding both stop.** ⚠️ **Devpost:** HackRPI's published schedule says projects must be on Devpost **by 09:00 Sunday**. This conflicts with "Devpost isn't a deadline" below; see §5.
+**Last merged:** 2026-11-08 04:25 (≈H17.4; H0 = Sat 11:00) · **Hard end H24 (Sun 11:00): flying and coding both stop.** ⚠️ **Devpost:** HackRPI's published schedule says projects must be on Devpost **by 09:00 Sunday**. This conflicts with "Devpost isn't a deadline" below; see §5.
 
-**Changed in this merge (software 01:00):** battery on the bench, motor on the ESC, prop off ([`SW_2026-11-08_0100`](docs/updates/SW_2026-11-08_0100_motor.md)):
+**Changed in this merge (software 05:25):** Pi 3 wired to the FC + UBEC: link up, **signed HITL ALL PASS** (RTT median 74 ms). ⚠️ Power sags only at camera start-up (2 events at boot, none under a 2-min full-load stress): add a capacitor at the Pi or shorten the leads, then re-check from boot.
+
+**Earlier merge (software 05:20):** 🔁 **The Pi 3 flies, not the Zero.** The Zero's camera port failed (the camera works on the Pi 3; the Zero never answered on 5 boots with 2 ribbons). The SD card is back in the Pi 3: camera at boot, capture ~10 fps. **To do:** TELEM + UBEC wiring to the Pi 3 (same header pins), `get_throttled` 0x0 on the UBEC under camera load, HITL re-run, weight/CG (+~35 g).
+
+**Earlier merge (software 04:25):** servo mapping and the Zero link ([`SW_2026-11-08_0425`](docs/updates/SW_2026-11-08_0425_servos-zero.md)):
+- ✅ **Servo directions done** (MANUAL + FBWA, confirmed with the Pocket): rudder reversed; pitch needed **RC2_REVERSED + SERVO5_REVERSED** (MANUAL looked right, FBWA corrected pitch backwards). Centring neutral at 1500 µs. In `config/fc_params.toml`, audit 0 changes.
+- ✅ **FC → Zero link works** after TX4/RX4 were redone, and the **signed HITL bench passes through the Zero** (RTT median 107 ms).
+- ✅ XR1 data wire fixed (TX wasn't on R6). Compass back after reseat + reboot.
+- ⚠️ **Camera not detected** on the Zero after the re-integration: reseat the ribbon. ⚠️ FC moved during boot → `Gyros not calibrated`: reboot it still.
+
+**Earlier merge (software 01:00):** battery on the bench, motor on the ESC, prop off ([`SW_2026-11-08_0100`](docs/updates/SW_2026-11-08_0100_motor.md)):
 - ✅ **Motor spins through the FC** (bench procedure §2 #6 (d), P1-approved): counter-clockwise from the front at about 19 % throttle. The FC was restored and re-audited after every run (37 values + fence polygon).
 - ⚠️ The ESC signal lead was on the **SBUS pad**, not S1. Moved to S1 (red still lifted).
 - ✅ **Low-battery failsafe set** (it was off): RTL after 10 s below 10.5 V.
@@ -81,9 +91,9 @@
 | — | Airframe build (P2) | ◐ Built, untested | Fuselage, wing, power pod, gear, skewers done. Motor mounted (not wired). 4 servos installed + linked. Not a gate; feeds G3 (surfaces) and F0 (CG) |
 | **G1** | Harness checked cold | ◐ **Not recorded** | M1.C soldered 19:48. The G1 meter results weren't posted before G2. Still to confirm: capacitor polarity (striped leg ≈0 Ω to B−), the ESC XT60 polarity, joint photos |
 | **G2** | First power, numbers logged | ✅ **Pass (approx.)** | ≈21:00 (P1). Pack ≈12 V; FC 5V ≈5 V; 4V5 ≈5 V; Vx 5 V; UBEC out ≈5 V; ESC plug middle wire ≈5 V (it has a BEC); no heat at 60 s. `docs/CHECKLIST.md` |
-| **G3** | Radio + surfaces correct | ⬜ | Output map **set 23:09** and read back (S1 1100 µs disarmed after a reboot; `docs/CHECKLIST.md`); P1's on-screen check pending. XR1 **bound** (00:00, 16 channels); **radio cal** and **accel cal** done; flight modes + Pocket mode/consent switches set; TX-off failsafe passes on the FC side. Left: surfaces (centring, throws, FBWA then MANUAL directions) and the failsafe with servos + ESC powered. Mission Planner now usable via `scripts/gcs_proxy.py`. Surface work = P2 step A4 |
+| **G3** | Radio + surfaces correct | ◐ **Directions + centring pass** (04:20) | Output map **set 23:09** and read back (S1 1100 µs disarmed after a reboot; `docs/CHECKLIST.md`); P1's on-screen check pending. XR1 **bound** (00:00, 16 channels); **radio cal** and **accel cal** done; flight modes + Pocket mode/consent switches set; TX-off failsafe passes on the FC side. **04:20: centring, MANUAL + FBWA directions pass with the Pocket** (SERVO6, RC2 + SERVO5 reversed). Left: throws, and the TX-off failsafe with servos + ESC powered. Mission Planner now usable via `scripts/gcs_proxy.py`. Surface work = P2 step A4 |
 | **G3b** | GPS + compass + log | ◐ Detected indoors | GPS harness built (P1 22:51). 23:11: GPS detected (no fix indoors), compass QMC5883L at I2C 0x0D, microSD present and healthy. Still to do outdoors: 3D fix, compass calibration (installed), a log |
-| **G4** | Pi ↔ FC MAVLink **on UBEC** | ◐ **Partial** | MAVLink passes over TELEM/UART4 at 230400 (FC→Pi 17:14; signed HITL 17:33). That was a Pi 3 on its own supply with the FC on USB. **Not yet done:** Pi on the UBEC, voltage under load, the Zero 2 W |
+| **G4** | Pi ↔ FC MAVLink **on UBEC** | ◐ **Pi 3: link + signed HITL pass; power sags at camera start** | 05:18 on the **Pi 3** (UBEC only, TELEM pins 6/8/10): `hitl_bench.py --direct` ALL PASS (RTT 45/74/124 ms). Power: 2 under-voltage events at camera start-up, none in 5 min of capture + a 2-min full-load stress. Fix the start-up sag (capacitor at the Pi, or shorter/thicker leads) and re-check `get_throttled` 0x0 from boot |
 | **G5** | Integrated bench run | ⬜ | — |
 
 ### Software / demo
@@ -225,7 +235,7 @@ F0 ground checks · F1 maiden · F2 AUTO survey · F3 practice approaches · F4 
 | Capacitor location | ✅ **Across B+ / B−** (P1, 19:53). Polarity meter check at G1 |
 | ESC connection | ✅ **XT60 pair**: PDB ESC pair 1 → 14 AWG pigtail → XT60 ↔ ESC (P1, 19:53). `WIRING.md` §1 updated |
 | XR1 power pin | ✅ Receiver header **4V5** (≈5 V at G2, above 4.5 V) |
-| Pi Zero 2 W swap timing | ⬜ recommend **before G4-on-UBEC**, so the power test uses the real load |
+| Pi Zero 2 W swap timing | ✅ **Reversed 05:15: the Pi 3 flies.** The Zero's camera connector failed; the camera works on the Pi 3 |
 | Camera mount | ⬜ P2 proposes nadir, recessed, foam soft-mount. Confirm with P3 |
 | Fence parameters | ✅ Schuyler polygon (21 vertices, 12.3 ha, ≥19 m from buildings), FENCE_TYPE 5, ACTION 1 (RTL), ALT_MAX 100 m, RET_ALT 50, OPTIONS 0; RTL_ALTITUDE 50. Planner/governor margin 20 m inside |
 | **Scope: real flight** | ✅ **Plan (Andrew): fly Sunday; hard end 11:00 for flying and coding.** Devpost isn't a blocker. Target: F0 overnight → F1 FBWA maiden at ≈06:35 (now including the turn-radius circles) → F2 AUTO survey 08:00–09:15 → real imagery into core by ≈10:30. Every flight is subject to the go/no-go in §2 #8. **F3/F4 = stretch only (team call at ≈09:15):** the 19:18 circuit pattern fits Schuyler in SITL, but it needs F1's measured turn radius (≤ ~50 m, set in `turn_radius_m`), sysid from the F1 log, F3 practice approaches + a forced go-around, and the governor's F0–F3 gates recorded before any F4. In a westerly wind only eastbound circuits fit; otherwise the pilot lands manually |

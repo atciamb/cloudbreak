@@ -11,6 +11,9 @@ Runs through the signing proxy (scripts/gcs_proxy.py, default tcp:127.0.0.1:5770
     .venv\\Scripts\\python scripts\\fc_bench.py level         # "Calibrate Level": plane installed, held at flying attitude
     .venv\\Scripts\\python scripts\\fc_bench.py compass [--accept]        # onboard compass calibration (outdoors, installed)
     .venv\\Scripts\\python scripts\\fc_bench.py radio [--yes] # radio calibration: RCn_MIN/MAX/TRIM from stick sweeps
+    .venv\\Scripts\\python scripts\\fc_bench.py servos        # live sticks -> surface outputs (+ FC tilt) for direction checks
+    .venv\\Scripts\\python scripts\\fc_bench.py mode MANUAL   # set the flight mode from the laptop (disarmed only)
+    .venv\\Scripts\\python scripts\\fc_bench.py reverse 6     # flip SERVO6_REVERSED (surface outputs S3-S6, disarmed only)
 
 Every run writes a JSON record to C:\\cb-data\\fc\\bench_<command>_<time>.json (evidence for docs/CHECKLIST.md).
 """
@@ -481,9 +484,86 @@ def cmd_radio(link: Link, a) -> dict:
     return dict(ok=all(w is not None for w in written.values()), plan=plan, written=written)
 
 
+SURFACES = {3: "ail S3", 4: "ail S4", 5: "elev S5", 6: "rud S6"}
+
+
+def _disarmed(link: Link) -> bool:
+    hb = link.get("HEARTBEAT")
+    return hb is not None and not hb.base_mode & mavlink.MAV_MODE_FLAG_SAFETY_ARMED
+
+
+def cmd_servos(link: Link, a) -> dict:
+    """Live stick -> surface view (read-only). One line each time a stick or a surface output moves."""
+    link.send("request_data_stream_send", link.ts, 1, mavlink.MAV_DATA_STREAM_RC_CHANNELS, 10, 1)
+    link.send("request_data_stream_send", link.ts, 1, mavlink.MAV_DATA_STREAM_EXTRA1, 10, 1)
+    trims = {n: int(params(link, [f"SERVO{n}_TRIM"])[f"SERVO{n}_TRIM"] or 1500) for n in SURFACES}
+    rev = {n: params(link, [f"SERVO{n}_REVERSED"])[f"SERVO{n}_REVERSED"] for n in SURFACES}
+    print("Sticks: roll = RC1 (right = +), pitch = RC2 (forward/push = +), yaw = RC4 (right = +).\n"
+          "Surfaces: output minus its trim, in us. Which way the surface physically moves is what you check.\n"
+          f"Reversed now: {', '.join(f'S{n} {int(v or 0)}' for n, v in rev.items())}. Ctrl+C to stop.", flush=True)
+    last, lines, t0 = None, [], time.time()
+    try:
+        while time.time() - t0 < a.seconds:
+            time.sleep(0.1)
+            rc, so, att = link.get("RC_CHANNELS"), link.get("SERVO_OUTPUT_RAW"), link.get("ATTITUDE")
+            if rc is None or so is None:
+                continue
+            sticks = (rc.chan1_raw - 1500, rc.chan2_raw - 1500, rc.chan4_raw - 1500)
+            outs = {n: getattr(so, f"servo{n}_raw") - trims[n] for n in SURFACES}
+            key = (link.flightmode(), tuple(round(s / 40) for s in sticks), tuple(round(o / 40) for o in outs.values()),
+                   None if att is None else (round(math.degrees(att.roll) / 10), round(math.degrees(att.pitch) / 10)))
+            if key == last:
+                continue
+            last = key
+            tilt = "" if att is None else f" | FC roll {math.degrees(att.roll):+4.0f} pitch {math.degrees(att.pitch):+4.0f} deg"
+            line = (f"{time.strftime('%H:%M:%S')} {link.flightmode():6s} {'DISARMED' if _disarmed(link) else 'ARMED!'}"
+                    f" | roll {sticks[0]:+5d} pitch {sticks[1]:+5d} yaw {sticks[2]:+5d} | "
+                    + "  ".join(f"{SURFACES[n]} {outs[n]:+5d}" for n in SURFACES) + tilt)
+            print(line, flush=True)
+            lines.append(line)
+    except KeyboardInterrupt:
+        pass
+    return dict(ok=True, trims=trims, reversed=rev, lines=lines[-200:])
+
+
+def cmd_mode(link: Link, a) -> dict:
+    """Set the flight mode from the laptop (disarmed only). The mode switch takes over again when it moves."""
+    want = (a.arg or "").upper()
+    if not want:
+        raise SystemExit("usage: fc_bench.py mode MANUAL|FBWA|...")
+    if not _disarmed(link):
+        raise SystemExit("refusing: FC is armed")
+    ok = link.set_mode(want)
+    print(f"mode {want}: {'ok' if ok else 'NOT CONFIRMED'} (now {link.flightmode()})")
+    return dict(ok=ok, mode=link.flightmode())
+
+
+def cmd_reverse(link: Link, a) -> dict:
+    """Flip SERVOn_REVERSED for one surface output (disarmed only), with read-back."""
+    try:
+        n = int((a.arg or "").lstrip("Ss"))
+    except ValueError:
+        raise SystemExit("usage: fc_bench.py reverse 3|4|5|6")
+    if n not in SURFACES:
+        raise SystemExit(f"S{n} isn't a surface output (S3-S6)")
+    if not _disarmed(link):
+        raise SystemExit("refusing: FC is armed")
+    name = f"SERVO{n}_REVERSED"
+    cur = params(link, [name])[name]
+    new = 0.0 if cur else 1.0
+    t = time.perf_counter()
+    link.send("param_set_send", link.ts, 1, name.encode(), new, mavlink.MAV_PARAM_TYPE_REAL32)
+    link.wait("PARAM_VALUE", lambda m: m.param_id == name, timeout=3, since=t)
+    back = params(link, [name])[name]
+    print(f"{name}: {cur:g} -> {back:g} ({'ok' if back == new else 'NOT CONFIRMED'})")
+    return dict(ok=back == new, param=name, before=cur, after=back)
+
+
 def main(argv=None) -> int:
     ap = argparse.ArgumentParser(description=__doc__.split("\n\n")[0])
-    ap.add_argument("command", choices=["status", "outputs", "rc", "logs", "accel", "level", "compass", "radio"])
+    ap.add_argument("command", choices=["status", "outputs", "rc", "logs", "accel", "level", "compass", "radio",
+                                        "servos", "mode", "reverse"])
+    ap.add_argument("arg", nargs="?", help="mode: MANUAL/FBWA/...; reverse: output number 3-6")
     ap.add_argument("--port", help=f"default: the proxy ({PROXY}) if running, else the FC's USB port")
     ap.add_argument("--seconds", type=float, default=None, help="rc: how long to read (default 30 s); radio: longest sweep (default 180 s)")
     ap.add_argument("--manual", action="store_true", help="accel: press Enter for each position instead of auto-detect")
@@ -491,14 +571,14 @@ def main(argv=None) -> int:
     ap.add_argument("--yes", action="store_true", help="level/radio: no prompts")
     a = ap.parse_args(argv)
     if a.seconds is None:
-        a.seconds = 180.0 if a.command == "radio" else 30.0
+        a.seconds = {"radio": 180.0, "servos": 1800.0}.get(a.command, 30.0)
     port = a.port or default_port()
     try:
         link = connect(port)
     except LinkError as e:
         raise SystemExit(f"{e} (port {port})")
     fn = dict(status=cmd_status, outputs=cmd_outputs, rc=cmd_rc, logs=cmd_logs, accel=cmd_accel, level=cmd_level,
-              compass=cmd_compass, radio=cmd_radio)[a.command]
+              compass=cmd_compass, radio=cmd_radio, servos=cmd_servos, mode=cmd_mode, reverse=cmd_reverse)[a.command]
     res = fn(link, a)
     res = dict(command=a.command, port=port, time=time.strftime("%Y-%m-%dT%H:%M:%S"), result=res)
     print(f"record: {record(a.command, res)}")
