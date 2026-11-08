@@ -1,0 +1,59 @@
+{
+ "id": "rural_riverina",
+ "category": "rural",
+ "name": "Riverina near Temora, NSW",
+ "country": "AU",
+ "lat": -34.5,
+ "lon": 147.4,
+ "expect": "broadacre wheat/sheep country, few obstacles",
+ "focus": "",
+ "extent_m": 600.0,
+ "gsd_m": 0.5,
+ "size_px": 1200,
+ "bbox_lonlat": {
+  "west": 147.3967299354279,
+  "south": -34.50269490229244,
+  "east": 147.40327006457213,
+  "north": -34.497305010588775
+ },
+ "bbox_3857": [
+  16408128.921005499,
+  -4096503.0623702616,
+  16408856.964851554,
+  -4095775.018524206
+ ],
+ "crs_note": "north-up local square; pixel (0,0) = north-west corner",
+ "imagery": {
+  "source": "nsw",
+  "name": "NSW Spatial Services imagery",
+  "licence": "CC BY 4.0",
+  "attribution": "Spatial Services, NSW Department of Customer Service",
+  "url": "https://maps.six.nsw.gov.au/arcgis/rest/services/public/NSW_Imagery/MapServer/tile/{z}/{y}/{x}",
+  "zoom": 18,
+  "tiles": 30,
+  "missing_tiles": 0,
+  "native_res_m": 0.492
+ },
+ "terrain": {
+  "source": "terrarium",
+  "name": "AWS Terrain Tiles",
+  "licence": "Open data (per-source attribution)",
+  "attribution": "Terrain Tiles on AWS (Mapzen): SRTM, EU-DEM, GMTED and national DEMs, ~10-30 m",
+  "zoom": 15,
+  "tiles": 2,
+  "missing_tiles": 0,
+  "native_res_m": "3.9 m tiles (source DEM ~10-30 m)",
+  "offset_m": 317.0,
+  "scale_m": 0.01,
+  "res_m": 1.0,
+  "min_m": 317.94,
+  "max_m": 344.37
+ },
+ "osm": {
+  "elements": 0,
+  "attribution": "OpenStreetMap contributors (ODbL)",
+  "timestamp": "2026-11-08T03:20:59Z"
+ },
+ "fetched_utc": "2026-11-08T03:22:45Z",
+ "label": "BENCHMARK IMAGERY (aerial orthophoto) - not Cloudbreak flight data"
+}

@@ -1,0 +1,59 @@
+{
+ "id": "natural_landes_forest",
+ "category": "natural",
+ "name": "Landes pine forest, Gascony",
+ "country": "FR",
+ "lat": 44.2,
+ "lon": -0.8061,
+ "expect": "flat pine plantation with clear-cut parcels: stumps and slash look open but are rough",
+ "focus": "",
+ "extent_m": 600.0,
+ "gsd_m": 0.5,
+ "size_px": 1200,
+ "bbox_lonlat": {
+  "west": -0.8098591100251545,
+  "south": 44.19730499251402,
+  "east": -0.8023408899748455,
+  "north": 44.202694884218616
+ },
+ "bbox_3857": [
+  -90153.10374229391,
+  5496026.527664001,
+  -89316.17931462174,
+  5496863.452091672
+ ],
+ "crs_note": "north-up local square; pixel (0,0) = north-west corner",
+ "imagery": {
+  "source": "ign",
+  "name": "IGN BD ORTHO",
+  "licence": "Licence Ouverte / Etalab 2.0",
+  "attribution": "IGN France, BD ORTHO",
+  "url": "https://data.geopf.fr/wmts?SERVICE=WMTS&REQUEST=GetTile&VERSION=1.0.0&LAYER=ORTHOIMAGERY.ORTHOPHOTOS&STYLE=normal&TILEMATRIXSET=PM&TILEMATRIX={z}&TILEROW={y}&TILECOL={x}&FORMAT=image/jpeg",
+  "zoom": 18,
+  "tiles": 36,
+  "missing_tiles": 0,
+  "native_res_m": 0.428
+ },
+ "terrain": {
+  "source": "terrarium",
+  "name": "AWS Terrain Tiles",
+  "licence": "Open data (per-source attribution)",
+  "attribution": "Terrain Tiles on AWS (Mapzen): SRTM, EU-DEM, GMTED and national DEMs, ~10-30 m",
+  "zoom": 15,
+  "tiles": 2,
+  "missing_tiles": 0,
+  "native_res_m": "3.4 m tiles (source DEM ~10-30 m)",
+  "offset_m": 71.0,
+  "scale_m": 0.01,
+  "res_m": 1.0,
+  "min_m": 71.26,
+  "max_m": 82.03
+ },
+ "osm": {
+  "elements": 12,
+  "attribution": "OpenStreetMap contributors (ODbL)",
+  "timestamp": "2026-11-08T03:35:13Z"
+ },
+ "fetched_utc": "2026-11-08T03:36:42Z",
+ "label": "BENCHMARK IMAGERY (aerial orthophoto) - not Cloudbreak flight data"
+}

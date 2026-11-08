@@ -1,0 +1,169 @@
+{
+ "id": "suburban_castle_hill",
+ "category": "suburban",
+ "name": "Castle Hill, Sydney",
+ "country": "AU",
+ "expect": "suburban oval / soccer field surrounded by houses and trees",
+ "focus": "",
+ "strip_m": [
+  51.0,
+  16.1
+ ],
+ "overrun_need_m": 91.0,
+ "slope_max_deg": 4.0,
+ "steep_frac": 0.3713,
+ "camera": {
+  "landable_frac": 0.0646,
+  "classes": {
+   "unknown": 0.2627,
+   "short_grass": 0.0776,
+   "pavement": 0.0715,
+   "dirt": 0.0271,
+   "tree": 0.1412,
+   "water": 0.0014,
+   "rough": 0.4185
+  },
+  "strips": [
+   {
+    "rank": 1,
+    "center_latlon": [
+     -33.7272699,
+     150.9986167
+    ],
+    "center_local_m": [
+     -17.0,
+     14.5
+    ],
+    "axis_deg": 165.0,
+    "length_m": 51.0,
+    "width_m": 16.1,
+    "open_len_m": 60.0,
+    "overrun_ok": false,
+    "score": 0.8,
+    "surface": "short_grass",
+    "surface_fracs": {
+     "short_grass": 1.0
+    },
+    "slope_max_deg": 3.23,
+    "osm_conflicts": {},
+    "on_pitch": true,
+    "pitch_frac": 1.0,
+    "pitch": "way/223089896",
+    "corners_px": [
+     [
+      568.4000244140625,
+      517.5999755859375
+     ],
+     [
+      537.2999877929688,
+      525.9000244140625
+     ],
+     [
+      563.7000122070312,
+      624.4000244140625
+     ],
+     [
+      594.7999877929688,
+      616.0999755859375
+     ]
+    ]
+   }
+  ],
+  "strips_on_osm_hazard": 0,
+  "texture_window_px": 9
+ },
+ "fused": {
+  "landable_frac": 0.069,
+  "classes": {
+   "unknown": 0.2366,
+   "short_grass": 0.0792,
+   "pavement": 0.0745,
+   "dirt": 0.0236,
+   "tree": 0.1357,
+   "water": 0.0014,
+   "building": 0.0605,
+   "pole_wire": 0.0284,
+   "rough": 0.3602
+  },
+  "strips": [
+   {
+    "rank": 1,
+    "center_latlon": [
+     -33.7276776,
+     150.9989352
+    ],
+    "center_local_m": [
+     12.5,
+     -30.9
+    ],
+    "axis_deg": 135.0,
+    "length_m": 51.0,
+    "width_m": 16.1,
+    "open_len_m": 107.0,
+    "overrun_ok": true,
+    "score": 0.751,
+    "surface": "short_grass",
+    "surface_fracs": {
+     "short_grass": 1.0
+    },
+    "slope_max_deg": 3.58,
+    "osm_conflicts": {},
+    "on_pitch": true,
+    "pitch_frac": 1.0,
+    "pitch": "way/223089896",
+    "corners_px": [
+     [
+      600.2999877929688,
+      614.4000244140625
+     ],
+     [
+      577.5999755859375,
+      637.0999755859375
+     ],
+     [
+      649.7999877929688,
+      709.2000122070312
+     ],
+     [
+      672.5,
+      686.5
+     ]
+    ]
+   }
+  ],
+  "strips_on_pitch": 1
+ },
+ "decision": {
+  "decider": "planner",
+  "choice": 1
+ },
+ "osm_pitches": [
+  {
+   "id": "way/223089896",
+   "sport": "soccer"
+  },
+  {
+   "id": "way/498148032",
+   "sport": "bowls"
+  },
+  {
+   "id": "way/498148035",
+   "sport": "bowls"
+  },
+  {
+   "id": "way/561645607",
+   "sport": "tennis"
+  },
+  {
+   "id": "way/1313211129",
+   "sport": "basketball"
+  },
+  {
+   "id": "way/1313211223",
+   "sport": "tennis"
+  }
+ ],
+ "imagery": "Spatial Services, NSW Department of Customer Service",
+ "seconds": 0.8,
+ "label": "BENCHMARK (aerial orthophoto + OSM + terrain) - not flight data"
+}

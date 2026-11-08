@@ -1,0 +1,83 @@
+{
+ "id": "urban_sydney_cbd",
+ "category": "urban",
+ "name": "Sydney CBD and Hyde Park",
+ "country": "AU",
+ "expect": "towers plus Hyde Park lawns under trees; strips only where lawn is open",
+ "focus": "",
+ "strip_m": [
+  51.0,
+  16.1
+ ],
+ "overrun_need_m": 91.0,
+ "slope_max_deg": 4.0,
+ "steep_frac": 0.9088,
+ "camera": {
+  "landable_frac": 0.0075,
+  "classes": {
+   "unknown": 0.2345,
+   "short_grass": 0.0673,
+   "pavement": 0.0272,
+   "dirt": 0.0635,
+   "tree": 0.0971,
+   "water": 0.0829,
+   "rough": 0.4277
+  },
+  "strips": [],
+  "strips_on_osm_hazard": 0,
+  "texture_window_px": 9
+ },
+ "fused": {
+  "landable_frac": 0.0065,
+  "classes": {
+   "unknown": 0.0891,
+   "short_grass": 0.0355,
+   "pavement": 0.0996,
+   "dirt": 0.0119,
+   "tree": 0.1289,
+   "water": 0.0429,
+   "building": 0.3579,
+   "pole_wire": 0.0806,
+   "rough": 0.1536
+  },
+  "strips": [],
+  "strips_on_pitch": 0
+ },
+ "decision": {
+  "decider": "planner",
+  "choice": null
+ },
+ "osm_pitches": [
+  {
+   "id": "way/556396384",
+   "sport": "basketball"
+  },
+  {
+   "id": "way/556396385",
+   "sport": "basketball"
+  },
+  {
+   "id": "way/556396386",
+   "sport": "basketball"
+  },
+  {
+   "id": "way/1218202279",
+   "sport": "chess"
+  },
+  {
+   "id": "way/1529352878",
+   "sport": "four_square"
+  },
+  {
+   "id": "way/1529352879",
+   "sport": "four_square"
+  },
+  {
+   "id": "way/1529671927",
+   "sport": null
+  }
+ ],
+ "imagery": "Spatial Services, NSW Department of Customer Service",
+ "seconds": 0.6,
+ "label": "BENCHMARK (aerial orthophoto + OSM + terrain) - not flight data"
+}

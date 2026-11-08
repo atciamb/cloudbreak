@@ -1,0 +1,53 @@
+{
+ "id": "urban_amsterdam_centrum",
+ "category": "urban",
+ "name": "Amsterdam Centrum",
+ "country": "NL",
+ "expect": "canal ring: water, narrow streets and pitched roofs; nothing should qualify",
+ "focus": "",
+ "strip_m": [
+  51.0,
+  16.1
+ ],
+ "overrun_need_m": 91.0,
+ "slope_max_deg": 4.0,
+ "steep_frac": 0.0,
+ "camera": {
+  "landable_frac": 0.059,
+  "classes": {
+   "unknown": 0.0017,
+   "short_grass": 0.0039,
+   "pavement": 0.0997,
+   "dirt": 0.045,
+   "tree": 0.0039,
+   "water": 0.104,
+   "rough": 0.7418
+  },
+  "strips": [],
+  "strips_on_osm_hazard": 0,
+  "texture_window_px": 9
+ },
+ "fused": {
+  "landable_frac": 0.0333,
+  "classes": {
+   "short_grass": 0.0009,
+   "pavement": 0.0675,
+   "dirt": 0.0039,
+   "tree": 0.022,
+   "water": 0.0916,
+   "building": 0.5767,
+   "pole_wire": 0.0455,
+   "rough": 0.192
+  },
+  "strips": [],
+  "strips_on_pitch": 0
+ },
+ "decision": {
+  "decider": "planner",
+  "choice": null
+ },
+ "osm_pitches": [],
+ "imagery": "Beeldmateriaal Nederland / PDOK",
+ "seconds": 0.5,
+ "label": "BENCHMARK (aerial orthophoto + OSM + terrain) - not flight data"
+}

@@ -1,0 +1,50 @@
+{
+ "id": "natural_utah_island_in_the_sky",
+ "category": "natural",
+ "name": "Island in the Sky mesa, Canyonlands UT",
+ "country": "US",
+ "expect": "slickrock and scrub on a mesa top; the rim and ledges must be excluded by slope",
+ "focus": "",
+ "strip_m": [
+  51.0,
+  16.1
+ ],
+ "overrun_need_m": 91.0,
+ "slope_max_deg": 4.0,
+ "steep_frac": 0.7855,
+ "camera": {
+  "landable_frac": 0.0448,
+  "classes": {
+   "unknown": 0.0262,
+   "short_grass": 0.0934,
+   "pavement": 0.0029,
+   "dirt": 0.1846,
+   "tree": 0.1793,
+   "rough": 0.5135
+  },
+  "strips": [],
+  "strips_on_osm_hazard": 0,
+  "texture_window_px": 9
+ },
+ "fused": {
+  "landable_frac": 0.0448,
+  "classes": {
+   "unknown": 0.0262,
+   "short_grass": 0.0925,
+   "pavement": 0.0046,
+   "dirt": 0.1839,
+   "tree": 0.1793,
+   "rough": 0.5135
+  },
+  "strips": [],
+  "strips_on_pitch": 0
+ },
+ "decision": {
+  "decider": "planner",
+  "choice": null
+ },
+ "osm_pitches": [],
+ "imagery": "USGS / USDA, The National Map: NAIP Plus orthoimagery",
+ "seconds": 0.7,
+ "label": "BENCHMARK (aerial orthophoto + OSM + terrain) - not flight data"
+}

@@ -1,0 +1,337 @@
+{
+ "id": "urban_paris_champ_de_mars",
+ "category": "urban",
+ "name": "Champ de Mars, Paris",
+ "country": "FR",
+ "expect": "long lawns between tree rows and buildings: tempting, but tree-lined and crowded",
+ "focus": "",
+ "strip_m": [
+  51.0,
+  16.1
+ ],
+ "overrun_need_m": 91.0,
+ "slope_max_deg": 4.0,
+ "steep_frac": 0.1722,
+ "camera": {
+  "landable_frac": 0.1922,
+  "classes": {
+   "unknown": 0.0083,
+   "short_grass": 0.1904,
+   "pavement": 0.1261,
+   "dirt": 0.0516,
+   "tree": 0.0757,
+   "water": 0.0682,
+   "rough": 0.4797
+  },
+  "strips": [
+   {
+    "rank": 1,
+    "center_latlon": [
+     48.8535501,
+     2.3019279
+    ],
+    "center_local_m": [
+     243.7,
+     -228.2
+    ],
+    "axis_deg": 135.0,
+    "length_m": 51.0,
+    "width_m": 16.1,
+    "open_len_m": 97.0,
+    "overrun_ok": true,
+    "score": 0.628,
+    "surface": "pavement",
+    "surface_fracs": {
+     "pavement": 0.802,
+     "dirt": 0.198
+    },
+    "slope_max_deg": 1.28,
+    "osm_conflicts": {},
+    "on_pitch": false,
+    "pitch_frac": 0.0,
+    "pitch": null,
+    "corners_px": [
+     [
+      1062.800048828125,
+      1009.0
+     ],
+     [
+      1040.0999755859375,
+      1031.699951171875
+     ],
+     [
+      1112.199951171875,
+      1103.800048828125
+     ],
+     [
+      1134.9000244140625,
+      1081.0999755859375
+     ]
+    ]
+   },
+   {
+    "rank": 2,
+    "center_latlon": [
+     48.8570184,
+     2.2964057
+    ],
+    "center_local_m": [
+     -160.7,
+     157.9
+    ],
+    "axis_deg": 135.0,
+    "length_m": 51.0,
+    "width_m": 16.1,
+    "open_len_m": 53.0,
+    "overrun_ok": false,
+    "score": 0.696,
+    "surface": "short_grass",
+    "surface_fracs": {
+     "short_grass": 0.824,
+     "pavement": 0.172,
+     "dirt": 0.005
+    },
+    "slope_max_deg": 3.57,
+    "osm_conflicts": {},
+    "on_pitch": false,
+    "pitch_frac": 0.0,
+    "pitch": null,
+    "corners_px": [
+     [
+      253.8000030517578,
+      236.8000030517578
+     ],
+     [
+      231.10000610351562,
+      259.5
+     ],
+     [
+      303.29998779296875,
+      331.6000061035156
+     ],
+     [
+      326.0,
+      308.8999938964844
+     ]
+    ]
+   },
+   {
+    "rank": 3,
+    "center_latlon": [
+     48.8531119,
+     2.3023816
+    ],
+    "center_local_m": [
+     277.0,
+     -277.0
+    ],
+    "axis_deg": 45.0,
+    "length_m": 51.0,
+    "width_m": 16.1,
+    "open_len_m": 51.0,
+    "overrun_ok": false,
+    "score": 0.586,
+    "surface": "pavement",
+    "surface_fracs": {
+     "pavement": 0.756,
+     "dirt": 0.244
+    },
+    "slope_max_deg": 2.01,
+    "osm_conflicts": {},
+    "on_pitch": false,
+    "pitch_frac": 0.0,
+    "pitch": null,
+    "corners_px": [
+     [
+      1106.5,
+      1178.699951171875
+     ],
+     [
+      1129.199951171875,
+      1201.4000244140625
+     ],
+     [
+      1201.4000244140625,
+      1129.199951171875
+     ],
+     [
+      1178.699951171875,
+      1106.5
+     ]
+    ]
+   }
+  ],
+  "strips_on_osm_hazard": 0,
+  "texture_window_px": 9
+ },
+ "fused": {
+  "landable_frac": 0.0805,
+  "classes": {
+   "unknown": 0.0037,
+   "short_grass": 0.0551,
+   "pavement": 0.0995,
+   "dirt": 0.0264,
+   "tree": 0.2721,
+   "water": 0.0427,
+   "building": 0.2036,
+   "pole_wire": 0.0732,
+   "rough": 0.2238
+  },
+  "strips": [
+   {
+    "rank": 1,
+    "center_latlon": [
+     48.8535501,
+     2.3019279
+    ],
+    "center_local_m": [
+     243.7,
+     -228.2
+    ],
+    "axis_deg": 135.0,
+    "length_m": 51.0,
+    "width_m": 16.1,
+    "open_len_m": 97.0,
+    "overrun_ok": true,
+    "score": 0.628,
+    "surface": "pavement",
+    "surface_fracs": {
+     "pavement": 0.802,
+     "dirt": 0.198
+    },
+    "slope_max_deg": 1.28,
+    "osm_conflicts": {},
+    "on_pitch": false,
+    "pitch_frac": 0.0,
+    "pitch": null,
+    "corners_px": [
+     [
+      1062.800048828125,
+      1009.0
+     ],
+     [
+      1040.0999755859375,
+      1031.699951171875
+     ],
+     [
+      1112.199951171875,
+      1103.800048828125
+     ],
+     [
+      1134.9000244140625,
+      1081.0999755859375
+     ]
+    ]
+   },
+   {
+    "rank": 2,
+    "center_latlon": [
+     48.8570184,
+     2.2964057
+    ],
+    "center_local_m": [
+     -160.7,
+     157.9
+    ],
+    "axis_deg": 135.0,
+    "length_m": 51.0,
+    "width_m": 16.1,
+    "open_len_m": 53.0,
+    "overrun_ok": false,
+    "score": 0.696,
+    "surface": "short_grass",
+    "surface_fracs": {
+     "short_grass": 0.824,
+     "pavement": 0.172,
+     "dirt": 0.005
+    },
+    "slope_max_deg": 3.57,
+    "osm_conflicts": {},
+    "on_pitch": false,
+    "pitch_frac": 0.0,
+    "pitch": null,
+    "corners_px": [
+     [
+      253.8000030517578,
+      236.8000030517578
+     ],
+     [
+      231.10000610351562,
+      259.5
+     ],
+     [
+      303.29998779296875,
+      331.6000061035156
+     ],
+     [
+      326.0,
+      308.8999938964844
+     ]
+    ]
+   },
+   {
+    "rank": 3,
+    "center_latlon": [
+     48.8531119,
+     2.3023816
+    ],
+    "center_local_m": [
+     277.0,
+     -277.0
+    ],
+    "axis_deg": 45.0,
+    "length_m": 51.0,
+    "width_m": 16.1,
+    "open_len_m": 51.0,
+    "overrun_ok": false,
+    "score": 0.586,
+    "surface": "pavement",
+    "surface_fracs": {
+     "pavement": 0.756,
+     "dirt": 0.244
+    },
+    "slope_max_deg": 2.01,
+    "osm_conflicts": {},
+    "on_pitch": false,
+    "pitch_frac": 0.0,
+    "pitch": null,
+    "corners_px": [
+     [
+      1106.5,
+      1178.699951171875
+     ],
+     [
+      1129.199951171875,
+      1201.4000244140625
+     ],
+     [
+      1201.4000244140625,
+      1129.199951171875
+     ],
+     [
+      1178.699951171875,
+      1106.5
+     ]
+    ]
+   }
+  ],
+  "strips_on_pitch": 0
+ },
+ "decision": {
+  "decider": "planner",
+  "choice": 1
+ },
+ "osm_pitches": [
+  {
+   "id": "way/369652733",
+   "sport": "soccer"
+  },
+  {
+   "id": "way/369652734",
+   "sport": "basketball"
+  }
+ ],
+ "imagery": "IGN France, BD ORTHO",
+ "seconds": 0.7,
+ "label": "BENCHMARK (aerial orthophoto + OSM + terrain) - not flight data"
+}

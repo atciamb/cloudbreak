@@ -1,0 +1,507 @@
+{
+ "id": "rural_tokachi",
+ "category": "rural",
+ "name": "Tokachi plain, Hokkaido",
+ "country": "JP",
+ "expect": "patchwork fields with windbreak tree rows",
+ "focus": "",
+ "strip_m": [
+  51.0,
+  16.1
+ ],
+ "overrun_need_m": 91.0,
+ "slope_max_deg": 4.0,
+ "steep_frac": 0.0786,
+ "camera": {
+  "landable_frac": 0.3781,
+  "classes": {
+   "unknown": 0.0009,
+   "short_grass": 0.1231,
+   "pavement": 0.3958,
+   "dirt": 0.0359,
+   "tree": 0.0115,
+   "water": 0.1054,
+   "rough": 0.3275
+  },
+  "strips": [
+   {
+    "rank": 1,
+    "center_latlon": [
+     42.9200593,
+     143.1023284
+    ],
+    "center_local_m": [
+     189.8,
+     6.6
+    ],
+    "axis_deg": 60.0,
+    "length_m": 51.0,
+    "width_m": 16.1,
+    "open_len_m": 91.0,
+    "overrun_ok": true,
+    "score": 0.902,
+    "surface": "short_grass",
+    "surface_fracs": {
+     "short_grass": 0.865,
+     "pavement": 0.135,
+     "dirt": 0.0
+    },
+    "slope_max_deg": 1.84,
+    "osm_conflicts": {},
+    "on_pitch": false,
+    "pitch_frac": 0.0,
+    "pitch": null,
+    "corners_px": [
+     [
+      927.4000244140625,
+      598.4000244140625
+     ],
+     [
+      943.5,
+      626.2000122070312
+     ],
+     [
+      1031.800048828125,
+      575.2000122070312
+     ],
+     [
+      1015.7999877929688,
+      547.4000244140625
+     ]
+    ]
+   },
+   {
+    "rank": 2,
+    "center_latlon": [
+     42.9200908,
+     143.0996158
+    ],
+    "center_local_m": [
+     -31.3,
+     10.1
+    ],
+    "axis_deg": 45.0,
+    "length_m": 51.0,
+    "width_m": 16.1,
+    "open_len_m": 148.0,
+    "overrun_ok": true,
+    "score": 0.862,
+    "surface": "short_grass",
+    "surface_fracs": {
+     "short_grass": 0.996,
+     "pavement": 0.004
+    },
+    "slope_max_deg": 2.16,
+    "osm_conflicts": {},
+    "on_pitch": false,
+    "pitch_frac": 0.0,
+    "pitch": null,
+    "corners_px": [
+     [
+      489.8999938964844,
+      604.5
+     ],
+     [
+      512.7000122070312,
+      627.2000122070312
+     ],
+     [
+      584.7999877929688,
+      555.0999755859375
+     ],
+     [
+      562.0999755859375,
+      532.4000244140625
+     ]
+    ]
+   },
+   {
+    "rank": 3,
+    "center_latlon": [
+     42.9206117,
+     143.0999975
+    ],
+    "center_local_m": [
+     -0.2,
+     68.1
+    ],
+    "axis_deg": 135.0,
+    "length_m": 51.0,
+    "width_m": 16.1,
+    "open_len_m": 105.0,
+    "overrun_ok": true,
+    "score": 0.838,
+    "surface": "short_grass",
+    "surface_fracs": {
+     "short_grass": 0.973,
+     "pavement": 0.027
+    },
+    "slope_max_deg": 1.95,
+    "osm_conflicts": {},
+    "on_pitch": false,
+    "pitch_frac": 0.0,
+    "pitch": null,
+    "corners_px": [
+     [
+      574.9000244140625,
+      416.3999938964844
+     ],
+     [
+      552.2000122070312,
+      439.1000061035156
+     ],
+     [
+      624.2999877929688,
+      511.20001220703125
+     ],
+     [
+      647.0,
+      488.5
+     ]
+    ]
+   },
+   {
+    "rank": 4,
+    "center_latlon": [
+     42.9201637,
+     143.1005283
+    ],
+    "center_local_m": [
+     43.1,
+     18.2
+    ],
+    "axis_deg": 30.0,
+    "length_m": 51.0,
+    "width_m": 16.1,
+    "open_len_m": 94.0,
+    "overrun_ok": true,
+    "score": 0.825,
+    "surface": "short_grass",
+    "surface_fracs": {
+     "short_grass": 0.98,
+     "pavement": 0.019
+    },
+    "slope_max_deg": 1.9,
+    "osm_conflicts": {},
+    "on_pitch": false,
+    "pitch_frac": 0.0,
+    "pitch": null,
+    "corners_px": [
+     [
+      646.7000122070312,
+      599.7000122070312
+     ],
+     [
+      674.5,
+      615.7000122070312
+     ],
+     [
+      725.5,
+      527.4000244140625
+     ],
+     [
+      697.7000122070312,
+      511.3999938964844
+     ]
+    ]
+   },
+   {
+    "rank": 5,
+    "center_latlon": [
+     42.9198049,
+     143.1001796
+    ],
+    "center_local_m": [
+     14.6,
+     -21.7
+    ],
+    "axis_deg": 45.0,
+    "length_m": 51.0,
+    "width_m": 16.1,
+    "open_len_m": 89.0,
+    "overrun_ok": false,
+    "score": 0.827,
+    "surface": "short_grass",
+    "surface_fracs": {
+     "short_grass": 0.993,
+     "pavement": 0.007
+    },
+    "slope_max_deg": 1.89,
+    "osm_conflicts": {},
+    "on_pitch": false,
+    "pitch_frac": 0.0,
+    "pitch": null,
+    "corners_px": [
+     [
+      581.9000244140625,
+      668.0999755859375
+     ],
+     [
+      604.5999755859375,
+      690.7999877929688
+     ],
+     [
+      676.7000122070312,
+      618.7000122070312
+     ],
+     [
+      654.0,
+      596.0
+     ]
+    ]
+   }
+  ],
+  "strips_on_osm_hazard": 0,
+  "texture_window_px": 9
+ },
+ "fused": {
+  "landable_frac": 0.3545,
+  "classes": {
+   "unknown": 0.0002,
+   "short_grass": 0.1192,
+   "pavement": 0.372,
+   "dirt": 0.0281,
+   "tree": 0.011,
+   "water": 0.1041,
+   "building": 0.0767,
+   "rough": 0.2889
+  },
+  "strips": [
+   {
+    "rank": 1,
+    "center_latlon": [
+     42.9200593,
+     143.1023284
+    ],
+    "center_local_m": [
+     189.8,
+     6.6
+    ],
+    "axis_deg": 60.0,
+    "length_m": 51.0,
+    "width_m": 16.1,
+    "open_len_m": 91.0,
+    "overrun_ok": true,
+    "score": 0.902,
+    "surface": "short_grass",
+    "surface_fracs": {
+     "short_grass": 0.865,
+     "pavement": 0.135,
+     "dirt": 0.0
+    },
+    "slope_max_deg": 1.84,
+    "osm_conflicts": {},
+    "on_pitch": false,
+    "pitch_frac": 0.0,
+    "pitch": null,
+    "corners_px": [
+     [
+      927.4000244140625,
+      598.4000244140625
+     ],
+     [
+      943.5,
+      626.2000122070312
+     ],
+     [
+      1031.800048828125,
+      575.2000122070312
+     ],
+     [
+      1015.7999877929688,
+      547.4000244140625
+     ]
+    ]
+   },
+   {
+    "rank": 2,
+    "center_latlon": [
+     42.9200908,
+     143.0996158
+    ],
+    "center_local_m": [
+     -31.3,
+     10.1
+    ],
+    "axis_deg": 45.0,
+    "length_m": 51.0,
+    "width_m": 16.1,
+    "open_len_m": 148.0,
+    "overrun_ok": true,
+    "score": 0.862,
+    "surface": "short_grass",
+    "surface_fracs": {
+     "short_grass": 0.996,
+     "pavement": 0.004
+    },
+    "slope_max_deg": 2.16,
+    "osm_conflicts": {},
+    "on_pitch": false,
+    "pitch_frac": 0.0,
+    "pitch": null,
+    "corners_px": [
+     [
+      489.8999938964844,
+      604.5
+     ],
+     [
+      512.7000122070312,
+      627.2000122070312
+     ],
+     [
+      584.7999877929688,
+      555.0999755859375
+     ],
+     [
+      562.0999755859375,
+      532.4000244140625
+     ]
+    ]
+   },
+   {
+    "rank": 3,
+    "center_latlon": [
+     42.9206117,
+     143.0999975
+    ],
+    "center_local_m": [
+     -0.2,
+     68.1
+    ],
+    "axis_deg": 135.0,
+    "length_m": 51.0,
+    "width_m": 16.1,
+    "open_len_m": 105.0,
+    "overrun_ok": true,
+    "score": 0.838,
+    "surface": "short_grass",
+    "surface_fracs": {
+     "short_grass": 0.973,
+     "pavement": 0.027
+    },
+    "slope_max_deg": 1.95,
+    "osm_conflicts": {},
+    "on_pitch": false,
+    "pitch_frac": 0.0,
+    "pitch": null,
+    "corners_px": [
+     [
+      574.9000244140625,
+      416.3999938964844
+     ],
+     [
+      552.2000122070312,
+      439.1000061035156
+     ],
+     [
+      624.2999877929688,
+      511.20001220703125
+     ],
+     [
+      647.0,
+      488.5
+     ]
+    ]
+   },
+   {
+    "rank": 4,
+    "center_latlon": [
+     42.9201637,
+     143.1005283
+    ],
+    "center_local_m": [
+     43.1,
+     18.2
+    ],
+    "axis_deg": 30.0,
+    "length_m": 51.0,
+    "width_m": 16.1,
+    "open_len_m": 94.0,
+    "overrun_ok": true,
+    "score": 0.825,
+    "surface": "short_grass",
+    "surface_fracs": {
+     "short_grass": 0.98,
+     "pavement": 0.019
+    },
+    "slope_max_deg": 1.9,
+    "osm_conflicts": {},
+    "on_pitch": false,
+    "pitch_frac": 0.0,
+    "pitch": null,
+    "corners_px": [
+     [
+      646.7000122070312,
+      599.7000122070312
+     ],
+     [
+      674.5,
+      615.7000122070312
+     ],
+     [
+      725.5,
+      527.4000244140625
+     ],
+     [
+      697.7000122070312,
+      511.3999938964844
+     ]
+    ]
+   },
+   {
+    "rank": 5,
+    "center_latlon": [
+     42.9198049,
+     143.1001796
+    ],
+    "center_local_m": [
+     14.6,
+     -21.7
+    ],
+    "axis_deg": 45.0,
+    "length_m": 51.0,
+    "width_m": 16.1,
+    "open_len_m": 89.0,
+    "overrun_ok": false,
+    "score": 0.827,
+    "surface": "short_grass",
+    "surface_fracs": {
+     "short_grass": 0.993,
+     "pavement": 0.007
+    },
+    "slope_max_deg": 1.89,
+    "osm_conflicts": {},
+    "on_pitch": false,
+    "pitch_frac": 0.0,
+    "pitch": null,
+    "corners_px": [
+     [
+      581.9000244140625,
+      668.0999755859375
+     ],
+     [
+      604.5999755859375,
+      690.7999877929688
+     ],
+     [
+      676.7000122070312,
+      618.7000122070312
+     ],
+     [
+      654.0,
+      596.0
+     ]
+    ]
+   }
+  ],
+  "strips_on_pitch": 0
+ },
+ "decision": {
+  "decider": "planner",
+  "choice": 1
+ },
+ "osm_pitches": [],
+ "imagery": "Geospatial Information Authority of Japan (GSI tiles)",
+ "seconds": 1.1,
+ "label": "BENCHMARK (aerial orthophoto + OSM + terrain) - not flight data"
+}

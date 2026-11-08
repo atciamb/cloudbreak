@@ -1,0 +1,50 @@
+{
+ "id": "natural_utah_cedar_mesa",
+ "category": "natural",
+ "name": "Cedar Mesa, UT",
+ "country": "US",
+ "expect": "pinyon-juniper plateau cut by canyons; open patches are small and rocky",
+ "focus": "",
+ "strip_m": [
+  51.0,
+  16.1
+ ],
+ "overrun_need_m": 91.0,
+ "slope_max_deg": 4.0,
+ "steep_frac": 0.4053,
+ "camera": {
+  "landable_frac": 0.0056,
+  "classes": {
+   "unknown": 0.0002,
+   "short_grass": 0.0573,
+   "pavement": 0.0,
+   "dirt": 0.0205,
+   "tree": 0.387,
+   "rough": 0.5349
+  },
+  "strips": [],
+  "strips_on_osm_hazard": 0,
+  "texture_window_px": 9
+ },
+ "fused": {
+  "landable_frac": 0.0056,
+  "classes": {
+   "unknown": 0.0002,
+   "short_grass": 0.0573,
+   "pavement": 0.0,
+   "dirt": 0.0205,
+   "tree": 0.387,
+   "rough": 0.5349
+  },
+  "strips": [],
+  "strips_on_pitch": 0
+ },
+ "decision": {
+  "decider": "planner",
+  "choice": null
+ },
+ "osm_pitches": [],
+ "imagery": "USGS / USDA, The National Map: NAIP Plus orthoimagery",
+ "seconds": 0.7,
+ "label": "BENCHMARK (aerial orthophoto + OSM + terrain) - not flight data"
+}

@@ -1,0 +1,59 @@
+{
+ "id": "suburban_almere",
+ "category": "suburban",
+ "name": "Almere Stad sports park",
+ "country": "NL",
+ "lat": 52.3905,
+ "lon": 5.258,
+ "expect": "a block of full-size soccer pitches next to housing",
+ "focus": "",
+ "extent_m": 600.0,
+ "gsd_m": 0.5,
+ "size_px": 1200,
+ "bbox_lonlat": {
+  "west": 5.253584057792302,
+  "south": 52.3878049718755,
+  "east": 5.2624159422076975,
+  "north": 52.39319486358157
+ },
+ "bbox_3857": [
+  584826.302153099,
+  6870551.608056257,
+  585809.4630289659,
+  6871534.768932123
+ ],
+ "crs_note": "north-up local square; pixel (0,0) = north-west corner",
+ "imagery": {
+  "source": "pdok",
+  "name": "PDOK Luchtfoto RGB",
+  "licence": "CC BY 4.0",
+  "attribution": "Beeldmateriaal Nederland / PDOK",
+  "url": "https://service.pdok.nl/hwh/luchtfotorgb/wmts/v1_0/Actueel_orthoHR/EPSG:3857/{z}/{x}/{y}.jpeg",
+  "zoom": 18,
+  "tiles": 49,
+  "missing_tiles": 0,
+  "native_res_m": 0.364
+ },
+ "terrain": {
+  "source": "terrarium",
+  "name": "AWS Terrain Tiles",
+  "licence": "Open data (per-source attribution)",
+  "attribution": "Terrain Tiles on AWS (Mapzen): SRTM, EU-DEM, GMTED and national DEMs, ~10-30 m",
+  "zoom": 15,
+  "tiles": 2,
+  "missing_tiles": 0,
+  "native_res_m": "2.9 m tiles (source DEM ~10-30 m)",
+  "offset_m": -7.0,
+  "scale_m": 0.01,
+  "res_m": 1.0,
+  "min_m": -6.54,
+  "max_m": -2.67
+ },
+ "osm": {
+  "elements": 1443,
+  "attribution": "OpenStreetMap contributors (ODbL)",
+  "timestamp": "2026-11-08T03:15:52Z"
+ },
+ "fetched_utc": "2026-11-08T03:16:47Z",
+ "label": "BENCHMARK IMAGERY (aerial orthophoto) - not Cloudbreak flight data"
+}

@@ -1,0 +1,59 @@
+{
+ "id": "natural_utah_island_in_the_sky",
+ "category": "natural",
+ "name": "Island in the Sky mesa, Canyonlands UT",
+ "country": "US",
+ "lat": 38.395,
+ "lon": -109.865,
+ "expect": "slickrock and scrub on a mesa top; the rim and ledges must be excluded by slope",
+ "focus": "",
+ "extent_m": 600.0,
+ "gsd_m": 0.5,
+ "size_px": 1200,
+ "bbox_lonlat": {
+  "west": -109.86843853767085,
+  "south": 38.39230500392321,
+  "east": -109.86156146232916,
+  "north": 38.3976948956272
+ },
+ "bbox_3857": [
+  -12230498.632265594,
+  4634994.552008428,
+  -12229733.079740409,
+  4635760.104533613
+ ],
+ "crs_note": "north-up local square; pixel (0,0) = north-west corner",
+ "imagery": {
+  "source": "naip",
+  "name": "USGS NAIP Plus",
+  "licence": "Public domain (US Government)",
+  "attribution": "USGS / USDA, The National Map: NAIP Plus orthoimagery",
+  "url": "https://imagery.nationalmap.gov/arcgis/rest/services/USGSNAIPPlus/ImageServer/exportImage",
+  "zoom": null,
+  "tiles": 4,
+  "missing_tiles": 0,
+  "native_res_m": 0.3
+ },
+ "terrain": {
+  "source": "3dep",
+  "name": "USGS 3DEP",
+  "licence": "Public domain (US Government)",
+  "attribution": "USGS 3D Elevation Program (bare earth, best available 1-10 m)",
+  "zoom": null,
+  "tiles": 1,
+  "missing_tiles": 0,
+  "native_res_m": "1-10 (best available 3DEP)",
+  "offset_m": 1760.0,
+  "scale_m": 0.01,
+  "res_m": 1.0,
+  "min_m": 1760.77,
+  "max_m": 1869.64
+ },
+ "osm": {
+  "elements": 2,
+  "attribution": "OpenStreetMap contributors (ODbL)",
+  "timestamp": "2026-11-08T02:49:19Z"
+ },
+ "fetched_utc": "2026-11-08T02:50:05Z",
+ "label": "BENCHMARK IMAGERY (aerial orthophoto) - not Cloudbreak flight data"
+}

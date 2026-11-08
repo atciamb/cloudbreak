@@ -1,0 +1,59 @@
+{
+ "id": "urban_sydney_cbd",
+ "category": "urban",
+ "name": "Sydney CBD and Hyde Park",
+ "country": "AU",
+ "lat": -33.872,
+ "lon": 151.21,
+ "expect": "towers plus Hyde Park lawns under trees; strips only where lawn is open",
+ "focus": "",
+ "extent_m": 600.0,
+ "gsd_m": 0.5,
+ "size_px": 1200,
+ "bbox_lonlat": {
+  "west": 151.20675419083997,
+  "south": -33.874694903307635,
+  "east": 151.21324580916004,
+  "north": -33.869305011604006
+ },
+ "bbox_3857": [
+  16832258.88102799,
+  -4011988.997476145,
+  16832981.524673805,
+  -4011266.3538303277
+ ],
+ "crs_note": "north-up local square; pixel (0,0) = north-west corner",
+ "imagery": {
+  "source": "nsw",
+  "name": "NSW Spatial Services imagery",
+  "licence": "CC BY 4.0",
+  "attribution": "Spatial Services, NSW Department of Customer Service",
+  "url": "https://maps.six.nsw.gov.au/arcgis/rest/services/public/NSW_Imagery/MapServer/tile/{z}/{y}/{x}",
+  "zoom": 18,
+  "tiles": 30,
+  "missing_tiles": 0,
+  "native_res_m": 0.496
+ },
+ "terrain": {
+  "source": "terrarium",
+  "name": "AWS Terrain Tiles",
+  "licence": "Open data (per-source attribution)",
+  "attribution": "Terrain Tiles on AWS (Mapzen): SRTM, EU-DEM, GMTED and national DEMs, ~10-30 m",
+  "zoom": 15,
+  "tiles": 2,
+  "missing_tiles": 0,
+  "native_res_m": "4.0 m tiles (source DEM ~10-30 m)",
+  "offset_m": 21.0,
+  "scale_m": 0.01,
+  "res_m": 1.0,
+  "min_m": 21.14,
+  "max_m": 117.13
+ },
+ "osm": {
+  "elements": 2460,
+  "attribution": "OpenStreetMap contributors (ODbL)",
+  "timestamp": "2026-11-08T03:13:48Z"
+ },
+ "fetched_utc": "2026-11-08T03:14:40Z",
+ "label": "BENCHMARK IMAGERY (aerial orthophoto) - not Cloudbreak flight data"
+}

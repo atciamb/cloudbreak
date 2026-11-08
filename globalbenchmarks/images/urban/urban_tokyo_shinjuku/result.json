@@ -1,0 +1,71 @@
+{
+ "id": "urban_tokyo_shinjuku",
+ "category": "urban",
+ "name": "Nishi-Shinjuku, Tokyo",
+ "country": "JP",
+ "expect": "high-rises, plazas and Shinjuku Central Park; flat roofs and plazas must not become strips",
+ "focus": "",
+ "strip_m": [
+  51.0,
+  16.1
+ ],
+ "overrun_need_m": 91.0,
+ "slope_max_deg": 4.0,
+ "steep_frac": 0.8888,
+ "camera": {
+  "landable_frac": 0.034,
+  "classes": {
+   "unknown": 0.0013,
+   "short_grass": 0.2644,
+   "pavement": 0.1279,
+   "dirt": 0.0579,
+   "tree": 0.0507,
+   "water": 0.0576,
+   "rough": 0.4401
+  },
+  "strips": [],
+  "strips_on_osm_hazard": 0,
+  "texture_window_px": 9
+ },
+ "fused": {
+  "landable_frac": 0.0173,
+  "classes": {
+   "unknown": 0.0,
+   "short_grass": 0.0662,
+   "pavement": 0.1877,
+   "dirt": 0.012,
+   "tree": 0.0867,
+   "water": 0.042,
+   "building": 0.2676,
+   "pole_wire": 0.1265,
+   "rough": 0.2114
+  },
+  "strips": [],
+  "strips_on_pitch": 0
+ },
+ "decision": {
+  "decider": "planner",
+  "choice": null
+ },
+ "osm_pitches": [
+  {
+   "id": "way/568699233",
+   "sport": "tennis"
+  },
+  {
+   "id": "way/568699234",
+   "sport": "tennis"
+  },
+  {
+   "id": "way/583881922",
+   "sport": "soccer"
+  },
+  {
+   "id": "way/583881923",
+   "sport": "basketball"
+  }
+ ],
+ "imagery": "Geospatial Information Authority of Japan (GSI tiles)",
+ "seconds": 0.5,
+ "label": "BENCHMARK (aerial orthophoto + OSM + terrain) - not flight data"
+}

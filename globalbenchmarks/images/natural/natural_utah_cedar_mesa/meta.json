@@ -1,0 +1,59 @@
+{
+ "id": "natural_utah_cedar_mesa",
+ "category": "natural",
+ "name": "Cedar Mesa, UT",
+ "country": "US",
+ "lat": 37.47,
+ "lon": -109.92,
+ "expect": "pinyon-juniper plateau cut by canyons; open patches are small and rocky",
+ "focus": "",
+ "extent_m": 600.0,
+ "gsd_m": 0.5,
+ "size_px": 1200,
+ "bbox_lonlat": {
+  "west": -109.9233955411381,
+  "south": 37.4673050055681,
+  "east": -109.91660445886191,
+  "north": 37.47269489727201
+ },
+ "bbox_3857": [
+  -12236616.417907093,
+  4504444.7939482685,
+  -12235860.43808617,
+  4505200.773769192
+ ],
+ "crs_note": "north-up local square; pixel (0,0) = north-west corner",
+ "imagery": {
+  "source": "naip",
+  "name": "USGS NAIP Plus",
+  "licence": "Public domain (US Government)",
+  "attribution": "USGS / USDA, The National Map: NAIP Plus orthoimagery",
+  "url": "https://imagery.nationalmap.gov/arcgis/rest/services/USGSNAIPPlus/ImageServer/exportImage",
+  "zoom": null,
+  "tiles": 4,
+  "missing_tiles": 0,
+  "native_res_m": 0.3
+ },
+ "terrain": {
+  "source": "3dep",
+  "name": "USGS 3DEP",
+  "licence": "Public domain (US Government)",
+  "attribution": "USGS 3D Elevation Program (bare earth, best available 1-10 m)",
+  "zoom": null,
+  "tiles": 1,
+  "missing_tiles": 0,
+  "native_res_m": "1-10 (best available 3DEP)",
+  "offset_m": 1976.0,
+  "scale_m": 0.01,
+  "res_m": 1.0,
+  "min_m": 1976.46,
+  "max_m": 2007.39
+ },
+ "osm": {
+  "elements": 0,
+  "attribution": "OpenStreetMap contributors (ODbL)",
+  "timestamp": "2026-11-08T03:37:17Z"
+ },
+ "fetched_utc": "2026-11-08T03:38:40Z",
+ "label": "BENCHMARK IMAGERY (aerial orthophoto) - not Cloudbreak flight data"
+}

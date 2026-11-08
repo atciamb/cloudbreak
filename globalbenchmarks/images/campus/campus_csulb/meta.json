@@ -1,0 +1,59 @@
+{
+ "id": "campus_csulb",
+ "category": "campus",
+ "name": "Cal State Long Beach campus",
+ "country": "US",
+ "lat": 33.7818,
+ "lon": -118.1156,
+ "expect": "Jack Rose Track, George Allen Field and the NE athletics fields should hold strips; the Walter Pyramid, parking structures and dense academic blocks should not",
+ "focus": "whole campus (OSM way 207858609)",
+ "extent_m": 1500.0,
+ "gsd_m": 0.5,
+ "size_px": 3000,
+ "bbox_lonlat": {
+  "west": -118.12370596688221,
+  "south": 33.775062370380226,
+  "east": -118.10749403311782,
+  "north": 33.78853709962485
+ },
+ "bbox_3857": [
+  -13149470.798847698,
+  3998638.2408323176,
+  -13147666.094636273,
+  4000442.9450437436
+ ],
+ "crs_note": "north-up local square; pixel (0,0) = north-west corner",
+ "imagery": {
+  "source": "naip",
+  "name": "USGS NAIP Plus",
+  "licence": "Public domain (US Government)",
+  "attribution": "USGS / USDA, The National Map: NAIP Plus orthoimagery",
+  "url": "https://imagery.nationalmap.gov/arcgis/rest/services/USGSNAIPPlus/ImageServer/exportImage",
+  "zoom": null,
+  "tiles": 25,
+  "missing_tiles": 0,
+  "native_res_m": 0.3
+ },
+ "terrain": {
+  "name": "AWS Terrain Tiles",
+  "licence": "Open data (per-source attribution)",
+  "attribution": "Terrain Tiles on AWS (Mapzen): SRTM, EU-DEM, GMTED and national DEMs, ~10-30 m",
+  "zoom": 15,
+  "tiles": 6,
+  "missing_tiles": 0,
+  "native_res_m": "4.0 m tiles (source DEM ~10-30 m)",
+  "source": "terrarium",
+  "offset_m": 0.0,
+  "scale_m": 0.01,
+  "res_m": 1.0,
+  "min_m": 0.41,
+  "max_m": 26.08
+ },
+ "osm": {
+  "elements": 3889,
+  "attribution": "OpenStreetMap contributors (ODbL)",
+  "timestamp": "2026-05-31T22:37:44Z"
+ },
+ "fetched_utc": "2026-11-08T05:03:52Z",
+ "label": "BENCHMARK IMAGERY (aerial orthophoto) - not Cloudbreak flight data"
+}

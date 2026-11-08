@@ -1,0 +1,264 @@
+{
+ "id": "suburban_montigny",
+ "category": "suburban",
+ "name": "Montigny-le-Bretonneux",
+ "country": "FR",
+ "expect": "stade with soccer pitches next to a new-town suburb",
+ "focus": "",
+ "strip_m": [
+  51.0,
+  16.1
+ ],
+ "overrun_need_m": 91.0,
+ "slope_max_deg": 4.0,
+ "steep_frac": 0.1195,
+ "camera": {
+  "landable_frac": 0.1426,
+  "classes": {
+   "unknown": 0.1288,
+   "short_grass": 0.1267,
+   "pavement": 0.1097,
+   "dirt": 0.042,
+   "tree": 0.1761,
+   "water": 0.0153,
+   "rough": 0.4013
+  },
+  "strips": [
+   {
+    "rank": 1,
+    "center_latlon": [
+     48.7753007,
+     2.0240991
+    ],
+    "center_local_m": [
+     -51.4,
+     0.1
+    ],
+    "axis_deg": 75.0,
+    "length_m": 51.0,
+    "width_m": 16.1,
+    "open_len_m": 127.0,
+    "overrun_ok": true,
+    "score": 0.923,
+    "surface": "short_grass",
+    "surface_fracs": {
+     "short_grass": 1.0
+    },
+    "slope_max_deg": 0.86,
+    "osm_conflicts": {},
+    "on_pitch": false,
+    "pitch_frac": 0.49,
+    "pitch": null,
+    "corners_px": [
+     [
+      443.70001220703125,
+      597.5
+     ],
+     [
+      452.1000061035156,
+      628.5
+     ],
+     [
+      550.5999755859375,
+      602.0999755859375
+     ],
+     [
+      542.2999877929688,
+      571.0999755859375
+     ]
+    ]
+   },
+   {
+    "rank": 2,
+    "center_latlon": [
+     48.7752129,
+     2.0247201
+    ],
+    "center_local_m": [
+     -5.9,
+     -9.7
+    ],
+    "axis_deg": 45.0,
+    "length_m": 51.0,
+    "width_m": 16.1,
+    "open_len_m": 82.0,
+    "overrun_ok": false,
+    "score": 0.887,
+    "surface": "short_grass",
+    "surface_fracs": {
+     "short_grass": 1.0
+    },
+    "slope_max_deg": 0.98,
+    "osm_conflicts": {},
+    "on_pitch": true,
+    "pitch_frac": 1.0,
+    "pitch": "way/59984818",
+    "corners_px": [
+     [
+      540.9000244140625,
+      644.0999755859375
+     ],
+     [
+      563.5999755859375,
+      666.7999877929688
+     ],
+     [
+      635.7000122070312,
+      594.7000122070312
+     ],
+     [
+      613.0,
+      572.0
+     ]
+    ]
+   }
+  ],
+  "strips_on_osm_hazard": 0,
+  "texture_window_px": 9
+ },
+ "fused": {
+  "landable_frac": 0.0897,
+  "classes": {
+   "unknown": 0.0198,
+   "short_grass": 0.0788,
+   "pavement": 0.0666,
+   "dirt": 0.0208,
+   "tree": 0.3608,
+   "water": 0.013,
+   "building": 0.1599,
+   "rough": 0.2804
+  },
+  "strips": [
+   {
+    "rank": 1,
+    "center_latlon": [
+     48.7753007,
+     2.0240991
+    ],
+    "center_local_m": [
+     -51.4,
+     0.1
+    ],
+    "axis_deg": 75.0,
+    "length_m": 51.0,
+    "width_m": 16.1,
+    "open_len_m": 127.0,
+    "overrun_ok": true,
+    "score": 0.923,
+    "surface": "short_grass",
+    "surface_fracs": {
+     "short_grass": 1.0
+    },
+    "slope_max_deg": 0.86,
+    "osm_conflicts": {},
+    "on_pitch": false,
+    "pitch_frac": 0.49,
+    "pitch": null,
+    "corners_px": [
+     [
+      443.70001220703125,
+      597.5
+     ],
+     [
+      452.1000061035156,
+      628.5
+     ],
+     [
+      550.5999755859375,
+      602.0999755859375
+     ],
+     [
+      542.2999877929688,
+      571.0999755859375
+     ]
+    ]
+   },
+   {
+    "rank": 2,
+    "center_latlon": [
+     48.7752129,
+     2.0247201
+    ],
+    "center_local_m": [
+     -5.9,
+     -9.7
+    ],
+    "axis_deg": 45.0,
+    "length_m": 51.0,
+    "width_m": 16.1,
+    "open_len_m": 82.0,
+    "overrun_ok": false,
+    "score": 0.887,
+    "surface": "short_grass",
+    "surface_fracs": {
+     "short_grass": 1.0
+    },
+    "slope_max_deg": 0.98,
+    "osm_conflicts": {},
+    "on_pitch": true,
+    "pitch_frac": 1.0,
+    "pitch": "way/59984818",
+    "corners_px": [
+     [
+      540.9000244140625,
+      644.0999755859375
+     ],
+     [
+      563.5999755859375,
+      666.7999877929688
+     ],
+     [
+      635.7000122070312,
+      594.7000122070312
+     ],
+     [
+      613.0,
+      572.0
+     ]
+    ]
+   }
+  ],
+  "strips_on_pitch": 1
+ },
+ "decision": {
+  "decider": "planner",
+  "choice": 1
+ },
+ "osm_pitches": [
+  {
+   "id": "way/59984812",
+   "sport": "soccer"
+  },
+  {
+   "id": "way/59984818",
+   "sport": "soccer"
+  },
+  {
+   "id": "way/113506128",
+   "sport": "multi"
+  },
+  {
+   "id": "way/174373133",
+   "sport": "tennis"
+  },
+  {
+   "id": "way/174373134",
+   "sport": "tennis"
+  },
+  {
+   "id": "way/174373135",
+   "sport": "tennis"
+  },
+  {
+   "id": "way/174373137",
+   "sport": "tennis"
+  },
+  {
+   "id": "way/265714221",
+   "sport": "tennis"
+  }
+ ],
+ "imagery": "IGN France, BD ORTHO",
+ "seconds": 1.0,
+ "label": "BENCHMARK (aerial orthophoto + OSM + terrain) - not flight data"
+}

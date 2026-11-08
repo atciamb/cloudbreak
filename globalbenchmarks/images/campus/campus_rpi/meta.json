@@ -1,0 +1,59 @@
+{
+ "id": "campus_rpi",
+ "category": "campus",
+ "name": "RPI campus, Troy NY",
+ "country": "US",
+ "lat": 42.7318,
+ "lon": -73.6734,
+ "expect": "'86 Field (the team's flight-test site) and the East Campus fields (Harkness, Stadium, Rugby, Renwyck) should hold strips; the hillside down to Troy and the academic core should not",
+ "focus": "'86 Field to East Campus",
+ "extent_m": 1500.0,
+ "gsd_m": 0.5,
+ "size_px": 3000,
+ "bbox_lonlat": {
+  "west": -73.68257224673783,
+  "south": 42.72506226943451,
+  "east": -73.6642277532622,
+  "north": 42.73853699869175
+ },
+ "bbox_3857": [
+  -8202306.422845446,
+  5270216.7129428,
+  -8200264.3231728785,
+  5272258.812615367
+ ],
+ "crs_note": "north-up local square; pixel (0,0) = north-west corner",
+ "imagery": {
+  "source": "naip",
+  "name": "USGS NAIP Plus",
+  "licence": "Public domain (US Government)",
+  "attribution": "USGS / USDA, The National Map: NAIP Plus orthoimagery",
+  "url": "https://imagery.nationalmap.gov/arcgis/rest/services/USGSNAIPPlus/ImageServer/exportImage",
+  "zoom": null,
+  "tiles": 25,
+  "missing_tiles": 0,
+  "native_res_m": 0.3
+ },
+ "terrain": {
+  "name": "USGS 3DEP",
+  "licence": "Public domain (US Government)",
+  "attribution": "USGS 3D Elevation Program (bare earth, best available 1-10 m)",
+  "zoom": null,
+  "tiles": 9,
+  "missing_tiles": 0,
+  "native_res_m": "1-10 (best available 3DEP)",
+  "source": "3dep",
+  "offset_m": 21.0,
+  "scale_m": 0.01,
+  "res_m": 1.0,
+  "min_m": 21.44,
+  "max_m": 141.21
+ },
+ "osm": {
+  "elements": 2682,
+  "attribution": "OpenStreetMap contributors (ODbL)",
+  "timestamp": "2026-11-08T05:02:04Z"
+ },
+ "fetched_utc": "2026-11-08T05:03:47Z",
+ "label": "BENCHMARK IMAGERY (aerial orthophoto) - not Cloudbreak flight data"
+}

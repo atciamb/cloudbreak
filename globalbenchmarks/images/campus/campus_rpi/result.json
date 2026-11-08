@@ -1,0 +1,1459 @@
+{
+ "id": "campus_rpi",
+ "category": "campus",
+ "name": "RPI campus, Troy NY",
+ "country": "US",
+ "expect": "'86 Field (the team's flight-test site) and the East Campus fields (Harkness, Stadium, Rugby, Renwyck) should hold strips; the hillside down to Troy and the academic core should not",
+ "focus": "'86 Field to East Campus",
+ "strip_m": [
+  51.0,
+  16.1
+ ],
+ "overrun_need_m": 91.0,
+ "slope_max_deg": 4.0,
+ "steep_frac": 0.4296,
+ "camera": {
+  "landable_frac": 0.1987,
+  "classes": {
+   "unknown": 0.0331,
+   "short_grass": 0.2445,
+   "pavement": 0.1762,
+   "dirt": 0.0236,
+   "tree": 0.256,
+   "water": 0.0097,
+   "rough": 0.2569
+  },
+  "strips": [
+   {
+    "rank": 1,
+    "center_latlon": [
+     42.7344006,
+     -73.6684409
+    ],
+    "center_local_m": [
+     405.5,
+     289.5
+    ],
+    "axis_deg": 90.0,
+    "length_m": 51.0,
+    "width_m": 16.1,
+    "open_len_m": 104.0,
+    "overrun_ok": true,
+    "score": 0.975,
+    "surface": "short_grass",
+    "surface_fracs": {
+     "short_grass": 1.0
+    },
+    "slope_max_deg": 0.4,
+    "osm_conflicts": {},
+    "on_pitch": true,
+    "pitch_frac": 1.0,
+    "pitch": "Lower Renwyck Field",
+    "corners_px": [
+     [
+      2260.0,
+      904.9000244140625
+     ],
+     [
+      2260.0,
+      937.0999755859375
+     ],
+     [
+      2362.0,
+      937.0999755859375
+     ],
+     [
+      2362.0,
+      904.9000244140625
+     ]
+    ]
+   },
+   {
+    "rank": 2,
+    "center_latlon": [
+     42.7328379,
+     -73.6668928
+    ],
+    "center_local_m": [
+     532.1,
+     115.5
+    ],
+    "axis_deg": 165.0,
+    "length_m": 51.0,
+    "width_m": 16.1,
+    "open_len_m": 116.0,
+    "overrun_ok": true,
+    "score": 0.968,
+    "surface": "short_grass",
+    "surface_fracs": {
+     "short_grass": 1.0
+    },
+    "slope_max_deg": 0.5,
+    "osm_conflicts": {},
+    "on_pitch": true,
+    "pitch_frac": 0.96,
+    "pitch": "Stadium Field",
+    "corners_px": [
+     [
+      2566.5,
+      1215.5
+     ],
+     [
+      2535.5,
+      1223.800048828125
+     ],
+     [
+      2561.89990234375,
+      1322.300048828125
+     ],
+     [
+      2592.89990234375,
+      1314.0
+     ]
+    ]
+   },
+   {
+    "rank": 3,
+    "center_latlon": [
+     42.7335082,
+     -73.668835
+    ],
+    "center_local_m": [
+     373.3,
+     190.2
+    ],
+    "axis_deg": 30.0,
+    "length_m": 51.0,
+    "width_m": 16.1,
+    "open_len_m": 111.0,
+    "overrun_ok": true,
+    "score": 0.971,
+    "surface": "short_grass",
+    "surface_fracs": {
+     "short_grass": 1.0
+    },
+    "slope_max_deg": 0.4,
+    "osm_conflicts": {},
+    "on_pitch": true,
+    "pitch_frac": 1.0,
+    "pitch": "Harkness Field",
+    "corners_px": [
+     [
+      2207.10009765625,
+      1155.800048828125
+     ],
+     [
+      2234.89990234375,
+      1171.9000244140625
+     ],
+     [
+      2285.89990234375,
+      1083.5
+     ],
+     [
+      2258.10009765625,
+      1067.5
+     ]
+    ]
+   },
+   {
+    "rank": 4,
+    "center_latlon": [
+     42.7277351,
+     -73.6693581
+    ],
+    "center_local_m": [
+     330.5,
+     -452.5
+    ],
+    "axis_deg": 90.0,
+    "length_m": 51.0,
+    "width_m": 16.1,
+    "open_len_m": 166.0,
+    "overrun_ok": true,
+    "score": 0.961,
+    "surface": "short_grass",
+    "surface_fracs": {
+     "short_grass": 1.0
+    },
+    "slope_max_deg": 1.03,
+    "osm_conflicts": {},
+    "on_pitch": true,
+    "pitch_frac": 1.0,
+    "pitch": "way/65945294",
+    "corners_px": [
+     [
+      2110.0,
+      2388.89990234375
+     ],
+     [
+      2110.0,
+      2421.10009765625
+     ],
+     [
+      2212.0,
+      2421.10009765625
+     ],
+     [
+      2212.0,
+      2388.89990234375
+     ]
+    ]
+   },
+   {
+    "rank": 5,
+    "center_latlon": [
+     42.727816,
+     -73.6707523
+    ],
+    "center_local_m": [
+     216.5,
+     -443.5
+    ],
+    "axis_deg": 90.0,
+    "length_m": 51.0,
+    "width_m": 16.1,
+    "open_len_m": 162.0,
+    "overrun_ok": true,
+    "score": 0.946,
+    "surface": "short_grass",
+    "surface_fracs": {
+     "short_grass": 1.0
+    },
+    "slope_max_deg": 0.9,
+    "osm_conflicts": {},
+    "on_pitch": true,
+    "pitch_frac": 0.99,
+    "pitch": "way/107210756",
+    "corners_px": [
+     [
+      1882.0,
+      2370.89990234375
+     ],
+     [
+      1882.0,
+      2403.10009765625
+     ],
+     [
+      1984.0,
+      2403.10009765625
+     ],
+     [
+      1984.0,
+      2370.89990234375
+     ]
+    ]
+   },
+   {
+    "rank": 6,
+    "center_latlon": [
+     42.7341401,
+     -73.6666676
+    ],
+    "center_local_m": [
+     550.5,
+     260.5
+    ],
+    "axis_deg": 0.0,
+    "length_m": 51.0,
+    "width_m": 16.1,
+    "open_len_m": 95.0,
+    "overrun_ok": true,
+    "score": 0.937,
+    "surface": "short_grass",
+    "surface_fracs": {
+     "short_grass": 1.0
+    },
+    "slope_max_deg": 4.98,
+    "osm_conflicts": {},
+    "on_pitch": true,
+    "pitch_frac": 1.0,
+    "pitch": "Rugby Field",
+    "corners_px": [
+     [
+      2584.89990234375,
+      1030.0
+     ],
+     [
+      2617.10009765625,
+      1030.0
+     ],
+     [
+      2617.10009765625,
+      928.0
+     ],
+     [
+      2584.89990234375,
+      928.0
+     ]
+    ]
+   },
+   {
+    "rank": 7,
+    "center_latlon": [
+     42.7313284,
+     -73.6780412
+    ],
+    "center_local_m": [
+     -379.5,
+     -52.5
+    ],
+    "axis_deg": 0.0,
+    "length_m": 51.0,
+    "width_m": 16.1,
+    "open_len_m": 107.0,
+    "overrun_ok": true,
+    "score": 0.92,
+    "surface": "short_grass",
+    "surface_fracs": {
+     "short_grass": 1.0
+    },
+    "slope_max_deg": 1.5,
+    "osm_conflicts": {},
+    "on_pitch": true,
+    "pitch_frac": 1.0,
+    "pitch": "Anderson Field",
+    "corners_px": [
+     [
+      724.9000244140625,
+      1656.0
+     ],
+     [
+      757.0999755859375,
+      1656.0
+     ],
+     [
+      757.0999755859375,
+      1554.0
+     ],
+     [
+      724.9000244140625,
+      1554.0
+     ]
+    ]
+   },
+   {
+    "rank": 8,
+    "center_latlon": [
+     42.7358926,
+     -73.6731518
+    ],
+    "center_local_m": [
+     20.3,
+     455.6
+    ],
+    "axis_deg": 135.0,
+    "length_m": 51.0,
+    "width_m": 16.1,
+    "open_len_m": 99.0,
+    "overrun_ok": true,
+    "score": 0.915,
+    "surface": "short_grass",
+    "surface_fracs": {
+     "short_grass": 1.0
+    },
+    "slope_max_deg": 1.15,
+    "osm_conflicts": {},
+    "on_pitch": true,
+    "pitch_frac": 1.0,
+    "pitch": "Robison Field",
+    "corners_px": [
+     [
+      1515.9000244140625,
+      541.4000244140625
+     ],
+     [
+      1493.199951171875,
+      564.0999755859375
+     ],
+     [
+      1565.300048828125,
+      636.2000122070312
+     ],
+     [
+      1588.0,
+      613.5
+     ]
+    ]
+   },
+   {
+    "rank": 9,
+    "center_latlon": [
+     42.7261739,
+     -73.6700386
+    ],
+    "center_local_m": [
+     274.9,
+     -626.3
+    ],
+    "axis_deg": 45.0,
+    "length_m": 51.0,
+    "width_m": 16.1,
+    "open_len_m": 83.0,
+    "overrun_ok": false,
+    "score": 0.94,
+    "surface": "short_grass",
+    "surface_fracs": {
+     "short_grass": 1.0
+    },
+    "slope_max_deg": 0.64,
+    "osm_conflicts": {},
+    "on_pitch": true,
+    "pitch_frac": 0.93,
+    "pitch": "way/107210758",
+    "corners_px": [
+     [
+      2002.300048828125,
+      2777.300048828125
+     ],
+     [
+      2025.0,
+      2800.0
+     ],
+     [
+      2097.10009765625,
+      2727.89990234375
+     ],
+     [
+      2074.39990234375,
+      2705.199951171875
+     ]
+    ]
+   },
+   {
+    "rank": 10,
+    "center_latlon": [
+     42.7302202,
+     -73.6798018
+    ],
+    "center_local_m": [
+     -523.5,
+     -175.9
+    ],
+    "axis_deg": 45.0,
+    "length_m": 51.0,
+    "width_m": 16.1,
+    "open_len_m": 56.0,
+    "overrun_ok": false,
+    "score": 0.897,
+    "surface": "short_grass",
+    "surface_fracs": {
+     "short_grass": 1.0
+    },
+    "slope_max_deg": 1.82,
+    "osm_conflicts": {},
+    "on_pitch": true,
+    "pitch_frac": 1.0,
+    "pitch": "'86 Field",
+    "corners_px": [
+     [
+      405.70001220703125,
+      1876.4000244140625
+     ],
+     [
+      428.3999938964844,
+      1899.0999755859375
+     ],
+     [
+      500.5,
+      1827.0
+     ],
+     [
+      477.79998779296875,
+      1804.300048828125
+     ]
+    ]
+   },
+   {
+    "rank": 11,
+    "center_latlon": [
+     42.7273935,
+     -73.6769221
+    ],
+    "center_local_m": [
+     -288.0,
+     -490.5
+    ],
+    "axis_deg": 135.0,
+    "length_m": 51.0,
+    "width_m": 16.1,
+    "open_len_m": 52.0,
+    "overrun_ok": false,
+    "score": 0.898,
+    "surface": "short_grass",
+    "surface_fracs": {
+     "short_grass": 1.0
+    },
+    "slope_max_deg": 1.13,
+    "osm_conflicts": {},
+    "on_pitch": true,
+    "pitch_frac": 1.0,
+    "pitch": "way/140957744",
+    "corners_px": [
+     [
+      899.2999877929688,
+      2433.60009765625
+     ],
+     [
+      876.5999755859375,
+      2456.300048828125
+     ],
+     [
+      948.7000122070312,
+      2528.5
+     ],
+     [
+      971.4000244140625,
+      2505.800048828125
+     ]
+    ]
+   },
+   {
+    "rank": 12,
+    "center_latlon": [
+     42.7285235,
+     -73.6648591
+    ],
+    "center_local_m": [
+     698.4,
+     -364.7
+    ],
+    "axis_deg": 30.0,
+    "length_m": 51.0,
+    "width_m": 16.1,
+    "open_len_m": 57.0,
+    "overrun_ok": false,
+    "score": 0.882,
+    "surface": "short_grass",
+    "surface_fracs": {
+     "short_grass": 0.999
+    },
+    "slope_max_deg": 2.08,
+    "osm_conflicts": {},
+    "on_pitch": false,
+    "pitch_frac": 0.0,
+    "pitch": null,
+    "corners_px": [
+     [
+      2857.39990234375,
+      2265.60009765625
+     ],
+     [
+      2885.199951171875,
+      2281.699951171875
+     ],
+     [
+      2936.199951171875,
+      2193.300048828125
+     ],
+     [
+      2908.39990234375,
+      2177.300048828125
+     ]
+    ]
+   },
+   {
+    "rank": 13,
+    "center_latlon": [
+     42.7368464,
+     -73.6653797
+    ],
+    "center_local_m": [
+     655.8,
+     561.8
+    ],
+    "axis_deg": 165.0,
+    "length_m": 51.0,
+    "width_m": 16.1,
+    "open_len_m": 53.0,
+    "overrun_ok": false,
+    "score": 0.858,
+    "surface": "short_grass",
+    "surface_fracs": {
+     "short_grass": 0.994,
+     "dirt": 0.006
+    },
+    "slope_max_deg": 3.98,
+    "osm_conflicts": {},
+    "on_pitch": false,
+    "pitch_frac": 0.0,
+    "pitch": null,
+    "corners_px": [
+     [
+      2813.89990234375,
+      323.1000061035156
+     ],
+     [
+      2782.89990234375,
+      331.3999938964844
+     ],
+     [
+      2809.300048828125,
+      429.8999938964844
+     ],
+     [
+      2840.300048828125,
+      421.6000061035156
+     ]
+    ]
+   },
+   {
+    "rank": 14,
+    "center_latlon": [
+     42.7284178,
+     -73.6766103
+    ],
+    "center_local_m": [
+     -262.5,
+     -376.5
+    ],
+    "axis_deg": 0.0,
+    "length_m": 51.0,
+    "width_m": 16.1,
+    "open_len_m": 51.0,
+    "overrun_ok": false,
+    "score": 0.697,
+    "surface": "pavement",
+    "surface_fracs": {
+     "short_grass": 0.086,
+     "pavement": 0.913,
+     "dirt": 0.001
+    },
+    "slope_max_deg": 1.31,
+    "osm_conflicts": {
+     "building": 1.0
+    },
+    "on_pitch": false,
+    "pitch_frac": 0.0,
+    "pitch": null,
+    "corners_px": [
+     [
+      958.9000244140625,
+      2304.0
+     ],
+     [
+      991.0999755859375,
+      2304.0
+     ],
+     [
+      991.0999755859375,
+      2202.0
+     ],
+     [
+      958.9000244140625,
+      2202.0
+     ]
+    ]
+   },
+   {
+    "rank": 15,
+    "center_latlon": [
+     42.7259452,
+     -73.6722804
+    ],
+    "center_local_m": [
+     91.5,
+     -651.8
+    ],
+    "axis_deg": 105.0,
+    "length_m": 51.0,
+    "width_m": 16.1,
+    "open_len_m": 56.0,
+    "overrun_ok": false,
+    "score": 0.64,
+    "surface": "pavement",
+    "surface_fracs": {
+     "pavement": 1.0
+    },
+    "slope_max_deg": 1.55,
+    "osm_conflicts": {},
+    "on_pitch": false,
+    "pitch_frac": 0.0,
+    "pitch": null,
+    "corners_px": [
+     [
+      1638.0,
+      2774.800048828125
+     ],
+     [
+      1629.699951171875,
+      2805.800048828125
+     ],
+     [
+      1728.199951171875,
+      2832.199951171875
+     ],
+     [
+      1736.5,
+      2801.199951171875
+     ]
+    ]
+   },
+   {
+    "rank": 16,
+    "center_latlon": [
+     42.7314588,
+     -73.669864
+    ],
+    "center_local_m": [
+     289.1,
+     -38.0
+    ],
+    "axis_deg": 105.0,
+    "length_m": 51.0,
+    "width_m": 16.1,
+    "open_len_m": 57.0,
+    "overrun_ok": false,
+    "score": 0.573,
+    "surface": "pavement",
+    "surface_fracs": {
+     "pavement": 1.0
+    },
+    "slope_max_deg": 2.38,
+    "osm_conflicts": {},
+    "on_pitch": false,
+    "pitch_frac": 0.0,
+    "pitch": null,
+    "corners_px": [
+     [
+      2033.199951171875,
+      1547.300048828125
+     ],
+     [
+      2024.9000244140625,
+      1578.300048828125
+     ],
+     [
+      2123.39990234375,
+      1604.699951171875
+     ],
+     [
+      2131.699951171875,
+      1573.699951171875
+     ]
+    ]
+   },
+   {
+    "rank": 17,
+    "center_latlon": [
+     42.7312053,
+     -73.6671584
+    ],
+    "center_local_m": [
+     510.4,
+     -66.2
+    ],
+    "axis_deg": 105.0,
+    "length_m": 51.0,
+    "width_m": 16.1,
+    "open_len_m": 52.0,
+    "overrun_ok": false,
+    "score": 0.551,
+    "surface": "pavement",
+    "surface_fracs": {
+     "pavement": 0.999,
+     "dirt": 0.001
+    },
+    "slope_max_deg": 3.85,
+    "osm_conflicts": {},
+    "on_pitch": false,
+    "pitch_frac": 0.0,
+    "pitch": null,
+    "corners_px": [
+     [
+      2475.60009765625,
+      1603.699951171875
+     ],
+     [
+      2467.300048828125,
+      1634.699951171875
+     ],
+     [
+      2565.800048828125,
+      1661.0999755859375
+     ],
+     [
+      2574.199951171875,
+      1630.0999755859375
+     ]
+    ]
+   }
+  ],
+  "strips_on_osm_hazard": 1,
+  "texture_window_px": 9
+ },
+ "fused": {
+  "landable_frac": 0.1819,
+  "classes": {
+   "unknown": 0.0266,
+   "short_grass": 0.222,
+   "pavement": 0.147,
+   "dirt": 0.0118,
+   "tree": 0.2765,
+   "water": 0.0078,
+   "building": 0.1113,
+   "pole_wire": 0.0007,
+   "rough": 0.1963
+  },
+  "strips": [
+   {
+    "rank": 1,
+    "center_latlon": [
+     42.733664,
+     -73.668979
+    ],
+    "center_local_m": [
+     361.5,
+     207.5
+    ],
+    "axis_deg": 0.0,
+    "length_m": 51.0,
+    "width_m": 16.1,
+    "open_len_m": 157.0,
+    "overrun_ok": true,
+    "score": 0.975,
+    "surface": "short_grass",
+    "surface_fracs": {
+     "short_grass": 1.0
+    },
+    "slope_max_deg": 0.62,
+    "osm_conflicts": {},
+    "on_pitch": true,
+    "pitch_frac": 1.0,
+    "pitch": "Harkness Field",
+    "corners_px": [
+     [
+      2206.89990234375,
+      1136.0
+     ],
+     [
+      2239.10009765625,
+      1136.0
+     ],
+     [
+      2239.10009765625,
+      1034.0
+     ],
+     [
+      2206.89990234375,
+      1034.0
+     ]
+    ]
+   },
+   {
+    "rank": 2,
+    "center_latlon": [
+     42.7296845,
+     -73.6697494
+    ],
+    "center_local_m": [
+     298.5,
+     -235.5
+    ],
+    "axis_deg": 0.0,
+    "length_m": 51.0,
+    "width_m": 16.1,
+    "open_len_m": 177.0,
+    "overrun_ok": true,
+    "score": 0.975,
+    "surface": "short_grass",
+    "surface_fracs": {
+     "short_grass": 1.0
+    },
+    "slope_max_deg": 0.38,
+    "osm_conflicts": {},
+    "on_pitch": true,
+    "pitch_frac": 1.0,
+    "pitch": "way/107210765",
+    "corners_px": [
+     [
+      2080.89990234375,
+      2022.0
+     ],
+     [
+      2113.10009765625,
+      2022.0
+     ],
+     [
+      2113.10009765625,
+      1920.0
+     ],
+     [
+      2080.89990234375,
+      1920.0
+     ]
+    ]
+   },
+   {
+    "rank": 3,
+    "center_latlon": [
+     42.7344113,
+     -73.6683229
+    ],
+    "center_local_m": [
+     415.1,
+     290.7
+    ],
+    "axis_deg": 120.0,
+    "length_m": 51.0,
+    "width_m": 16.1,
+    "open_len_m": 115.0,
+    "overrun_ok": true,
+    "score": 0.973,
+    "surface": "short_grass",
+    "surface_fracs": {
+     "short_grass": 1.0
+    },
+    "slope_max_deg": 0.44,
+    "osm_conflicts": {},
+    "on_pitch": true,
+    "pitch_frac": 1.0,
+    "pitch": "Lower Renwyck Field",
+    "corners_px": [
+     [
+      2294.199951171875,
+      879.2000122070312
+     ],
+     [
+      2278.10009765625,
+      907.0
+     ],
+     [
+      2366.39990234375,
+      958.0
+     ],
+     [
+      2382.5,
+      930.2000122070312
+     ]
+    ]
+   },
+   {
+    "rank": 4,
+    "center_latlon": [
+     42.7332753,
+     -73.6669385
+    ],
+    "center_local_m": [
+     528.4,
+     164.2
+    ],
+    "axis_deg": 165.0,
+    "length_m": 51.0,
+    "width_m": 16.1,
+    "open_len_m": 114.0,
+    "overrun_ok": true,
+    "score": 0.972,
+    "surface": "short_grass",
+    "surface_fracs": {
+     "short_grass": 1.0
+    },
+    "slope_max_deg": 0.46,
+    "osm_conflicts": {},
+    "on_pitch": true,
+    "pitch_frac": 1.0,
+    "pitch": "Stadium Field",
+    "corners_px": [
+     [
+      2559.0,
+      1118.0999755859375
+     ],
+     [
+      2528.0,
+      1126.4000244140625
+     ],
+     [
+      2554.39990234375,
+      1225.0
+     ],
+     [
+      2585.39990234375,
+      1216.5999755859375
+     ]
+    ]
+   },
+   {
+    "rank": 5,
+    "center_latlon": [
+     42.728319,
+     -73.6700063
+    ],
+    "center_local_m": [
+     277.5,
+     -387.5
+    ],
+    "axis_deg": 0.0,
+    "length_m": 51.0,
+    "width_m": 16.1,
+    "open_len_m": 178.0,
+    "overrun_ok": true,
+    "score": 0.965,
+    "surface": "short_grass",
+    "surface_fracs": {
+     "short_grass": 1.0
+    },
+    "slope_max_deg": 0.79,
+    "osm_conflicts": {},
+    "on_pitch": true,
+    "pitch_frac": 1.0,
+    "pitch": "way/65945292",
+    "corners_px": [
+     [
+      2038.9000244140625,
+      2326.0
+     ],
+     [
+      2071.10009765625,
+      2326.0
+     ],
+     [
+      2071.10009765625,
+      2224.0
+     ],
+     [
+      2038.9000244140625,
+      2224.0
+     ]
+    ]
+   },
+   {
+    "rank": 6,
+    "center_latlon": [
+     42.7355813,
+     -73.6733852
+    ],
+    "center_local_m": [
+     1.2,
+     420.9
+    ],
+    "axis_deg": 45.0,
+    "length_m": 51.0,
+    "width_m": 16.1,
+    "open_len_m": 126.0,
+    "overrun_ok": true,
+    "score": 0.96,
+    "surface": "short_grass",
+    "surface_fracs": {
+     "short_grass": 1.0
+    },
+    "slope_max_deg": 0.95,
+    "osm_conflicts": {},
+    "on_pitch": true,
+    "pitch_frac": 1.0,
+    "pitch": "Robison Field",
+    "corners_px": [
+     [
+      1455.0,
+      682.7999877929688
+     ],
+     [
+      1477.699951171875,
+      705.5
+     ],
+     [
+      1549.800048828125,
+      633.4000244140625
+     ],
+     [
+      1527.0999755859375,
+      610.7000122070312
+     ]
+    ]
+   },
+   {
+    "rank": 7,
+    "center_latlon": [
+     42.7260584,
+     -73.6704732
+    ],
+    "center_local_m": [
+     239.3,
+     -639.2
+    ],
+    "axis_deg": 60.0,
+    "length_m": 51.0,
+    "width_m": 16.1,
+    "open_len_m": 116.0,
+    "overrun_ok": true,
+    "score": 0.958,
+    "surface": "short_grass",
+    "surface_fracs": {
+     "short_grass": 1.0
+    },
+    "slope_max_deg": 0.86,
+    "osm_conflicts": {},
+    "on_pitch": true,
+    "pitch_frac": 1.0,
+    "pitch": "way/107210749",
+    "corners_px": [
+     [
+      1926.4000244140625,
+      2789.89990234375
+     ],
+     [
+      1942.5,
+      2817.699951171875
+     ],
+     [
+      2030.800048828125,
+      2766.699951171875
+     ],
+     [
+      2014.800048828125,
+      2738.89990234375
+     ]
+    ]
+   },
+   {
+    "rank": 8,
+    "center_latlon": [
+     42.7271903,
+     -73.66971
+    ],
+    "center_local_m": [
+     301.7,
+     -513.2
+    ],
+    "axis_deg": 45.0,
+    "length_m": 51.0,
+    "width_m": 16.1,
+    "open_len_m": 119.0,
+    "overrun_ok": true,
+    "score": 0.947,
+    "surface": "short_grass",
+    "surface_fracs": {
+     "short_grass": 1.0
+    },
+    "slope_max_deg": 1.29,
+    "osm_conflicts": {},
+    "on_pitch": true,
+    "pitch_frac": 0.97,
+    "pitch": "way/65945294",
+    "corners_px": [
+     [
+      2056.0,
+      2551.0
+     ],
+     [
+      2078.699951171875,
+      2573.699951171875
+     ],
+     [
+      2150.89990234375,
+      2501.60009765625
+     ],
+     [
+      2128.199951171875,
+      2478.89990234375
+     ]
+    ]
+   },
+   {
+    "rank": 9,
+    "center_latlon": [
+     42.7341401,
+     -73.6666676
+    ],
+    "center_local_m": [
+     550.5,
+     260.5
+    ],
+    "axis_deg": 0.0,
+    "length_m": 51.0,
+    "width_m": 16.1,
+    "open_len_m": 95.0,
+    "overrun_ok": true,
+    "score": 0.937,
+    "surface": "short_grass",
+    "surface_fracs": {
+     "short_grass": 1.0
+    },
+    "slope_max_deg": 4.98,
+    "osm_conflicts": {},
+    "on_pitch": true,
+    "pitch_frac": 1.0,
+    "pitch": "Rugby Field",
+    "corners_px": [
+     [
+      2584.89990234375,
+      1030.0
+     ],
+     [
+      2617.10009765625,
+      1030.0
+     ],
+     [
+      2617.10009765625,
+      928.0
+     ],
+     [
+      2584.89990234375,
+      928.0
+     ]
+    ]
+   },
+   {
+    "rank": 10,
+    "center_latlon": [
+     42.7318045,
+     -73.6779678
+    ],
+    "center_local_m": [
+     -373.5,
+     0.5
+    ],
+    "axis_deg": 0.0,
+    "length_m": 51.0,
+    "width_m": 16.1,
+    "open_len_m": 107.0,
+    "overrun_ok": true,
+    "score": 0.92,
+    "surface": "short_grass",
+    "surface_fracs": {
+     "short_grass": 1.0
+    },
+    "slope_max_deg": 1.28,
+    "osm_conflicts": {},
+    "on_pitch": true,
+    "pitch_frac": 0.94,
+    "pitch": "Anderson Field",
+    "corners_px": [
+     [
+      736.9000244140625,
+      1550.0
+     ],
+     [
+      769.0999755859375,
+      1550.0
+     ],
+     [
+      769.0999755859375,
+      1448.0
+     ],
+     [
+      736.9000244140625,
+      1448.0
+     ]
+    ]
+   },
+   {
+    "rank": 11,
+    "center_latlon": [
+     42.7303416,
+     -73.6799699
+    ],
+    "center_local_m": [
+     -537.2,
+     -162.3
+    ],
+    "axis_deg": 105.0,
+    "length_m": 51.0,
+    "width_m": 16.1,
+    "open_len_m": 128.0,
+    "overrun_ok": true,
+    "score": 0.908,
+    "surface": "short_grass",
+    "surface_fracs": {
+     "short_grass": 1.0
+    },
+    "slope_max_deg": 1.44,
+    "osm_conflicts": {},
+    "on_pitch": true,
+    "pitch_frac": 1.0,
+    "pitch": "'86 Field",
+    "corners_px": [
+     [
+      380.5,
+      1796.0
+     ],
+     [
+      372.20001220703125,
+      1827.0
+     ],
+     [
+      470.70001220703125,
+      1853.4000244140625
+     ],
+     [
+      479.0,
+      1822.4000244140625
+     ]
+    ]
+   },
+   {
+    "rank": 12,
+    "center_latlon": [
+     42.72746,
+     -73.6767163
+    ],
+    "center_local_m": [
+     -271.2,
+     -483.1
+    ],
+    "axis_deg": 15.0,
+    "length_m": 51.0,
+    "width_m": 16.1,
+    "open_len_m": 63.0,
+    "overrun_ok": false,
+    "score": 0.926,
+    "surface": "short_grass",
+    "surface_fracs": {
+     "short_grass": 1.0
+    },
+    "slope_max_deg": 1.13,
+    "osm_conflicts": {},
+    "on_pitch": true,
+    "pitch_frac": 1.0,
+    "pitch": "way/140957744",
+    "corners_px": [
+     [
+      928.9000244140625,
+      2511.39990234375
+     ],
+     [
+      960.0,
+      2519.699951171875
+     ],
+     [
+      986.4000244140625,
+      2421.199951171875
+     ],
+     [
+      955.2999877929688,
+      2412.800048828125
+     ]
+    ]
+   }
+  ],
+  "strips_on_pitch": 12
+ },
+ "decision": {
+  "decider": "planner",
+  "choice": 1
+ },
+ "osm_pitches": [
+  {
+   "id": "way/65945292",
+   "sport": "baseball"
+  },
+  {
+   "id": "way/65945294",
+   "sport": "baseball"
+  },
+  {
+   "id": "way/104737321",
+   "sport": null
+  },
+  {
+   "id": "way/105212625",
+   "sport": "multi"
+  },
+  {
+   "id": "way/105212626",
+   "sport": "field_hockey"
+  },
+  {
+   "id": "way/105212631",
+   "sport": "soccer;hockey"
+  },
+  {
+   "id": "way/105212639",
+   "sport": "rugby"
+  },
+  {
+   "id": "way/105212650",
+   "sport": "american_football"
+  },
+  {
+   "id": "way/105212656",
+   "sport": "baseball"
+  },
+  {
+   "id": "way/107210749",
+   "sport": "baseball"
+  },
+  {
+   "id": "way/107210756",
+   "sport": "soccer"
+  },
+  {
+   "id": "way/107210758",
+   "sport": "baseball"
+  },
+  {
+   "id": "way/107210765",
+   "sport": "american_football"
+  },
+  {
+   "id": "way/140957692",
+   "sport": "baseball"
+  },
+  {
+   "id": "way/140957744",
+   "sport": "baseball"
+  },
+  {
+   "id": "way/282843321",
+   "sport": null
+  },
+  {
+   "id": "way/674302557",
+   "sport": "beachvolleyball"
+  },
+  {
+   "id": "way/1373501965",
+   "sport": "basketball"
+  },
+  {
+   "id": "way/1479966420",
+   "sport": "tennis"
+  },
+  {
+   "id": "way/1479966421",
+   "sport": "tennis"
+  },
+  {
+   "id": "way/1479966422",
+   "sport": "tennis"
+  },
+  {
+   "id": "way/1479966423",
+   "sport": "tennis"
+  },
+  {
+   "id": "way/1479966424",
+   "sport": "tennis"
+  },
+  {
+   "id": "way/1479966596",
+   "sport": "tennis"
+  },
+  {
+   "id": "way/1479966597",
+   "sport": "tennis"
+  },
+  {
+   "id": "way/1479966598",
+   "sport": "tennis"
+  },
+  {
+   "id": "way/1479966599",
+   "sport": "tennis"
+  },
+  {
+   "id": "way/1479966600",
+   "sport": "tennis"
+  },
+  {
+   "id": "way/1479966601",
+   "sport": "tennis"
+  },
+  {
+   "id": "way/1480988359",
+   "sport": "tennis;basketball;pickleball;multi"
+  }
+ ],
+ "imagery": "USGS / USDA, The National Map: NAIP Plus orthoimagery",
+ "seconds": 16.9,
+ "label": "BENCHMARK (aerial orthophoto + OSM + terrain) - not flight data"
+}

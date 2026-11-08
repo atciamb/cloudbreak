@@ -1,0 +1,59 @@
+{
+ "id": "rural_flevoland",
+ "category": "rural",
+ "name": "Flevoland polder near Dronten",
+ "country": "NL",
+ "lat": 52.55,
+ "lon": 5.62,
+ "expect": "rectangular polder plots split by drainage ditches (water hazards)",
+ "focus": "",
+ "extent_m": 600.0,
+ "gsd_m": 0.5,
+ "size_px": 1200,
+ "bbox_lonlat": {
+  "west": 5.615568025262462,
+  "south": 52.54730497139999,
+  "east": 5.624431974737538,
+  "north": 52.55269486310611
+ },
+ "bbox_3857": [
+  625122.1730872061,
+  6899696.675968647,
+  626108.9034291889,
+  6900683.406310629
+ ],
+ "crs_note": "north-up local square; pixel (0,0) = north-west corner",
+ "imagery": {
+  "source": "pdok",
+  "name": "PDOK Luchtfoto RGB",
+  "licence": "CC BY 4.0",
+  "attribution": "Beeldmateriaal Nederland / PDOK",
+  "url": "https://service.pdok.nl/hwh/luchtfotorgb/wmts/v1_0/Actueel_orthoHR/EPSG:3857/{z}/{x}/{y}.jpeg",
+  "zoom": 18,
+  "tiles": 49,
+  "missing_tiles": 0,
+  "native_res_m": 0.363
+ },
+ "terrain": {
+  "source": "terrarium",
+  "name": "AWS Terrain Tiles",
+  "licence": "Open data (per-source attribution)",
+  "attribution": "Terrain Tiles on AWS (Mapzen): SRTM, EU-DEM, GMTED and national DEMs, ~10-30 m",
+  "zoom": 15,
+  "tiles": 2,
+  "missing_tiles": 0,
+  "native_res_m": "2.9 m tiles (source DEM ~10-30 m)",
+  "offset_m": -7.0,
+  "scale_m": 0.01,
+  "res_m": 1.0,
+  "min_m": -6.81,
+  "max_m": -4.93
+ },
+ "osm": {
+  "elements": 36,
+  "attribution": "OpenStreetMap contributors (ODbL)",
+  "timestamp": "2026-11-08T02:45:21Z"
+ },
+ "fetched_utc": "2026-11-08T02:46:17Z",
+ "label": "BENCHMARK IMAGERY (aerial orthophoto) - not Cloudbreak flight data"
+}

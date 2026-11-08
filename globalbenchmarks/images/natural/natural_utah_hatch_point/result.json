@@ -1,0 +1,230 @@
+{
+ "id": "natural_utah_hatch_point",
+ "category": "natural",
+ "name": "Hatch Point mesa, UT",
+ "country": "US",
+ "expect": "rocky juniper scrub giving way to open flat mesa top: strips belong on the flat, not in the rock",
+ "focus": "",
+ "strip_m": [
+  51.0,
+  16.1
+ ],
+ "overrun_need_m": 91.0,
+ "slope_max_deg": 4.0,
+ "steep_frac": 0.3095,
+ "camera": {
+  "landable_frac": 0.307,
+  "classes": {
+   "unknown": 0.0042,
+   "short_grass": 0.0022,
+   "pavement": 0.0057,
+   "dirt": 0.4757,
+   "tree": 0.084,
+   "water": 0.0,
+   "rough": 0.4282
+  },
+  "strips": [
+   {
+    "rank": 1,
+    "center_latlon": [
+     38.3803411,
+     -109.6381935
+    ],
+    "center_local_m": [
+     -104.2,
+     -117.9
+    ],
+    "axis_deg": 45.0,
+    "length_m": 51.0,
+    "width_m": 16.1,
+    "open_len_m": 61.0,
+    "overrun_ok": false,
+    "score": 0.348,
+    "surface": "dirt",
+    "surface_fracs": {
+     "dirt": 1.0
+    },
+    "slope_max_deg": 3.36,
+    "osm_conflicts": {},
+    "on_pitch": false,
+    "pitch_frac": 0.0,
+    "pitch": null,
+    "corners_px": [
+     [
+      344.29998779296875,
+      860.5
+     ],
+     [
+      367.0,
+      883.2000122070312
+     ],
+     [
+      439.1000061035156,
+      811.0
+     ],
+     [
+      416.3999938964844,
+      788.2999877929688
+     ]
+    ]
+   },
+   {
+    "rank": 2,
+    "center_latlon": [
+     38.3795217,
+     -109.6382989
+    ],
+    "center_local_m": [
+     -113.3,
+     -209.1
+    ],
+    "axis_deg": 135.0,
+    "length_m": 51.0,
+    "width_m": 16.1,
+    "open_len_m": 57.0,
+    "overrun_ok": false,
+    "score": 0.328,
+    "surface": "dirt",
+    "surface_fracs": {
+     "dirt": 1.0
+    },
+    "slope_max_deg": 3.81,
+    "osm_conflicts": {},
+    "on_pitch": false,
+    "pitch_frac": 0.0,
+    "pitch": null,
+    "corners_px": [
+     [
+      348.6000061035156,
+      970.7999877929688
+     ],
+     [
+      325.8999938964844,
+      993.5
+     ],
+     [
+      398.0,
+      1065.5999755859375
+     ],
+     [
+      420.70001220703125,
+      1042.9000244140625
+     ]
+    ]
+   }
+  ],
+  "strips_on_osm_hazard": 0,
+  "texture_window_px": 9
+ },
+ "fused": {
+  "landable_frac": 0.307,
+  "classes": {
+   "unknown": 0.0042,
+   "short_grass": 0.0022,
+   "pavement": 0.0162,
+   "dirt": 0.4653,
+   "tree": 0.084,
+   "water": 0.0,
+   "rough": 0.4282
+  },
+  "strips": [
+   {
+    "rank": 1,
+    "center_latlon": [
+     38.3803411,
+     -109.6381935
+    ],
+    "center_local_m": [
+     -104.2,
+     -117.9
+    ],
+    "axis_deg": 45.0,
+    "length_m": 51.0,
+    "width_m": 16.1,
+    "open_len_m": 61.0,
+    "overrun_ok": false,
+    "score": 0.348,
+    "surface": "dirt",
+    "surface_fracs": {
+     "dirt": 1.0
+    },
+    "slope_max_deg": 3.36,
+    "osm_conflicts": {},
+    "on_pitch": false,
+    "pitch_frac": 0.0,
+    "pitch": null,
+    "corners_px": [
+     [
+      344.29998779296875,
+      860.5
+     ],
+     [
+      367.0,
+      883.2000122070312
+     ],
+     [
+      439.1000061035156,
+      811.0
+     ],
+     [
+      416.3999938964844,
+      788.2999877929688
+     ]
+    ]
+   },
+   {
+    "rank": 2,
+    "center_latlon": [
+     38.3795217,
+     -109.6382989
+    ],
+    "center_local_m": [
+     -113.3,
+     -209.1
+    ],
+    "axis_deg": 135.0,
+    "length_m": 51.0,
+    "width_m": 16.1,
+    "open_len_m": 57.0,
+    "overrun_ok": false,
+    "score": 0.328,
+    "surface": "dirt",
+    "surface_fracs": {
+     "dirt": 1.0
+    },
+    "slope_max_deg": 3.81,
+    "osm_conflicts": {},
+    "on_pitch": false,
+    "pitch_frac": 0.0,
+    "pitch": null,
+    "corners_px": [
+     [
+      348.6000061035156,
+      970.7999877929688
+     ],
+     [
+      325.8999938964844,
+      993.5
+     ],
+     [
+      398.0,
+      1065.5999755859375
+     ],
+     [
+      420.70001220703125,
+      1042.9000244140625
+     ]
+    ]
+   }
+  ],
+  "strips_on_pitch": 0
+ },
+ "decision": {
+  "decider": "planner",
+  "choice": null
+ },
+ "osm_pitches": [],
+ "imagery": "USGS / USDA, The National Map: NAIP Plus orthoimagery",
+ "seconds": 0.8,
+ "label": "BENCHMARK (aerial orthophoto + OSM + terrain) - not flight data"
+}

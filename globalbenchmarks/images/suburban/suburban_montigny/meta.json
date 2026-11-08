@@ -1,0 +1,59 @@
+{
+ "id": "suburban_montigny",
+ "category": "suburban",
+ "name": "Montigny-le-Bretonneux",
+ "country": "FR",
+ "lat": 48.7753,
+ "lon": 2.0248,
+ "expect": "stade with soccer pitches next to a new-town suburb",
+ "focus": "",
+ "extent_m": 600.0,
+ "gsd_m": 0.5,
+ "size_px": 1200,
+ "bbox_lonlat": {
+  "west": 2.0207106379761406,
+  "south": 48.772604981812684,
+  "east": 2.0288893620238597,
+  "north": 48.777994873518
+ },
+ "bbox_3857": [
+  224944.47926005494,
+  6236364.928643863,
+  225854.93065638572,
+  6237275.380040194
+ ],
+ "crs_note": "north-up local square; pixel (0,0) = north-west corner",
+ "imagery": {
+  "source": "ign",
+  "name": "IGN BD ORTHO",
+  "licence": "Licence Ouverte / Etalab 2.0",
+  "attribution": "IGN France, BD ORTHO",
+  "url": "https://data.geopf.fr/wmts?SERVICE=WMTS&REQUEST=GetTile&VERSION=1.0.0&LAYER=ORTHOIMAGERY.ORTHOPHOTOS&STYLE=normal&TILEMATRIXSET=PM&TILEMATRIX={z}&TILEROW={y}&TILECOL={x}&FORMAT=image/jpeg",
+  "zoom": 18,
+  "tiles": 49,
+  "missing_tiles": 0,
+  "native_res_m": 0.394
+ },
+ "terrain": {
+  "source": "terrarium",
+  "name": "AWS Terrain Tiles",
+  "licence": "Open data (per-source attribution)",
+  "attribution": "Terrain Tiles on AWS (Mapzen): SRTM, EU-DEM, GMTED and national DEMs, ~10-30 m",
+  "zoom": 15,
+  "tiles": 4,
+  "missing_tiles": 0,
+  "native_res_m": "3.1 m tiles (source DEM ~10-30 m)",
+  "offset_m": 161.0,
+  "scale_m": 0.01,
+  "res_m": 1.0,
+  "min_m": 161.9,
+  "max_m": 179.6
+ },
+ "osm": {
+  "elements": 788,
+  "attribution": "OpenStreetMap contributors (ODbL)",
+  "timestamp": "2026-11-08T03:15:52Z"
+ },
+ "fetched_utc": "2026-11-08T03:16:53Z",
+ "label": "BENCHMARK IMAGERY (aerial orthophoto) - not Cloudbreak flight data"
+}
