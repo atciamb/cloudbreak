@@ -228,6 +228,7 @@
             <dt>Board mode</dt><dd id="modeTxt">—</dd>
             <dt>From centre</dt><dd id="offTxt">0 µs</dd>
             <dt>Horn angle</dt><dd id="angTxt">≈ 0°</dd>
+            <dt>Self-test</dt><dd id="measTxt" title="Measured on the D9 pin by the board (M command)">—</dd>
           </dl>
         </div>
       </div>
@@ -327,8 +328,9 @@
       <h2>Log</h2>
       <pre id="log"></pre>
       <form id="cmdForm" class="row" autocomplete="off">
-        <input id="cmdTxt" class="txt" placeholder="Raw command: 1500, C, R, H, S200, X, V1500, ?" aria-label="Raw command">
+        <input id="cmdTxt" class="txt" placeholder="Raw command: 1500, C, R, H, S200, X, V1500, M, ?" aria-label="Raw command">
         <button type="submit">Send</button>
+        <button type="button" id="btnSelfTest" title="Board reads D9 back and reports the real pulse width and frame (M)">Self-test</button>
       </form>
       <label class="check"><input type="checkbox" id="showSt"> Show status lines</label>
     </section>
@@ -339,7 +341,7 @@
         <ol>
           <li>Open <code>tools\servo_bench\servo_bench_d9\servo_bench_d9.ino</code> in the Arduino IDE.</li>
           <li><b>Tools › Board › Arduino UNO Q Board › Arduino UNO Q</b>, port <b>COM3</b>. Not "Arduino Uno".</li>
-          <li>Nothing to install for Servo: it's bundled in the sketch's <code>src</code> folder. If the IDE says <code>Arduino_RouterBridge.h</code> is missing, install <b>Arduino_RouterBridge</b> from Library Manager ("Install all").</li>
+          <li>No Servo library needed: the sketch drives D9's hardware timer directly. If the IDE says <code>Arduino_RouterBridge.h</code> is missing, install <b>Arduino_RouterBridge</b> from Library Manager ("Install all").</li>
           <li>Upload. The servo centres right away; the USB link comes up once the board's Linux side has booted (up to a minute after power-up).</li>
           <li><b>Close the IDE's Serial Monitor</b> (it holds COM3), then press <b>Connect UNO Q</b> here and pick the UNO Q port.</li>
           <li>No reply? Press <b>Other port…</b> and choose COM3, or type commands in the IDE Serial Monitor instead (line ending "New Line").</li>
@@ -407,6 +409,7 @@
     results: Object.fromEntries(SURFACES.map(s => [s.id, { c: false, s: false, d: '', n: '' }])),
     conn: 'off',            // off | open | linked | demo
     board: { us: null, tgt: null, mode: null, lastRx: 0, gotId: false, synced: false },
+    meas: null,
   };
 
   function load() {
@@ -479,12 +482,22 @@
         // Adopt the board's position instead of jumping it to ours.
         if (kv.mode !== 'SWEEP' && isFinite(st.board.tgt)) st.cmd = clampSoft(st.board.tgt);
         if (+kv.slew !== st.slew) send('V' + st.slew);
+        if (st.conn === 'open') setTimeout(() => send('M'), 400);   // check the real pulse once on connect
       }
       log('st', line);
     } else if (line.startsWith('ID ')) {
       st.board.gotId = true;
       log('rx', line);
       if (!/cloudbreak-servo-bench/.test(line)) log('err', 'Unexpected ID: is servo_bench_d9 uploaded?');
+    } else if (line.startsWith('MEAS ')) {
+      const kv = Object.fromEntries(line.slice(5).split(/\s+/).map(p => p.split('=')));
+      st.meas = { pin: kv.pin, pulse: parseInt(kv.pulse, 10), set: parseInt(kv.set, 10), frame: parseInt(kv.frame, 10) };
+      const m = st.meas;
+      const good = m.pin === 'ok' && Math.abs(m.pulse - m.set) <= 15 && Math.abs(m.frame - 20000) <= 300;
+      log(good || m.pin === 'no-pulses' ? 'rx' : 'err', line);
+      if (m.pin === 'ok' && good) log('note', `Self-test OK: D9 is sending ${m.pulse} µs pulses every ${(m.frame / 1000).toFixed(1)} ms. If the servo still buzzes, suspect power or a binding linkage.`);
+      else if (m.pin === 'no-pulses') log('note', st.board.mode === 'LIMP' ? 'Self-test: no pulses (servo is released).' : 'Self-test: D9 is not pulsing. Re-upload servo_bench_d9 and check the board selection.');
+      else log('err', 'Self-test: pulses are off-spec. Copy this line to whoever is debugging.');
     } else if (line.startsWith('ERR')) {
       log('err', line);
     } else {
@@ -601,6 +614,7 @@
 
   function resetBoard() {
     st.board = { us: null, tgt: null, mode: null, lastRx: 0, gotId: false, synced: false };
+    st.meas = null;
   }
 
   // ---------- demo board (mirrors the sketch) ----------
@@ -638,7 +652,10 @@
           case 'S': { const [a, p] = arg.split(','); if (+a > 0) b.amp = Math.max(10, Math.min(500, +a)); if (+p > 0) b.per = Math.max(500, Math.min(20000, +p)); pulses(CENTER); b.mode = 'SWEEP'; b.t0 = performance.now(); break; }
           case 'X': if (b.mode === 'SWEEP') { b.tgt = Math.round(b.out); b.mode = 'HOLD'; } break;
           case 'V': b.slew = Math.max(0, Math.min(20000, parseInt(arg, 10) || 0)); break;
-          case '?': emit('ID cloudbreak-servo-bench v1 pin=D9 range=1000-2000 (demo)'); break;
+          case 'M': emit(b.mode === 'LIMP'
+              ? 'MEAS pin=no-pulses pulse=-1us set=0us frame=20000us clk=160000000 psc=159 arr=19999 (demo)'
+              : `MEAS pin=ok pulse=${Math.round(b.out) + 2}us set=${Math.round(b.out)}us frame=20000us clk=160000000 psc=159 arr=19999 (demo)`); break;
+          case '?': emit('ID cloudbreak-servo-bench v2 pin=D9 pwm=hw ch=3 tick=1000000Hz range=1000-2000 (demo)'); break;
           default: emit('ERR unknown command: ' + s); return;
         }
         status();
@@ -874,6 +891,10 @@
     const shown = haveBoard ? st.board.us : cmd;
     $('angTxt').textContent = `≈ ${angOf(shown) > 0 ? '+' : ''}${angOf(shown).toFixed(0)}°`;
     $('outUs').textContent = haveBoard ? (st.board.mode === 'LIMP' ? 'no pulses' : st.board.us + ' µs') : '—';
+    const m = st.meas;
+    $('measTxt').innerHTML = !m ? '—'
+      : m.pin === 'ok' ? `<span style="color:${Math.abs(m.pulse - m.set) <= 15 && Math.abs(m.frame - 20000) <= 300 ? 'var(--ok)' : 'var(--bad)'}">${m.pulse} µs / ${(m.frame / 1000).toFixed(1)} ms</span>`
+      : `<span style="color:${m.pin === 'no-pulses' && st.board.mode === 'LIMP' ? 'var(--muted)' : 'var(--bad)'}">${m.pin}</span>`;
     $('modeTxt').innerHTML = st.board.mode ? `<span class="mode-badge ${st.board.mode}">${st.board.mode}</span>` : '—';
 
     $('horn').setAttribute('transform', `rotate(${angOf(shown).toFixed(2)} ${CX} ${CY})`);
@@ -907,7 +928,7 @@
 
     // controls usable only when something is connected
     const live = st.conn !== 'off';
-    document.querySelectorAll('[data-nudge], #presets button, #btnCenter, #btnRelease, #btnSweep, #cmdForm button').forEach(b => { b.disabled = !live; });
+    document.querySelectorAll('[data-nudge], #presets button, #btnCenter, #btnRelease, #btnSweep, #cmdForm button, #btnSelfTest').forEach(b => { b.disabled = !live; });
   }
 
   // ---------- events ----------
@@ -933,6 +954,7 @@
     render();
   });
   $('showSt').addEventListener('change', render);
+  $('btnSelfTest').addEventListener('click', () => { if (st.conn !== 'off') send('M'); });
 
   $('btnConnect').addEventListener('click', () => st.conn === 'open' ? disconnect('Disconnected. The servo keeps its last position.') : connectSerial(false));
   $('btnOther').addEventListener('click', () => connectSerial(true));
