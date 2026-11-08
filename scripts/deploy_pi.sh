@@ -4,7 +4,7 @@
 set -euo pipefail
 TARGET="${1:?usage: deploy_pi.sh user@host [--setup]}"
 KEY="${HOME}/.ssh/cloudbreak_pi"
-KNOWN_HOSTS="${CB_PI_KNOWN_HOSTS:-C:\\cb-data\\keys\\known_hosts_pi}"   # the Pi's host key lives here, not in ~/.ssh
+KNOWN_HOSTS="${CB_PI_KNOWN_HOSTS:-${CLOUDBREAK_DATA:-C:\\cb-data}\\keys\\known_hosts_pi}"   # the Pi's host key lives here, not in ~/.ssh
 SSH=(ssh -i "$KEY" -o UserKnownHostsFile="$KNOWN_HOSTS" -o StrictHostKeyChecking=accept-new "$TARGET")
 cd "$(dirname "$0")/.."
 tar --exclude='__pycache__' -czf - cloudbreak/__init__.py cloudbreak/common cloudbreak/air \

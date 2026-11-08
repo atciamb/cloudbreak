@@ -38,7 +38,7 @@ from cloudbreak.common.config import data_dir  # noqa: E402
 from cloudbreak.common.mav import GOVERNOR_SYSID, Link, MissionItem, load_key, mavlink, mission_hash  # noqa: E402
 
 ROOT = Path(__file__).resolve().parents[1]
-KNOWN_HOSTS = os.environ.get("CB_PI_KNOWN_HOSTS", r"C:\cb-data\keys\known_hosts_pi")
+KNOWN_HOSTS = os.environ.get("CB_PI_KNOWN_HOSTS", str(data_dir() / "keys" / "known_hosts_pi"))   # follows CLOUDBREAK_DATA
 SSH_KEY = str(Path.home() / ".ssh" / "cloudbreak_pi")
 FC_SYSID = 42
 WINDOW_S = 3.0
