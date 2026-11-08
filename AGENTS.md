@@ -30,6 +30,7 @@ These apply to any agent (Claude Code, Codex, Cursor, ChatGPT, etc.) that pulls,
 | Flight gates F0–F4 (the governor reads these) | [`config/flight_gates.toml`](config/flight_gates.toml) |
 | Personal updates (timestamped snapshots) + template | [`docs/updates/`](docs/updates/README.md) |
 | Notices to specific people | `docs/notices/` |
+| Servo bench tester (UNO Q on D9, no FC needed) | [`tools/servo_bench/`](tools/servo_bench/README.md) |
 
 ## 3 · Rules
 

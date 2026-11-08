@@ -166,6 +166,7 @@ python -m cloudbreak.heartbeat --device /dev/serial0 --baud 230400  # Pi UART to
 - `docs/updates/`: timestamped personal updates (P1–P4) and the update template.
 - `docs/hardware/`: wiring diagram + connection tables (`WIRING.md`, `wiring.svg`, generator `wiring_svg.py`) and FC configuration backups (`fc/`, INAV 8.0.1 pre-ArduPlane).
 - `scripts/`: Pi deploy, FC setup through the Pi (`fc_params_pi.py`) or over USB (`fc_setup_usb.py`), and the HITL bench test.
+- `tools/servo_bench/`: servo bench tester (browser page + Arduino UNO Q sketch) for centring and checking one servo at a time on D9 without the FC.
 
 Data, keys, weights and sessions live in `C:\cb-data`, never in git.
 
