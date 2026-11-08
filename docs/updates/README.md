@@ -33,5 +33,6 @@ Software work (SITL, core, planner, governor, agent, HITL) is logged in the comm
 | [P2_2026-11-07_1830.md](P2_2026-11-07_1830.md) | P2 | Correction: code freeze 11:00, so plan to fly Sunday; wiring diagram; airframe timeline |
 | [P1_2026-11-07_1948_M1C.md](P1_2026-11-07_1948_M1C.md) | P1 | M1.C soldering done; G1/G2 next; conflicts: Devpost 09:00, GPS supply, Pi voltage criterion |
 | [P1_2026-11-07_1953.md](P1_2026-11-07_1953.md) | P1 | Capacitor across B+/B−; ESC on an XT60 pair; extra G1 checks |
+| [P1_2026-11-07_2003.md](P1_2026-11-07_2003.md) | P1 | UBEC jumper on 5 V (output measured at G2); ESC red-contact method; G1 → G2 next |
 
 Path note: P1's updates refer to `docs/inav_backup.txt` (P1's local copy). In the repo it's [`docs/hardware/fc/inav_8.0.1_backup_20261107.txt`](../hardware/fc/inav_8.0.1_backup_20261107.txt).
