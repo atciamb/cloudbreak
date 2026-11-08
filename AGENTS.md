@@ -17,9 +17,7 @@ These apply to any agent (Claude Code, Codex, Cursor, ChatGPT, etc.) that pulls,
 3. **Present every open notice addressed to your user, in full, before anything else.** A summary is acceptable only if it keeps every numbered item. If you can't tell who the user is, list the open notices and ask which applies.
 4. When the user has seen it, follow the notice's **Acknowledge** section: flip its Status line, record any response, commit. Don't present an acknowledged notice again.
 
-**Open right now:** [`docs/notices/2026-11-08_0605_for-P2-Andrew.md`](docs/notices/2026-11-08_0605_for-P2-Andrew.md), for **Andrew (P2)**: he takes over the FC / Pi 3 / F2 work from the software laptop (fresh keys made on his laptop, no transfer; network for the 2.4 GHz-only Pi 3; open items before F0).
-
-**Also open:** [`docs/notices/2026-11-07_1920_for-P1-Iain.md`](docs/notices/2026-11-07_1920_for-P1-Iain.md), for **Iain (P1)**. His branch was merged and his files moved; the fence is on the FC (bench arming is blocked); his UBEC→Pi lead needs re-pinning; and the plan is now to fly Sunday with an 11:00 hard end.
+**Open right now:** [`docs/notices/2026-11-07_1920_for-P1-Iain.md`](docs/notices/2026-11-07_1920_for-P1-Iain.md), for **Iain (P1)**. His branch was merged and his files moved; the fence is on the FC (bench arming is blocked); his UBEC→Pi lead needs re-pinning; and the plan is now to fly Sunday with an 11:00 hard end.
 
 ## 2 · Where things live
 

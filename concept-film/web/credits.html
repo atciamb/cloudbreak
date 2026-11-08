@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html><head><meta charset="utf-8"><title>credits</title>
+<style>html,body{margin:0;background:#000}canvas{display:block}</style></head>
+<body><canvas id="c" width="1920" height="1080"></canvas>
+<script>
+const OW = 1920, OH = 1080, c = document.getElementById('c').getContext('2d');
+const DUR = 8.0;
+const NAMES = ['ANDREW CIAMBELLA', 'BRIAN WITANOWSKI', 'IAIN MCKILLOP', 'MAXIMILLIAN SLAVIK'];
+const sm = (a, b, x) => { const t = Math.min(1, Math.max(0, (x - a) / (b - a))); return t * t * (3 - 2 * t); };
+function draw(t) {
+  c.setTransform(1, 0, 0, 1, 0, 0); c.globalAlpha = 1; c.fillStyle = '#000'; c.fillRect(0, 0, OW, OH);
+  const out = 1 - sm(6.5, 7.5, t);
+  c.save(); c.fillStyle = '#fff'; c.textAlign = 'center'; c.textBaseline = 'middle';
+  // label
+  let a = sm(0.35, 1.35, t) * out;
+  c.font = '300 22px "Inter"'; c.letterSpacing = '9px'; c.globalAlpha = a * 0.72;
+  c.fillText('THE TEAM', OW / 2 + 4.5, OH / 2 - 168);
+  // hairline
+  const lw = 120 * sm(0.5, 1.6, t);
+  c.globalAlpha = a * 0.35; c.fillRect(OW / 2 - lw / 2, OH / 2 - 131, lw, 1);
+  // names, staggered
+  c.shadowColor = 'rgba(0,0,0,0.35)'; c.shadowBlur = 14;
+  c.font = '200 46px "Inter"'; c.letterSpacing = '14px';
+  NAMES.forEach((n, i) => {
+    const t0 = 0.9 + i * 0.38, k = sm(t0, t0 + 1.1, t);
+    c.globalAlpha = k * out;
+    c.fillText(n, OW / 2 + 7, OH / 2 - 62 + i * 70 + (1 - k) * 10);
+  });
+  c.shadowBlur = 0;
+  // footer
+  a = sm(2.6, 3.6, t) * out;
+  c.font = '300 20px "Inter"'; c.letterSpacing = '9px'; c.globalAlpha = a * 0.6;
+  c.fillText('CLOUDBREAK  ·  HACKRPI 2026', OW / 2 + 4.5, OH / 2 + 262);
+  c.restore();
+}
+window.CRED = {
+  DUR,
+  ready: document.fonts.load('200 46px "Inter"').then(() => document.fonts.load('300 22px "Inter"')).then(() => true),
+  frame(t) { draw(t); return document.getElementById('c').toDataURL('image/jpeg', 0.95).split(',')[1]; },
+};
+</script></body></html>
