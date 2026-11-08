@@ -4,6 +4,8 @@
 
 **v1.1 · 2026-11-07 18:45.** Per-person checklists: [`docs/WORKPLAN.md`](../WORKPLAN.md). This page lists every connection on the plane in one place. It's the reference for the hardware gates G1–G5 and for F0.
 
+**Manual-only build (2026-11-08, no Pi/camera, FC locked to MANUAL):** [`MANUAL_WIRING.md`](MANUAL_WIRING.md).
+
 **Sources:**
 - Pad labels: the ArduPilot [CoreWingF405WMiniV2 board README](https://github.com/ArduPilot/ardupilot/blob/Plane-4.7.2/libraries/AP_HAL_ChibiOS/hwdef/CoreWingF405WMiniV2/README.md) and its pinout images (Plane-4.7.2)
 - TELEM wiring: `docs/CHECKLIST.md`
