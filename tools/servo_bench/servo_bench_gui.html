@@ -1,0 +1,1025 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Cloudbreak · Servo bench (UNO Q · D9)</title>
+<style>
+  :root {
+    --bg: #0e1217;
+    --panel: #161c23;
+    --panel-2: #1c242d;
+    --line: #2a3542;
+    --text: #e7edf3;
+    --muted: #8d9aa8;
+    --faint: #5d6a78;
+    --accent: #f5a524;
+    --accent-ink: #1a1204;
+    --ok: #3fb950;
+    --warn: #e3b341;
+    --bad: #f85149;
+    --info: #58a6ff;
+    --sig: #f0883e;
+    --red: #f85149;
+    --gnd: #b07b4f;
+    --mono: "Cascadia Mono", "Cascadia Code", Consolas, "SFMono-Regular", Menlo, monospace;
+    --sans: "Segoe UI Variable Text", "Segoe UI", system-ui, -apple-system, Roboto, sans-serif;
+  }
+  * { box-sizing: border-box; }
+  html, body { margin: 0; background: var(--bg); color: var(--text); font: 14px/1.45 var(--sans); }
+  button, input, select { font: inherit; color: inherit; }
+  h2 { font-size: 12px; letter-spacing: .09em; text-transform: uppercase; color: var(--muted); margin: 0 0 12px; font-weight: 600; }
+  a { color: var(--info); }
+
+  header {
+    display: flex; align-items: center; gap: 18px; flex-wrap: wrap;
+    padding: 14px 22px; border-bottom: 1px solid var(--line); background: #0b0f13;
+    position: sticky; top: 0; z-index: 5;
+  }
+  .brand { font-weight: 700; font-size: 17px; letter-spacing: .01em; }
+  .brand span { color: var(--accent); font-weight: 600; }
+  .sub { color: var(--muted); font-size: 13px; }
+  .conn { margin-left: auto; display: flex; align-items: center; gap: 10px; flex-wrap: wrap; }
+  .pill {
+    display: inline-flex; align-items: center; gap: 8px; padding: 5px 12px; border-radius: 999px;
+    border: 1px solid var(--line); background: var(--panel); font-size: 13px; white-space: nowrap;
+  }
+  .pill::before { content: ""; width: 8px; height: 8px; border-radius: 50%; background: var(--faint); }
+  .pill.open::before { background: var(--warn); }
+  .pill.linked::before { background: var(--ok); box-shadow: 0 0 0 3px rgba(63,185,80,.18); }
+  .pill.demo::before { background: var(--info); }
+
+  button {
+    border: 1px solid var(--line); background: var(--panel-2); border-radius: 8px;
+    padding: 8px 14px; cursor: pointer; transition: background .12s, border-color .12s, transform .05s;
+  }
+  button:hover { border-color: #3a4757; background: #222c37; }
+  button:active { transform: translateY(1px); }
+  button:disabled { opacity: .45; cursor: not-allowed; }
+  button.primary { background: var(--accent); color: var(--accent-ink); border-color: var(--accent); font-weight: 650; }
+  button.primary:hover { background: #ffb53d; }
+  button.ghost { background: transparent; }
+  button.small { padding: 5px 10px; font-size: 13px; }
+  button.danger { border-color: rgba(248,81,73,.55); color: #ffb3ae; }
+  button.danger:hover { background: rgba(248,81,73,.12); }
+  button.go { border-color: rgba(63,185,80,.6); color: #a9f0b5; }
+  button.on { background: rgba(245,165,36,.16); border-color: var(--accent); color: #ffd58a; }
+
+  .banner {
+    margin: 14px 22px 0; padding: 11px 14px; border-radius: 10px; border: 1px solid rgba(227,179,65,.45);
+    background: rgba(227,179,65,.09); color: #f3dc9d; font-size: 13.5px;
+  }
+  .banner.err { border-color: rgba(248,81,73,.5); background: rgba(248,81,73,.09); color: #ffc9c4; }
+
+  main { display: grid; grid-template-columns: minmax(0, 1.25fr) minmax(0, 1fr); gap: 18px; padding: 18px 22px; }
+  .col { display: flex; flex-direction: column; gap: 18px; min-width: 0; }
+  .card { background: var(--panel); border: 1px solid var(--line); border-radius: 14px; padding: 16px 18px; }
+  .full { grid-column: 1 / -1; }
+
+  .seg { display: flex; flex-wrap: wrap; gap: 6px; }
+  .seg button { flex: 1 1 auto; }
+  .seg button.sel { background: rgba(245,165,36,.15); border-color: var(--accent); color: #ffd58a; font-weight: 600; }
+  .hint { color: var(--muted); font-size: 13px; margin: 10px 0 0; }
+  .hint b { color: var(--text); font-weight: 600; }
+
+  .pos-top { display: grid; grid-template-columns: 230px 1fr; gap: 18px; align-items: center; }
+  .readout .big { font: 600 54px/1 var(--mono); letter-spacing: -.02em; }
+  .readout .big small { font-size: 18px; color: var(--muted); margin-left: 6px; font-weight: 500; }
+  .readout .lbl { color: var(--muted); font-size: 12px; text-transform: uppercase; letter-spacing: .08em; margin-bottom: 6px; }
+  .kvs { display: grid; grid-template-columns: auto 1fr; gap: 4px 14px; margin-top: 14px; font-size: 13.5px; }
+  .kvs dt { color: var(--muted); }
+  .kvs dd { margin: 0; font-family: var(--mono); }
+  .mode-badge { display: inline-block; padding: 1px 8px; border-radius: 6px; font-size: 12px; font-family: var(--sans); font-weight: 650; letter-spacing: .04em; background: var(--panel-2); border: 1px solid var(--line); }
+  .mode-badge.HOLD { color: #a9f0b5; border-color: rgba(63,185,80,.5); }
+  .mode-badge.SWEEP { color: #ffd58a; border-color: rgba(245,165,36,.6); }
+  .mode-badge.LIMP { color: #ffb3ae; border-color: rgba(248,81,73,.5); }
+
+  .slider-wrap { position: relative; margin: 20px 4px 0; padding-top: 14px; }
+  .out-marker {
+    position: absolute; top: 0; width: 0; height: 0; transform: translateX(-6px);
+    border-left: 6px solid transparent; border-right: 6px solid transparent; border-top: 9px solid var(--ok);
+    transition: left .08s linear; display: none;
+  }
+  input[type=range] { -webkit-appearance: none; appearance: none; width: 100%; height: 28px; background: transparent; margin: 0; }
+  input[type=range]::-webkit-slider-runnable-track {
+    height: 8px; border-radius: 6px;
+    background: linear-gradient(90deg, #2a3542 0%, #2a3542 49.7%, var(--accent) 49.7%, var(--accent) 50.3%, #2a3542 50.3%, #2a3542 100%);
+  }
+  input[type=range]::-webkit-slider-thumb {
+    -webkit-appearance: none; width: 24px; height: 24px; border-radius: 50%; margin-top: -8px;
+    background: var(--text); border: 4px solid var(--accent); box-shadow: 0 2px 8px rgba(0,0,0,.5); cursor: grab;
+  }
+  input[type=range]:focus { outline: none; }
+  input[type=range]:focus-visible::-webkit-slider-thumb { box-shadow: 0 0 0 4px rgba(245,165,36,.3); }
+  .scale { display: flex; justify-content: space-between; font: 12px var(--mono); color: var(--muted); margin: 4px 2px 0; }
+
+  .row { display: flex; gap: 8px; flex-wrap: wrap; align-items: center; margin-top: 14px; }
+  .row.split > * { flex: 1 1 0; }
+  .num {
+    width: 96px; padding: 7px 10px; border-radius: 8px; border: 1px solid var(--line); background: var(--bg);
+    font-family: var(--mono); text-align: center;
+  }
+  .num:focus, .txt:focus, select:focus { outline: 2px solid rgba(245,165,36,.45); outline-offset: 0; }
+  .btn-center { font-size: 16px; font-weight: 700; padding: 13px 18px; }
+  label.check { display: inline-flex; gap: 8px; align-items: center; color: var(--muted); font-size: 13px; cursor: pointer; margin-top: 14px; }
+  label.check input { accent-color: var(--accent); width: 16px; height: 16px; }
+
+  .field { display: grid; grid-template-columns: 110px 1fr 64px; gap: 10px; align-items: center; margin-top: 8px; }
+  .field span:last-child { font-family: var(--mono); text-align: right; color: var(--text); }
+  .field label { color: var(--muted); font-size: 13px; }
+  .field input[type=range]::-webkit-slider-runnable-track { background: #2a3542; height: 6px; }
+  .field input[type=range]::-webkit-slider-thumb { width: 18px; height: 18px; margin-top: -6px; border-width: 3px; }
+
+  .wiring svg { width: 100%; height: auto; display: block; }
+  ul.notes { margin: 12px 0 0; padding-left: 18px; color: var(--muted); font-size: 13px; }
+  ul.notes li { margin: 5px 0; }
+  ul.notes b { color: var(--text); font-weight: 600; }
+
+  #log {
+    height: 210px; overflow: auto; margin: 0; padding: 10px 12px; border-radius: 10px; background: #0a0d11;
+    border: 1px solid var(--line); font: 12.5px/1.5 var(--mono); color: #b9c4cf; white-space: pre-wrap; word-break: break-word;
+  }
+  #log .tx { color: #ffd58a; }
+  #log .rx { color: #a9f0b5; }
+  #log .st { color: var(--faint); }
+  #log .note { color: #9cc8ff; }
+  #log .err { color: #ffb3ae; }
+  .txt { flex: 1; padding: 7px 10px; border-radius: 8px; border: 1px solid var(--line); background: var(--bg); font-family: var(--mono); min-width: 0; }
+
+  table.results { width: 100%; border-collapse: collapse; font-size: 13.5px; }
+  table.results th { text-align: left; color: var(--muted); font-weight: 600; font-size: 12px; text-transform: uppercase; letter-spacing: .06em; padding: 0 10px 8px; border-bottom: 1px solid var(--line); }
+  table.results td { padding: 9px 10px; border-bottom: 1px solid #222b35; vertical-align: middle; }
+  table.results tr.cur td { background: rgba(245,165,36,.06); }
+  table.results tr.cur td:first-child { box-shadow: inset 3px 0 0 var(--accent); }
+  table.results td.c { text-align: center; }
+  table.results input[type=checkbox] { accent-color: var(--ok); width: 17px; height: 17px; cursor: pointer; }
+  table.results select, table.results .txt { padding: 6px 8px; border-radius: 7px; border: 1px solid var(--line); background: var(--bg); width: 100%; }
+  .muted { color: var(--muted); }
+  .mono { font-family: var(--mono); }
+
+  details.setup summary { cursor: pointer; color: var(--text); font-weight: 600; }
+  details.setup ol { margin: 10px 0 0; padding-left: 20px; color: var(--muted); }
+  details.setup li { margin: 6px 0; }
+  details.setup code, .k { font-family: var(--mono); font-size: 12.5px; background: var(--panel-2); border: 1px solid var(--line); border-radius: 5px; padding: 0 5px; color: var(--text); }
+
+  footer { padding: 4px 22px 26px; color: var(--muted); font-size: 13px; display: flex; flex-wrap: wrap; gap: 6px 18px; }
+  footer .k { margin-right: 4px; }
+
+  @media (max-width: 980px) {
+    main { grid-template-columns: 1fr; }
+    .pos-top { grid-template-columns: 1fr; justify-items: center; }
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <div>
+    <div class="brand">Cloudbreak <span>Servo bench</span></div>
+    <div class="sub">Arduino UNO Q · one servo on D9 · 5V + GND from the board</div>
+  </div>
+  <div class="conn">
+    <span id="pill" class="pill">Not connected</span>
+    <button id="btnConnect" class="primary">Connect UNO Q</button>
+    <button id="btnOther" class="ghost small" title="Pick any serial port, not just Arduino ones">Other port…</button>
+    <button id="btnDemo" class="ghost small" title="Simulated board, nothing is sent anywhere">Demo</button>
+  </div>
+</header>
+
+<div id="banner" class="banner" hidden></div>
+
+<main>
+  <div class="col">
+
+    <section class="card">
+      <h2>Servo under test</h2>
+      <div class="seg" id="surfaceSeg"></div>
+      <p class="hint" id="surfaceHint"></p>
+    </section>
+
+    <section class="card">
+      <div class="pos-top">
+        <svg id="dial" viewBox="0 0 230 200" width="230" height="200" aria-label="Servo horn position">
+          <defs>
+            <linearGradient id="bodyG" x1="0" x2="0" y1="0" y2="1">
+              <stop offset="0" stop-color="#2b3644"/><stop offset="1" stop-color="#1d252f"/>
+            </linearGradient>
+          </defs>
+          <path id="rangeArc" fill="none" stroke="#3a2f17" stroke-width="10" stroke-linecap="round"/>
+          <path id="rangeArcHi" fill="none" stroke="rgba(245,165,36,.55)" stroke-width="3" stroke-linecap="round"/>
+          <g id="ticks"></g>
+          <rect x="70" y="118" width="90" height="62" rx="9" fill="url(#bodyG)" stroke="#3a4757"/>
+          <text x="115" y="160" text-anchor="middle" fill="#5d6a78" font-size="11" font-family="Segoe UI, sans-serif">servo</text>
+          <line id="ghost" x1="115" y1="125" x2="115" y2="45" stroke="#8d9aa8" stroke-width="2" stroke-dasharray="4 5" opacity=".7"/>
+          <g id="horn">
+            <path d="M107 125 L111 52 Q115 44 119 52 L123 125 Z" fill="#e7edf3"/>
+            <circle cx="115" cy="62" r="2.6" fill="#0e1217"/>
+            <circle cx="115" cy="76" r="2.6" fill="#0e1217"/>
+            <circle cx="115" cy="90" r="2.6" fill="#0e1217"/>
+          </g>
+          <circle cx="115" cy="125" r="13" fill="#f5a524"/>
+          <circle cx="115" cy="125" r="4" fill="#1a1204"/>
+        </svg>
+        <div class="readout">
+          <div class="lbl">Commanded pulse</div>
+          <div class="big"><span id="cmdUs">1500</span><small>µs</small></div>
+          <dl class="kvs">
+            <dt>Board output</dt><dd id="outUs">—</dd>
+            <dt>Board mode</dt><dd id="modeTxt">—</dd>
+            <dt>From centre</dt><dd id="offTxt">0 µs</dd>
+            <dt>Horn angle</dt><dd id="angTxt">≈ 0°</dd>
+          </dl>
+        </div>
+      </div>
+
+      <div class="slider-wrap">
+        <div class="out-marker" id="outMarker" title="What the board is actually sending"></div>
+        <input type="range" id="slider" min="1100" max="1900" step="1" value="1500" aria-label="Pulse width">
+      </div>
+      <div class="scale" id="scale"></div>
+
+      <div class="row">
+        <button data-nudge="-50">−50</button>
+        <button data-nudge="-10">−10</button>
+        <input id="numUs" class="num" type="number" min="1000" max="2000" step="1" value="1500" aria-label="Pulse in microseconds">
+        <button data-nudge="10">+10</button>
+        <button data-nudge="50">+50</button>
+        <span class="muted" style="margin-left:4px;font-size:13px">µs</span>
+      </div>
+
+      <div class="row split" id="presets"></div>
+
+      <div class="row split">
+        <button id="btnCenter" class="btn-center go">Centre 1500 <span class="k">Space</span></button>
+        <button id="btnRelease" class="btn-center danger">Release <span class="k">R</span></button>
+      </div>
+
+      <label class="check"><input type="checkbox" id="extended"> Extended range 1000–2000 µs (ArduPilot's default is 1100–1900; watch for binding)</label>
+    </section>
+
+    <section class="card">
+      <h2>Sweep and speed</h2>
+      <div class="field">
+        <label for="amp">Sweep ±</label>
+        <input type="range" id="amp" min="25" max="400" step="5" value="200">
+        <span id="ampTxt">200 µs</span>
+      </div>
+      <div class="field">
+        <label for="per">Period</label>
+        <input type="range" id="per" min="800" max="6000" step="100" value="2000">
+        <span id="perTxt">2.0 s</span>
+      </div>
+      <div class="row">
+        <button id="btnSweep" class="go" style="min-width:160px">Start sweep <span class="k">S</span></button>
+        <span class="muted" style="font-size:13px">Moving the slider or pressing Centre stops the sweep.</span>
+      </div>
+      <h2 style="margin-top:18px">Movement speed</h2>
+      <div class="seg" id="slewSeg"></div>
+      <p class="hint">Applied on the board (slew limit). Slower is gentler on linkages and on the board's 5V supply.</p>
+    </section>
+
+  </div>
+
+  <div class="col">
+
+    <section class="card wiring">
+      <h2>Wiring: one servo, powered by the UNO Q</h2>
+      <svg viewBox="0 0 480 300" role="img" aria-label="Servo signal to D9, red to 5V, brown to GND">
+        <!-- board -->
+        <rect x="150" y="20" width="310" height="200" rx="14" fill="#13324a" stroke="#285a7d"/>
+        <rect x="132" y="96" width="34" height="46" rx="6" fill="#9aa7b4" stroke="#6b7785"/>
+        <text x="149" y="158" text-anchor="middle" fill="#8d9aa8" font-size="10" font-family="Segoe UI, sans-serif">USB-C</text>
+        <text x="305" y="128" text-anchor="middle" fill="#6f9cc0" font-size="15" font-weight="700" font-family="Segoe UI, sans-serif">ARDUINO UNO Q</text>
+        <text x="305" y="146" text-anchor="middle" fill="#4f7ea3" font-size="10.5" font-family="Segoe UI, sans-serif">top view, USB on the left</text>
+        <!-- digital header (top) -->
+        <g id="digHdr" font-family="Cascadia Mono, Consolas, monospace" font-size="8.5" fill="#9fc3df" text-anchor="middle"></g>
+        <!-- power + analog header (bottom) -->
+        <g id="pwrHdr" font-family="Cascadia Mono, Consolas, monospace" font-size="8.5" fill="#9fc3df" text-anchor="middle"></g>
+        <!-- servo -->
+        <rect x="18" y="232" width="74" height="40" rx="7" fill="#1f2a35" stroke="#3a4757"/>
+        <rect x="38" y="222" width="24" height="12" rx="3" fill="#2b3644" stroke="#3a4757"/>
+        <circle cx="50" cy="222" r="6" fill="#f5a524"/>
+        <text x="55" y="257" text-anchor="middle" fill="#8d9aa8" font-size="11" font-family="Segoe UI, sans-serif">servo</text>
+        <!-- plug -->
+        <rect x="104" y="244" width="22" height="30" rx="3" fill="#0b0f13" stroke="#3a4757"/>
+        <path d="M92 252 H104" stroke="var(--gnd)" stroke-width="3"/>
+        <path d="M92 259 H104" stroke="var(--red)" stroke-width="3"/>
+        <path d="M92 266 H104" stroke="var(--sig)" stroke-width="3"/>
+        <!-- jumpers -->
+        <path id="wSig" fill="none" stroke="var(--sig)" stroke-width="3.2" stroke-linecap="round"/>
+        <path id="wRed" fill="none" stroke="var(--red)" stroke-width="3.2" stroke-linecap="round"/>
+        <path id="wGnd" fill="none" stroke="var(--gnd)" stroke-width="3.2" stroke-linecap="round"/>
+        <g font-family="Segoe UI, sans-serif" font-size="11.5" font-weight="600">
+          <text id="lSig" fill="var(--sig)">signal → D9</text>
+          <text id="lRed" fill="var(--red)">red → 5V</text>
+          <text id="lGnd" fill="var(--gnd)">brown → GND</text>
+        </g>
+      </svg>
+      <ul class="notes">
+        <li><b>One servo at a time.</b> Unplug that servo's lead from the FC first so the board's 5V can't back-feed the FC servo rail. Flight battery stays disconnected; give Iain a heads-up (power rule).</li>
+        <li>The servo plug and the UNO Q headers are both female: use <b>3 male-to-male jumpers</b>. Wire colours: signal orange/yellow/white, + red, − brown/black.</li>
+        <li>If the UNO Q resets or the servo stutters when it moves, the USB port is short of current: use a stronger USB-C port or supply, keep the surface free, don't hold it against a stop.</li>
+        <li>D9 outputs 3.3 V logic, which hobby servos accept.</li>
+      </ul>
+    </section>
+
+    <section class="card">
+      <h2>Log</h2>
+      <pre id="log"></pre>
+      <form id="cmdForm" class="row" autocomplete="off">
+        <input id="cmdTxt" class="txt" placeholder="Raw command: 1500, C, R, H, S200, X, V1500, ?" aria-label="Raw command">
+        <button type="submit">Send</button>
+      </form>
+      <label class="check"><input type="checkbox" id="showSt"> Show status lines</label>
+    </section>
+
+    <section class="card">
+      <details class="setup" id="setupBox">
+        <summary>First-time setup (Arduino IDE 2)</summary>
+        <ol>
+          <li>Open <code>tools\servo_bench\servo_bench_d9\servo_bench_d9.ino</code> in the Arduino IDE.</li>
+          <li><b>Tools › Board › Arduino UNO Q Board › Arduino UNO Q</b>, port <b>COM3</b>. Not "Arduino Uno".</li>
+          <li>Library Manager: install <b>Arduino_RouterBridge</b> (choose "Install all"), and make sure <b>Servo</b> is <b>1.3.0 or newer</b>.</li>
+          <li>Upload. The servo centres right away; the USB link comes up once the board's Linux side has booted (up to a minute after power-up).</li>
+          <li><b>Close the IDE's Serial Monitor</b> (it holds COM3), then press <b>Connect UNO Q</b> here and pick the UNO Q port.</li>
+          <li>No reply? Press <b>Other port…</b> and choose COM3, or type commands in the IDE Serial Monitor instead (line ending "New Line").</li>
+        </ol>
+      </details>
+    </section>
+
+  </div>
+
+  <section class="card full">
+    <div style="display:flex;align-items:center;gap:12px;flex-wrap:wrap;margin-bottom:12px">
+      <h2 style="margin:0">Results for P4</h2>
+      <span class="muted" style="font-size:13px">Record each surface as you test it. P4 uses "at high end" when setting <span class="mono">SERVOn_REVERSED</span>; the final check is on the FC in FBWA.</span>
+      <span style="margin-left:auto;display:flex;gap:8px">
+        <button id="btnCopy" class="small">Copy results</button>
+        <button id="btnClear" class="small ghost">Clear</button>
+      </span>
+    </div>
+    <div style="overflow-x:auto">
+      <table class="results">
+        <thead><tr>
+          <th>Surface</th><th>FC out</th><th style="text-align:center">Centred at 1500</th>
+          <th style="text-align:center">Smooth, no binding</th><th id="hiHdr">At high end (1900 µs)</th><th style="width:34%">Notes</th>
+        </tr></thead>
+        <tbody id="resBody"></tbody>
+      </table>
+    </div>
+  </section>
+</main>
+
+<footer>
+  <span><span class="k">←</span><span class="k">→</span> ±10 µs (Shift ±50)</span>
+  <span><span class="k">Space</span> centre</span>
+  <span><span class="k">1</span>–<span class="k">5</span> presets</span>
+  <span><span class="k">S</span> sweep on/off</span>
+  <span><span class="k">R</span> release · <span class="k">H</span> hold</span>
+  <span><span class="k">Esc</span> stop + centre</span>
+  <span style="margin-left:auto">Closing this page leaves the servo holding its last position.</span>
+</footer>
+
+<script>
+(() => {
+  'use strict';
+  const $ = (id) => document.getElementById(id);
+
+  // ---------- constants ----------
+  const HARD_MIN = 1000, HARD_MAX = 2000, CENTER = 1500;
+  const SOFT = { normal: [1100, 1900], extended: [1000, 2000] };
+  const DEG_PER_US = 45 / 500;   // ≈90° over 1000–2000 µs (typical; approximate)
+  const SURFACES = [
+    { id: 'lail', name: 'Left aileron',  out: 'S3', fn: 'SERVO3_FUNCTION = 4 (aileron)',  dirs: ['up', 'down'] },
+    { id: 'rail', name: 'Right aileron', out: 'S4', fn: 'SERVO4_FUNCTION = 4 (aileron)',  dirs: ['up', 'down'] },
+    { id: 'elev', name: 'Elevator',      out: 'S5', fn: 'SERVO5_FUNCTION = 19 (elevator)', dirs: ['up', 'down'] },
+    { id: 'rud',  name: 'Rudder',        out: 'S6', fn: 'SERVO6_FUNCTION = 21 (rudder)',  dirs: ['left (from behind)', 'right (from behind)'] },
+  ];
+  const SLEWS = [
+    { label: 'Instant', v: 0 }, { label: 'Fast', v: 3000 }, { label: 'Normal', v: 1500 }, { label: 'Slow', v: 400 },
+  ];
+  const STORE_KEY = 'cloudbreak.servoBench.v1';
+
+  // ---------- state ----------
+  const st = {
+    surface: 'lail', extended: false, slew: 1500, amp: 200, per: 2000,
+    cmd: CENTER,
+    results: Object.fromEntries(SURFACES.map(s => [s.id, { c: false, s: false, d: '', n: '' }])),
+    conn: 'off',            // off | open | linked | demo
+    board: { us: null, tgt: null, mode: null, lastRx: 0, gotId: false, synced: false },
+  };
+
+  function load() {
+    try {
+      const raw = localStorage.getItem(STORE_KEY);
+      if (!raw) return;
+      const s = JSON.parse(raw);
+      for (const k of ['surface', 'extended', 'slew', 'amp', 'per']) if (k in s) st[k] = s[k];
+      if (s.results) for (const id in st.results) if (s.results[id]) Object.assign(st.results[id], s.results[id]);
+    } catch (e) { /* storage unavailable: run without it */ }
+  }
+  function save() {
+    try {
+      localStorage.setItem(STORE_KEY, JSON.stringify({
+        surface: st.surface, extended: st.extended, slew: st.slew, amp: st.amp, per: st.per, results: st.results,
+      }));
+    } catch (e) { /* ignore */ }
+  }
+
+  const soft = () => st.extended ? SOFT.extended : SOFT.normal;
+  const clampSoft = (v) => Math.max(soft()[0], Math.min(soft()[1], Math.round(v)));
+  const maxAmp = () => Math.min(soft()[1] - CENTER, CENTER - soft()[0]);
+
+  // ---------- log ----------
+  const logEl = $('log');
+  let lastLogWasPos = false, lastPosLogAt = 0;
+  function log(kind, text) {
+    if (kind === 'st' && !$('showSt').checked) return;
+    const isPos = kind === 'tx' && /^P\d+$/.test(text);
+    const t = new Date().toTimeString().slice(0, 8);
+    const prefix = { tx: '> ', rx: '< ', st: '< ', note: '· ', err: '! ' }[kind] || '';
+    const nowMs = performance.now();
+    const merge = isPos && lastLogWasPos && nowMs - lastPosLogAt < 700 && logEl.lastChild;   // collapse slider drags only
+    if (isPos) lastPosLogAt = nowMs;
+    if (merge) {
+      logEl.lastChild.textContent = `${t} ${prefix}${text}\n`;
+    } else {
+      const span = document.createElement('span');
+      span.className = kind;
+      span.textContent = `${t} ${prefix}${text}\n`;
+      logEl.appendChild(span);
+      while (logEl.childNodes.length > 300) logEl.removeChild(logEl.firstChild);
+    }
+    lastLogWasPos = isPos;
+    logEl.scrollTop = logEl.scrollHeight;
+  }
+
+  function banner(text, isErr) {
+    const b = $('banner');
+    if (!text) { b.hidden = true; return; }
+    b.hidden = false;
+    b.className = 'banner' + (isErr ? ' err' : '');
+    b.innerHTML = text;
+  }
+
+  // ---------- transports ----------
+  const enc = new TextEncoder();
+  let port = null, reader = null, writer = null, readDone = null, writeChain = Promise.resolve();
+  let demo = null;
+
+  function onLine(line) {
+    line = line.trim();
+    if (!line) return;
+    st.board.lastRx = performance.now();
+    if (line.startsWith('ST ')) {
+      const kv = Object.fromEntries(line.slice(3).split(/\s+/).map(p => p.split('=')));
+      st.board.us = +kv.us; st.board.tgt = +kv.tgt; st.board.mode = kv.mode;
+      if (!st.board.synced) {
+        st.board.synced = true;
+        // Adopt the board's position instead of jumping it to ours.
+        if (kv.mode !== 'SWEEP' && isFinite(st.board.tgt)) st.cmd = clampSoft(st.board.tgt);
+        if (+kv.slew !== st.slew) send('V' + st.slew);
+      }
+      log('st', line);
+    } else if (line.startsWith('ID ')) {
+      st.board.gotId = true;
+      log('rx', line);
+      if (!/cloudbreak-servo-bench/.test(line)) log('err', 'Unexpected ID: is servo_bench_d9 uploaded?');
+    } else if (line.startsWith('ERR')) {
+      log('err', line);
+    } else {
+      log('rx', line);
+    }
+    render();
+  }
+
+  function send(line) {
+    if (st.conn === 'off') return;
+    log('tx', line);
+    if (demo) { demo.cmd(line); return; }
+    if (!writer) return;
+    writeChain = writeChain
+      .then(() => writer.write(enc.encode(line + '\n')))
+      .catch(e => log('err', 'write failed: ' + e.message));
+  }
+
+  async function connectSerial(anyPort) {
+    if (!('serial' in navigator)) {
+      banner('This browser can\'t open serial ports. Open this file in <b>Chrome</b> or <b>Edge</b> (or try <b>Demo</b>).', true);
+      return;
+    }
+    if (st.conn !== 'off') await disconnect();
+    let p;
+    try {
+      p = await navigator.serial.requestPort(anyPort ? {} : { filters: [{ usbVendorId: 0x2341 }] });
+    } catch (e) {
+      if (e.name === 'NotFoundError') {
+        log('note', anyPort ? 'No port chosen.' : 'No Arduino port chosen. Try "Other port…" and pick COM3.');
+        return;
+      }
+      log('err', e.message); return;
+    }
+    try {
+      await p.open({ baudRate: 115200 });
+    } catch (e) {
+      banner('Couldn\'t open the port: <b>' + e.message + '</b>. Close the Arduino IDE Serial Monitor (it holds COM3) and any other app using the port, then try again.', true);
+      log('err', 'open failed: ' + e.message);
+      return;
+    }
+    try { await p.setSignals({ dataTerminalReady: true, requestToSend: true }); } catch (e) { /* not all ports */ }
+    port = p;
+    writer = port.writable.getWriter();
+    st.conn = 'open';
+    resetBoard();
+    banner('');
+    const info = port.getInfo ? port.getInfo() : {};
+    log('note', `Port open${info.usbVendorId ? ` (VID ${hex(info.usbVendorId)} PID ${hex(info.usbProductId)})` : ''}. Asking the sketch to identify…`);
+    readDone = readLoop(port);
+    send('?');
+    scheduleHello();
+    render();
+  }
+
+  const hex = (n) => '0x' + (n >>> 0).toString(16).padStart(4, '0');
+
+  async function readLoop(p) {
+    const dec = new TextDecoder();
+    let buf = '';
+    while (p.readable && port === p) {
+      reader = p.readable.getReader();
+      try {
+        for (;;) {
+          const { value, done } = await reader.read();
+          if (done) break;
+          buf += dec.decode(value, { stream: true }).replace(/\r/g, '');
+          const parts = buf.split('\n');
+          buf = parts.pop();
+          if (buf.length > 4000) buf = '';
+          parts.forEach(onLine);
+        }
+      } catch (e) {
+        if (port === p) log('err', 'read error: ' + e.message);
+      } finally {
+        try { reader.releaseLock(); } catch (e) { /* ignore */ }
+        reader = null;
+      }
+      if (port !== p) break;
+    }
+  }
+
+  async function disconnect(reason) {
+    if (demo) { demo.stop(); demo = null; }
+    const p = port;
+    port = null;
+    if (p) {
+      try { if (reader) await reader.cancel(); } catch (e) { /* ignore */ }
+      try { await readDone; } catch (e) { /* ignore */ }
+      try { await writeChain; } catch (e) { /* ignore */ }
+      try { if (writer) writer.releaseLock(); } catch (e) { /* ignore */ }
+      try { await p.close(); } catch (e) { /* ignore */ }
+    }
+    writer = null; reader = null;
+    st.conn = 'off';
+    resetBoard();
+    if (reason) log('note', reason);
+    render();
+  }
+
+  if ('serial' in navigator) {
+    navigator.serial.addEventListener('disconnect', (e) => {
+      if (port && e.target === port) disconnect('USB disconnected. The servo keeps its last position while the board has power.');
+    });
+  }
+
+  let helloTimers = [];
+  function scheduleHello() {
+    helloTimers.forEach(clearTimeout);
+    helloTimers = [1500, 4000, 10000].map(ms => setTimeout(() => {
+      if (st.conn === 'open' && !st.board.lastRx) send('?');
+    }, ms));
+  }
+
+  function resetBoard() {
+    st.board = { us: null, tgt: null, mode: null, lastRx: 0, gotId: false, synced: false };
+  }
+
+  // ---------- demo board (mirrors the sketch) ----------
+  function makeDemo() {
+    const b = { mode: 'HOLD', tgt: CENTER, out: CENTER, slew: 1500, amp: 200, per: 2000, t0: 0, dirty: true, lastSt: 0, start: performance.now() };
+    const emit = (l) => setTimeout(() => onLine(l), 15);
+    const status = () => {
+      b.dirty = false; b.lastSt = performance.now();
+      emit(`ST us=${Math.round(b.out)} tgt=${b.tgt} mode=${b.mode} slew=${b.slew} amp=${b.amp} per=${b.per} up=${Math.floor((performance.now() - b.start) / 1000)}`);
+    };
+    const clamp = (v) => Math.max(HARD_MIN, Math.min(HARD_MAX, Math.round(v)));
+    let last = performance.now();
+    const timer = setInterval(() => {
+      const now = performance.now(), dt = (now - last) / 1000; last = now;
+      if (b.mode !== 'LIMP') {
+        if (b.mode === 'SWEEP') b.tgt = clamp(CENTER + b.amp * Math.sin(2 * Math.PI * (((now - b.t0) % b.per) / b.per)));
+        const prev = Math.round(b.out);
+        if (b.slew <= 0) b.out = b.tgt;
+        else { const m = b.slew * dt; b.out += Math.max(-m, Math.min(m, b.tgt - b.out)); }
+        if (Math.round(b.out) !== prev) b.dirty = true;
+      }
+      if ((b.dirty && now - b.lastSt >= 100) || now - b.lastSt >= 1000) status();
+    }, 10);
+    const pulses = (start) => { if (b.mode === 'LIMP') { b.out = start; b.mode = 'HOLD'; } };
+    return {
+      cmd(line) {
+        let s = line.trim(); if (!s) return;
+        let c = s[0].toUpperCase(), arg = s.slice(1).trim();
+        if (/\d/.test(c)) { c = 'P'; arg = s; }
+        switch (c) {
+          case 'P': { const v = parseInt(arg, 10); if (!(v > 0)) { emit('ERR P needs a number, e.g. P1500'); return; } pulses(clamp(v)); b.mode = 'HOLD'; b.tgt = clamp(v); break; }
+          case 'C': pulses(CENTER); b.mode = 'HOLD'; b.tgt = CENTER; break;
+          case 'R': b.mode = 'LIMP'; break;
+          case 'H': pulses(Math.round(b.out)); break;
+          case 'S': { const [a, p] = arg.split(','); if (+a > 0) b.amp = Math.max(10, Math.min(500, +a)); if (+p > 0) b.per = Math.max(500, Math.min(20000, +p)); pulses(CENTER); b.mode = 'SWEEP'; b.t0 = performance.now(); break; }
+          case 'X': if (b.mode === 'SWEEP') { b.tgt = Math.round(b.out); b.mode = 'HOLD'; } break;
+          case 'V': b.slew = Math.max(0, Math.min(20000, parseInt(arg, 10) || 0)); break;
+          case '?': emit('ID cloudbreak-servo-bench v1 pin=D9 range=1000-2000 (demo)'); break;
+          default: emit('ERR unknown command: ' + s); return;
+        }
+        status();
+      },
+      stop() { clearInterval(timer); },
+    };
+  }
+
+  async function startDemo() {
+    if (st.conn !== 'off') await disconnect();
+    demo = makeDemo();
+    st.conn = 'demo';
+    resetBoard();
+    banner('Demo mode: a simulated board. Nothing is sent to hardware. Press <b>Connect UNO Q</b> to use the real board.');
+    log('note', 'Demo board started.');
+    send('?');
+    render();
+  }
+
+  // ---------- commands ----------
+  let posTimer = null, lastPosAt = 0;
+  function setCmd(v, opts = {}) {
+    st.cmd = clampSoft(v);
+    render();
+    if (opts.noSend) return;
+    if (opts.now) { flushPos(); return; }
+    if (!posTimer) posTimer = setTimeout(flushPos, Math.max(0, 40 - (performance.now() - lastPosAt)));
+  }
+  function flushPos() {
+    clearTimeout(posTimer); posTimer = null;
+    lastPosAt = performance.now();
+    send('P' + st.cmd);
+  }
+  function centre() { st.cmd = CENTER; clearTimeout(posTimer); posTimer = null; send('C'); render(); }
+  function release() { send('R'); }
+  function hold() { send('H'); }
+  function toggleRelease() { st.board.mode === 'LIMP' ? hold() : release(); }
+  function sweeping() { return st.board.mode === 'SWEEP'; }
+  function startSweep() { send(`S${Math.min(st.amp, maxAmp())},${st.per}`); }
+  function stopSweep() { send('X'); }
+  function toggleSweep() { sweeping() ? stopSweep() : startSweep(); }
+
+  let sweepTimer = null;
+  function sweepParamsChanged() {
+    save(); render();
+    if (!sweeping()) return;
+    clearTimeout(sweepTimer);
+    sweepTimer = setTimeout(startSweep, 150);
+  }
+
+  // ---------- UI build ----------
+  function buildSurfaceSeg() {
+    const seg = $('surfaceSeg');
+    seg.innerHTML = '';
+    for (const s of SURFACES) {
+      const b = document.createElement('button');
+      b.textContent = s.name;
+      b.dataset.s = s.id;
+      b.addEventListener('click', () => { st.surface = s.id; save(); render(); });
+      seg.appendChild(b);
+    }
+  }
+  function buildSlewSeg() {
+    const seg = $('slewSeg');
+    seg.innerHTML = '';
+    for (const o of SLEWS) {
+      const b = document.createElement('button');
+      b.textContent = o.label + (o.v ? ` · ${o.v} µs/s` : '');
+      b.dataset.v = o.v;
+      b.addEventListener('click', () => { st.slew = o.v; save(); send('V' + o.v); render(); });
+      seg.appendChild(b);
+    }
+  }
+  function presetValues() { const [lo, hi] = soft(); return [lo, 1300, CENTER, 1700, hi]; }
+  function buildPresets() {
+    const row = $('presets');
+    row.innerHTML = '';
+    presetValues().forEach((v, i) => {
+      const b = document.createElement('button');
+      b.innerHTML = `${v}<span class="muted" style="font-size:11px;margin-left:6px">${i + 1}</span>`;
+      b.addEventListener('click', () => setCmd(v, { now: true }));
+      row.appendChild(b);
+    });
+  }
+  function buildScale() {
+    const [lo, hi] = soft();
+    $('scale').innerHTML = [lo, (lo + CENTER) / 2, CENTER, (hi + CENTER) / 2, hi].map(v => `<span>${v}</span>`).join('');
+  }
+  function buildResults() {
+    const body = $('resBody');
+    body.innerHTML = '';
+    for (const s of SURFACES) {
+      const r = st.results[s.id];
+      const tr = document.createElement('tr');
+      tr.dataset.s = s.id;
+      tr.innerHTML = `
+        <td><b>${s.name}</b></td>
+        <td class="mono muted">${s.out}</td>
+        <td class="c"><input type="checkbox" data-k="c" aria-label="${s.name} centred"></td>
+        <td class="c"><input type="checkbox" data-k="s" aria-label="${s.name} smooth"></td>
+        <td><select data-k="d" aria-label="${s.name} direction at high end">
+              <option value="">—</option>${s.dirs.map(d => `<option>${d}</option>`).join('')}<option>didn't move</option>
+            </select></td>
+        <td><input class="txt" data-k="n" placeholder="horn angle, throws, buzz…" aria-label="${s.name} notes"></td>`;
+      tr.querySelector('[data-k=c]').checked = r.c;
+      tr.querySelector('[data-k=s]').checked = r.s;
+      tr.querySelector('[data-k=d]').value = r.d;
+      tr.querySelector('[data-k=n]').value = r.n;
+      tr.addEventListener('input', (e) => {
+        const k = e.target.dataset.k; if (!k) return;
+        r[k] = e.target.type === 'checkbox' ? e.target.checked : e.target.value;
+        save();
+      });
+      tr.addEventListener('click', (e) => { if (e.target.tagName === 'TD' || e.target.tagName === 'B') { st.surface = s.id; save(); render(); } });
+      body.appendChild(tr);
+    }
+  }
+
+  // wiring diagram headers
+  function buildWiring() {
+    const dig = ['SCL', 'SDA', 'AREF', 'GND', 'D13', 'D12', 'D11', 'D10', 'D9', 'D8', null, 'D7', 'D6', 'D5', 'D4', 'D3', 'D2', 'D1', 'D0'];
+    const pwr = ['', 'IOREF', 'RST', '3V3', '5V', 'GND', 'GND', 'VIN', null, 'A0', 'A1', 'A2', 'A3', 'A4', 'A5'];
+    const pins = {};
+    // labels run vertically, like the board silkscreen; side = 'below' | 'above' the pins
+    const draw = (g, list, x0, y, side, pitch) => {
+      let x = x0;
+      for (const name of list) {
+        if (name === null) { x += pitch * 0.6; continue; }
+        const hot = name === 'D9' || name === '5V' || (name === 'GND' && g.id === 'pwrHdr' && !pins.GND);
+        const color = name === 'D9' ? 'var(--sig)' : name === '5V' ? 'var(--red)' : (hot ? 'var(--gnd)' : null);
+        const r = document.createElementNS('http://www.w3.org/2000/svg', 'rect');
+        r.setAttribute('x', x - 5.5); r.setAttribute('y', y - 5.5); r.setAttribute('width', 11); r.setAttribute('height', 11); r.setAttribute('rx', 2);
+        r.setAttribute('fill', '#0b0f13'); r.setAttribute('stroke', color || '#3d6788'); r.setAttribute('stroke-width', color ? 2.4 : 1);
+        g.appendChild(r);
+        if (name) {
+          const t = document.createElementNS('http://www.w3.org/2000/svg', 'text');
+          const ly = side === 'below' ? y + 10 : y - 10;
+          t.setAttribute('x', x + 3); t.setAttribute('y', ly);
+          t.setAttribute('transform', `rotate(-90 ${x + 3} ${ly})`);
+          t.setAttribute('text-anchor', side === 'below' ? 'end' : 'start');
+          t.textContent = name;
+          if (color) { t.setAttribute('fill', color); t.setAttribute('font-weight', '700'); t.setAttribute('font-size', '10'); }
+          g.appendChild(t);
+        }
+        if (hot && !pins[name]) pins[name] = { x, y };
+        x += pitch;
+      }
+    };
+    draw($('digHdr'), dig, 198, 36, 'below', 13.5);
+    draw($('pwrHdr'), pwr, 228, 204, 'above', 13.5);
+    const sig = pins.D9, red = pins['5V'], gnd = pins.GND;
+    // signal goes round the left edge of the board (clear of the USB-C socket) and drops onto D9
+    $('wSig').setAttribute('d', `M126 266 C 140 266, 116 254, 116 236 L 116 14 Q 116 8 122 8 L ${sig.x - 6} 8 Q ${sig.x} 8 ${sig.x} 14 L ${sig.x} 30`);
+    $('wRed').setAttribute('d', `M126 259 C 170 259, ${red.x} 262, ${red.x} 210`);
+    $('wGnd').setAttribute('d', `M126 252 C 160 252, ${gnd.x} 248, ${gnd.x} 210`);
+    const place = (id, x, y) => { $(id).setAttribute('x', x); $(id).setAttribute('y', y); };
+    place('lSig', sig.x + 9, 20);
+    place('lRed', red.x - 24, 288);
+    place('lGnd', gnd.x + 14, 252);
+  }
+
+  // dial geometry
+  const CX = 115, CY = 125, R = 92;
+  const angOf = (us) => (us - CENTER) * DEG_PER_US;
+  const polar = (deg, r) => { const a = (deg - 90) * Math.PI / 180; return [CX + r * Math.cos(a), CY + r * Math.sin(a)]; };
+  function arcPath(d0, d1, r) {
+    const [x0, y0] = polar(d0, r), [x1, y1] = polar(d1, r);
+    return `M${x0.toFixed(1)} ${y0.toFixed(1)} A ${r} ${r} 0 0 1 ${x1.toFixed(1)} ${y1.toFixed(1)}`;
+  }
+  function buildDial() {
+    const [lo, hi] = soft();
+    $('rangeArc').setAttribute('d', arcPath(angOf(HARD_MIN), angOf(HARD_MAX), R));
+    $('rangeArcHi').setAttribute('d', arcPath(angOf(lo), angOf(hi), R));
+    const g = $('ticks'); g.innerHTML = '';
+    for (const us of [lo, 1300, CENTER, 1700, hi]) {
+      const [x0, y0] = polar(angOf(us), R - 9), [x1, y1] = polar(angOf(us), R + 9), [tx, ty] = polar(angOf(us), R + 21);
+      const l = document.createElementNS('http://www.w3.org/2000/svg', 'line');
+      l.setAttribute('x1', x0); l.setAttribute('y1', y0); l.setAttribute('x2', x1); l.setAttribute('y2', y1);
+      l.setAttribute('stroke', us === CENTER ? '#f5a524' : '#5d6a78'); l.setAttribute('stroke-width', us === CENTER ? 2.5 : 1.5);
+      g.appendChild(l);
+      const t = document.createElementNS('http://www.w3.org/2000/svg', 'text');
+      t.setAttribute('x', tx); t.setAttribute('y', ty + 3); t.setAttribute('text-anchor', 'middle');
+      t.setAttribute('font-size', '9.5'); t.setAttribute('fill', '#8d9aa8'); t.setAttribute('font-family', 'Cascadia Mono, Consolas, monospace');
+      t.textContent = us;
+      g.appendChild(t);
+    }
+  }
+
+  function rebuildRangeUi() {
+    const [lo, hi] = soft();
+    const sl = $('slider');
+    sl.min = lo; sl.max = hi;
+    $('numUs').min = lo; $('numUs').max = hi;
+    $('amp').max = maxAmp();
+    if (st.amp > maxAmp()) st.amp = maxAmp();
+    buildPresets(); buildScale(); buildDial();
+  }
+
+  // ---------- render ----------
+  function render() {
+    const now = performance.now();
+    // connection pill
+    let conn = st.conn;
+    if (conn === 'open' && st.board.lastRx && now - st.board.lastRx < 3500) conn = 'linked';
+    const pill = $('pill');
+    pill.className = 'pill ' + (conn === 'off' ? '' : conn);
+    pill.textContent = {
+      off: 'Not connected',
+      open: st.board.lastRx ? 'Port open · board quiet' : 'Port open · waiting for board',
+      linked: 'Board answering',
+      demo: 'Demo board',
+    }[conn];
+    $('btnConnect').textContent = st.conn === 'open' ? 'Disconnect' : 'Connect UNO Q';
+    $('btnConnect').classList.toggle('primary', st.conn !== 'open');
+    $('btnDemo').textContent = st.conn === 'demo' ? 'Stop demo' : 'Demo';
+
+    // surface
+    const surf = SURFACES.find(s => s.id === st.surface) || SURFACES[0];
+    document.querySelectorAll('#surfaceSeg button').forEach(b => b.classList.toggle('sel', b.dataset.s === surf.id));
+    $('surfaceHint').innerHTML = `On the FC this is <b>${surf.out}</b> · <span class="mono">${surf.fn}</span>. Plug only this servo into D9 / 5V / GND.`;
+    document.querySelectorAll('#resBody tr').forEach(tr => tr.classList.toggle('cur', tr.dataset.s === surf.id));
+    $('hiHdr').innerHTML = `At high end (${soft()[1]} <span style="text-transform:none">µs</span>)`;
+
+    // position
+    const cmd = st.cmd;
+    $('cmdUs').textContent = cmd;
+    if (document.activeElement !== $('numUs')) $('numUs').value = cmd;
+    if (!dragging) $('slider').value = cmd;
+    const off = cmd - CENTER;
+    $('offTxt').textContent = (off > 0 ? '+' : '') + off + ' µs';
+
+    const haveBoard = st.board.us != null && isFinite(st.board.us);
+    const shown = haveBoard ? st.board.us : cmd;
+    $('angTxt').textContent = `≈ ${angOf(shown) > 0 ? '+' : ''}${angOf(shown).toFixed(0)}°`;
+    $('outUs').textContent = haveBoard ? (st.board.mode === 'LIMP' ? 'no pulses' : st.board.us + ' µs') : '—';
+    $('modeTxt').innerHTML = st.board.mode ? `<span class="mode-badge ${st.board.mode}">${st.board.mode}</span>` : '—';
+
+    $('horn').setAttribute('transform', `rotate(${angOf(shown).toFixed(2)} ${CX} ${CY})`);
+    $('horn').style.opacity = st.board.mode === 'LIMP' ? 0.35 : 1;
+    const ghostUs = sweeping() && st.board.tgt ? st.board.tgt : cmd;
+    const [gx, gy] = polar(angOf(ghostUs), 80);
+    $('ghost').setAttribute('x2', gx.toFixed(1)); $('ghost').setAttribute('y2', gy.toFixed(1));
+
+    const mk = $('outMarker');
+    if (haveBoard && st.board.mode !== 'LIMP') {
+      const [lo, hi] = soft();
+      const pct = Math.max(0, Math.min(1, (st.board.us - lo) / (hi - lo)));
+      const w = $('slider').clientWidth - 24;
+      mk.style.display = 'block';
+      mk.style.left = (12 + pct * w) + 'px';
+    } else mk.style.display = 'none';
+
+    const limp = st.board.mode === 'LIMP';
+    const rel = $('btnRelease');
+    rel.innerHTML = limp ? 'Hold <span class="k">H</span>' : 'Release <span class="k">R</span>';
+    rel.className = 'btn-center ' + (limp ? 'go' : 'danger');
+
+    // sweep
+    $('amp').value = st.amp; $('per').value = st.per;
+    $('ampTxt').textContent = st.amp + ' µs';
+    $('perTxt').textContent = (st.per / 1000).toFixed(1) + ' s';
+    const sw = $('btnSweep');
+    sw.innerHTML = sweeping() ? 'Stop sweep <span class="k">S</span>' : 'Start sweep <span class="k">S</span>';
+    sw.className = sweeping() ? 'on' : 'go';
+    document.querySelectorAll('#slewSeg button').forEach(b => b.classList.toggle('sel', +b.dataset.v === st.slew));
+
+    // controls usable only when something is connected
+    const live = st.conn !== 'off';
+    document.querySelectorAll('[data-nudge], #presets button, #btnCenter, #btnRelease, #btnSweep, #cmdForm button').forEach(b => { b.disabled = !live; });
+  }
+
+  // ---------- events ----------
+  let dragging = false;
+  const slider = $('slider');
+  slider.addEventListener('pointerdown', () => { dragging = true; });
+  window.addEventListener('pointerup', () => { if (dragging) { dragging = false; flushPos(); } });
+  slider.addEventListener('input', () => setCmd(+slider.value));
+
+  $('numUs').addEventListener('change', (e) => setCmd(+e.target.value, { now: true }));
+  $('numUs').addEventListener('keydown', (e) => { if (e.key === 'Enter') { e.preventDefault(); setCmd(+e.target.value, { now: true }); e.target.blur(); } });
+  document.querySelectorAll('[data-nudge]').forEach(b => b.addEventListener('click', () => setCmd(st.cmd + +b.dataset.nudge, { now: true })));
+  $('btnCenter').addEventListener('click', centre);
+  $('btnRelease').addEventListener('click', toggleRelease);
+  $('btnSweep').addEventListener('click', toggleSweep);
+  $('amp').addEventListener('input', (e) => { st.amp = +e.target.value; sweepParamsChanged(); });
+  $('per').addEventListener('input', (e) => { st.per = +e.target.value; sweepParamsChanged(); });
+  $('extended').addEventListener('change', (e) => {
+    st.extended = e.target.checked; save();
+    rebuildRangeUi();
+    const c = clampSoft(st.cmd);
+    if (c !== st.cmd) setCmd(c, { now: true });
+    render();
+  });
+  $('showSt').addEventListener('change', render);
+
+  $('btnConnect').addEventListener('click', () => st.conn === 'open' ? disconnect('Disconnected. The servo keeps its last position.') : connectSerial(false));
+  $('btnOther').addEventListener('click', () => connectSerial(true));
+  $('btnDemo').addEventListener('click', () => st.conn === 'demo' ? disconnect('Demo stopped.') : startDemo());
+
+  $('cmdForm').addEventListener('submit', (e) => {
+    e.preventDefault();
+    const v = $('cmdTxt').value.trim();
+    if (!v) return;
+    if (st.conn === 'off') { log('note', 'Connect first.'); return; }
+    const m = v.match(/^P?(\d+)$/i);
+    if (m) st.cmd = clampSoft(+m[1]);
+    send(v);
+    $('cmdTxt').value = '';
+    render();
+  });
+
+  $('btnCopy').addEventListener('click', async () => {
+    const [lo, hi] = soft();
+    const yn = (b) => b ? 'yes' : '—';
+    const rows = SURFACES.map(s => {
+      const r = st.results[s.id];
+      return `| ${s.name} | ${s.out} | ${yn(r.c)} | ${yn(r.s)} | ${r.d || '—'} | ${(r.n || '').replace(/\|/g, '/')} |`;
+    });
+    const stamp = new Date().toLocaleString([], { dateStyle: 'medium', timeStyle: 'short' });
+    const text = [
+      `### Servo bench, UNO Q on D9 (${stamp})`,
+      `Range ${lo}–${hi} µs, centre 1500 µs. "At ${hi}" = which way the trailing edge moves at the high end (rudder viewed from behind).`,
+      `Use for SERVOn_REVERSED; confirm on the FC in FBWA.`,
+      '',
+      `| Surface | FC out | Centred at 1500 | Smooth, no binding | At ${hi} | Notes |`,
+      '|---|---|---|---|---|---|',
+      ...rows,
+    ].join('\n');
+    try {
+      await navigator.clipboard.writeText(text);
+    } catch (e) {
+      const ta = document.createElement('textarea');
+      ta.value = text; document.body.appendChild(ta); ta.select();
+      try { document.execCommand('copy'); } catch (e2) { /* ignore */ }
+      ta.remove();
+    }
+    const b = $('btnCopy'); b.textContent = 'Copied'; setTimeout(() => { b.textContent = 'Copy results'; }, 1400);
+  });
+  $('btnClear').addEventListener('click', () => {
+    if (!confirm('Clear all recorded results?')) return;
+    for (const id in st.results) st.results[id] = { c: false, s: false, d: '', n: '' };
+    save(); buildResults(); render();
+  });
+
+  // buttons shouldn't keep focus (keeps Space/arrows for the shortcuts)
+  document.addEventListener('click', (e) => { const b = e.target.closest('button'); if (b) b.blur(); });
+
+  document.addEventListener('keydown', (e) => {
+    const t = e.target;
+    const typing = t.tagName === 'TEXTAREA' || t.tagName === 'SELECT' || (t.tagName === 'INPUT' && !['range', 'checkbox'].includes(t.type));
+    if (typing || e.ctrlKey || e.metaKey || e.altKey) return;
+    if (st.conn === 'off') return;
+    const step = e.shiftKey ? 50 : 10;
+    switch (e.key) {
+      case 'ArrowRight': case 'ArrowUp': e.preventDefault(); setCmd(st.cmd + step, { now: true }); break;
+      case 'ArrowLeft': case 'ArrowDown': e.preventDefault(); setCmd(st.cmd - step, { now: true }); break;
+      case ' ': case 'c': case 'C': e.preventDefault(); centre(); break;
+      case 'Escape': e.preventDefault(); centre(); break;
+      case 'r': case 'R': e.preventDefault(); release(); break;
+      case 'h': case 'H': e.preventDefault(); hold(); break;
+      case 's': case 'S': e.preventDefault(); toggleSweep(); break;
+      case '1': case '2': case '3': case '4': case '5':
+        e.preventDefault(); setCmd(presetValues()[+e.key - 1], { now: true }); break;
+    }
+  });
+
+  window.addEventListener('resize', render);
+  setInterval(render, 500);   // keeps the link pill honest
+
+  // ---------- init ----------
+  load();
+  $('extended').checked = st.extended;
+  buildSurfaceSeg(); buildSlewSeg(); buildResults(); buildWiring(); rebuildRangeUi();
+  if (!('serial' in navigator)) {
+    banner('This browser can\'t open serial ports. Open this file in <b>Chrome</b> or <b>Edge</b>. <b>Demo</b> still works here.', true);
+  } else if (!window.isSecureContext) {
+    banner('Serial access needs a local file or https page. Open this file directly from disk.', true);
+  }
+  log('note', 'Ready. Upload servo_bench_d9 to the UNO Q, close the IDE Serial Monitor, then press Connect UNO Q.');
+  render();
+})();
+</script>
+</body>
+</html>
