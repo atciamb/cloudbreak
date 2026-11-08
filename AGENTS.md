@@ -9,7 +9,7 @@ These apply to any agent (Claude Code, Codex, Cursor, ChatGPT, etc.) that pulls,
 
    | ID | Who | Role | Git identity |
    |---|---|---|---|
-   | P1 | Iain | Power & integration (power marshal) | `imackill` · `iain.a.mackillop@gmail.com` |
+   | P1 | **Andrew** (deputy power marshal since Sun 2026-11-08 ≈13:58; Iain retired) | Power & integration (power marshal) | `atciamb` · `180782749+atciamb@users.noreply.github.com` |
    | P2 | Andrew | Airframe | `atciamb` · `180782749+atciamb@users.noreply.github.com` |
    | P3 | — | Pi & camera | — |
    | P4 | — | FC & radio | — |
@@ -17,7 +17,9 @@ These apply to any agent (Claude Code, Codex, Cursor, ChatGPT, etc.) that pulls,
 3. **Present every open notice addressed to your user, in full, before anything else.** A summary is acceptable only if it keeps every numbered item. If you can't tell who the user is, list the open notices and ask which applies.
 4. When the user has seen it, follow the notice's **Acknowledge** section: flip its Status line, record any response, commit. Don't present an acknowledged notice again.
 
-**Open right now:** [`docs/notices/2026-11-07_1920_for-P1-Iain.md`](docs/notices/2026-11-07_1920_for-P1-Iain.md), for **Iain (P1)**. His branch was merged and his files moved; the fence is on the FC (bench arming is blocked); his UBEC→Pi lead needs re-pinning; and the plan is now to fly Sunday with an 11:00 hard end.
+**Open right now:** none. Iain's notice ([`docs/notices/2026-11-07_1920_for-P1-Iain.md`](docs/notices/2026-11-07_1920_for-P1-Iain.md)) was closed unacknowledged when he retired on Sunday. Andrew, the new P1, wrote it.
+
+**P1 handover (Sun 2026-11-08 ≈13:58, reported by Maximilian Slavik):** Iain has retired. **Andrew Ciambella is the deputy power marshal and holds P1 for the rest of the event.** Every rule below that says "P1" (power events, approvals) now means Andrew. He also stays P2 (airframe).
 
 ## 2 · Where things live
 

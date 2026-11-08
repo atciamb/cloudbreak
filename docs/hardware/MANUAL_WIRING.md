@@ -7,8 +7,9 @@
 **What this build is.** The plane is flown with the sticks only. No Pi, no camera, no governor and no missions. The XR1 Nano has only a serial (CRSF) output and can't drive servos by itself, so the FC stays in. Its job now is to turn the receiver's channels into servo and ESC signals, and it is locked to **MANUAL**: the sticks pass straight through to the surfaces and the motor. Almost nothing is rewired. Three things come out, and one group of settings changes. Everything else is the as-built wiring in [`WIRING.md`](WIRING.md) §1–5.
 
 > ⚠️ **Settle these before anyone starts**
-> - `AGENTS.md` and `STATUS.md` make **Sunday 11:00 the hard end for flying**, so a 16:00 flight is outside the plan. The team and P1 need to agree to it first. It isn't a Cloudbreak flight gate, so don't record it in `config/flight_gates.toml`.
-> - **P1 runs every power event.** Only the power owner plugs the pack in or out. The prop stays off for all bench work.
+> - `AGENTS.md` and `STATUS.md` make **Sunday 11:00 the hard end for flying**, so a 16:00 flight is outside the plan. The team and P1 (**Andrew**, deputy power marshal since Iain retired) need to agree to it first. It isn't a Cloudbreak flight gate, so don't record it in `config/flight_gates.toml`.
+> - **P1 (Andrew) runs every power event.** Only the power owner plugs the pack in or out. The prop stays off for all bench work.
+> - **Andrew now holds P1, the key laptop and the airframe.** If he is also the power owner at the field, the **pilot and the safety observer must be two other people**.
 > - **The safety layer isn't weakened.** The fence, pre-arm checks, signing, failsafes and the flight log all stay as audited. The only change is which mode the switch selects.
 
 **Bring:**
@@ -87,7 +88,7 @@ Those failsafes and a fence breach are the only times the FC flies the plane by 
 - **Add a timer:** a 5-minute countdown that starts with the throttle, for the first flight.
 - **Leave CH8 and CH7 as they are.** Every CH8 (mode switch) position is MANUAL now, and CH7 (consent) does nothing.
 
-## 5 · Bench checks (pack in by P1, PROP OFF)
+## 5 · Bench checks (pack in by P1 = Andrew, PROP OFF)
 
 | Check | Expected |
 |---|---|
@@ -126,7 +127,7 @@ Then the pack comes out. You can't test the motor indoors: the FC won't arm with
 9. **Go / no-go.** Any "no" means no flight:
    - wind ≤ 5 m/s sustained, gusts checked;
    - field clear;
-   - pilot, safety observer and power owner named;
+   - pilot, safety observer and power owner named: three different people;
    - pack full, CG checked;
    - you can land by 16:30.
 10. **Fly:**

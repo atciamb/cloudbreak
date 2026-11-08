@@ -8,7 +8,7 @@ Notices addressed to one person (e.g. "what changed since your last review") liv
 
 | ID | Role | Name |
 |---|---|---|
-| P1 | Power & integration (power marshal) | Iain |
+| P1 | Power & integration (power marshal) | Andrew (deputy, from Sun 2026-11-08 ≈13:58; Iain retired) |
 | P2 | Airframe | Andrew |
 | P3 | Pi & camera | _add name_ |
 | P4 | FC & radio | _add name_ |

@@ -43,7 +43,7 @@
 
 **Per-person work plan with checklists: [`docs/WORKPLAN.md`](docs/WORKPLAN.md).**
 
-> 📣 **Open notice for Iain (P1):** [`docs/notices/2026-11-07_1920_for-P1-Iain.md`](docs/notices/2026-11-07_1920_for-P1-Iain.md). It lists every change since his 17:37 review. ⏳ unacknowledged.
+> 👤 **P1 handover (Sun ≈13:58, reported by Maximilian):** Iain has retired. **Andrew Ciambella is the deputy power marshal and holds P1 from now on.** Every power event and every P1 approval in this file goes through him. Iain's notice is closed unacknowledged. *(This file is otherwise still the 04:25/05:25 merge. Newer: P2 07:55 update, and the manual-only build in [`docs/hardware/MANUAL_WIRING.md`](docs/hardware/MANUAL_WIRING.md).)*
 
 **Merged so far:**
 - **P1** updates 17:11, 17:31, 17:37, 19:48 (M1.C done; conflicts), 19:53, 20:03, **21:02 (G2 pass)**
