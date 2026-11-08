@@ -1,0 +1,498 @@
+{
+ "id": "rural_riverina",
+ "category": "rural",
+ "name": "Riverina near Temora, NSW",
+ "country": "AU",
+ "expect": "broadacre wheat/sheep country, few obstacles",
+ "focus": "",
+ "strip_m": [
+  51.0,
+  16.1
+ ],
+ "overrun_need_m": 91.0,
+ "slope_max_deg": 4.0,
+ "steep_frac": 0.2998,
+ "camera": {
+  "landable_frac": 0.6942,
+  "classes": {
+   "unknown": 0.0,
+   "short_grass": 0.9843,
+   "dirt": 0.0086,
+   "tree": 0.0056,
+   "rough": 0.0016
+  },
+  "strips": [
+   {
+    "rank": 1,
+    "center_latlon": [
+     -34.4973814,
+     147.4009538
+    ],
+    "center_local_m": [
+     87.5,
+     291.5
+    ],
+    "axis_deg": 90.0,
+    "length_m": 51.0,
+    "width_m": 16.1,
+    "open_len_m": 212.0,
+    "overrun_ok": true,
+    "score": 0.976,
+    "surface": "short_grass",
+    "surface_fracs": {
+     "short_grass": 0.998,
+     "dirt": 0.002
+    },
+    "slope_max_deg": 0.82,
+    "osm_conflicts": {},
+    "on_pitch": false,
+    "pitch_frac": 0.0,
+    "pitch": null,
+    "corners_px": [
+     [
+      724.0,
+      0.8999999761581421
+     ],
+     [
+      724.0,
+      33.099998474121094
+     ],
+     [
+      826.0,
+      33.099998474121094
+     ],
+     [
+      826.0,
+      0.8999999761581421
+     ]
+    ]
+   },
+   {
+    "rank": 2,
+    "center_latlon": [
+     -34.4994519,
+     147.4003215
+    ],
+    "center_local_m": [
+     29.5,
+     61.0
+    ],
+    "axis_deg": 135.0,
+    "length_m": 51.0,
+    "width_m": 16.1,
+    "open_len_m": 246.0,
+    "overrun_ok": true,
+    "score": 0.968,
+    "surface": "short_grass",
+    "surface_fracs": {
+     "short_grass": 0.989,
+     "dirt": 0.011
+    },
+    "slope_max_deg": 0.7,
+    "osm_conflicts": {},
+    "on_pitch": false,
+    "pitch_frac": 0.0,
+    "pitch": null,
+    "corners_px": [
+     [
+      634.2999877929688,
+      430.5
+     ],
+     [
+      611.5999755859375,
+      453.29998779296875
+     ],
+     [
+      683.7000122070312,
+      525.4000244140625
+     ],
+     [
+      706.4000244140625,
+      502.70001220703125
+     ]
+    ]
+   },
+   {
+    "rank": 3,
+    "center_latlon": [
+     -34.4982894,
+     147.4025027
+    ],
+    "center_local_m": [
+     229.6,
+     190.4
+    ],
+    "axis_deg": 135.0,
+    "length_m": 51.0,
+    "width_m": 16.1,
+    "open_len_m": 93.0,
+    "overrun_ok": true,
+    "score": 0.967,
+    "surface": "short_grass",
+    "surface_fracs": {
+     "short_grass": 1.0
+    },
+    "slope_max_deg": 1.32,
+    "osm_conflicts": {},
+    "on_pitch": false,
+    "pitch_frac": 0.0,
+    "pitch": null,
+    "corners_px": [
+     [
+      1034.5,
+      171.6999969482422
+     ],
+     [
+      1011.7999877929688,
+      194.5
+     ],
+     [
+      1083.9000244140625,
+      266.6000061035156
+     ],
+     [
+      1106.5999755859375,
+      243.89999389648438
+     ]
+    ]
+   },
+   {
+    "rank": 4,
+    "center_latlon": [
+     -34.4997855,
+     147.3996869
+    ],
+    "center_local_m": [
+     -28.7,
+     23.9
+    ],
+    "axis_deg": 30.0,
+    "length_m": 51.0,
+    "width_m": 16.1,
+    "open_len_m": 173.0,
+    "overrun_ok": true,
+    "score": 0.946,
+    "surface": "short_grass",
+    "surface_fracs": {
+     "short_grass": 0.986,
+     "dirt": 0.014
+    },
+    "slope_max_deg": 1.39,
+    "osm_conflicts": {},
+    "on_pitch": false,
+    "pitch_frac": 0.0,
+    "pitch": null,
+    "corners_px": [
+     [
+      503.1000061035156,
+      588.4000244140625
+     ],
+     [
+      531.0,
+      604.4000244140625
+     ],
+     [
+      582.0,
+      516.0999755859375
+     ],
+     [
+      554.0999755859375,
+      500.0
+     ]
+    ]
+   },
+   {
+    "rank": 5,
+    "center_latlon": [
+     -34.4987043,
+     147.3989843
+    ],
+    "center_local_m": [
+     -93.2,
+     144.2
+    ],
+    "axis_deg": 30.0,
+    "length_m": 51.0,
+    "width_m": 16.1,
+    "open_len_m": 460.0,
+    "overrun_ok": true,
+    "score": 0.943,
+    "surface": "short_grass",
+    "surface_fracs": {
+     "short_grass": 0.99,
+     "dirt": 0.01
+    },
+    "slope_max_deg": 2.08,
+    "osm_conflicts": {},
+    "on_pitch": false,
+    "pitch_frac": 0.0,
+    "pitch": null,
+    "corners_px": [
+     [
+      374.20001220703125,
+      347.70001220703125
+     ],
+     [
+      402.0,
+      363.70001220703125
+     ],
+     [
+      453.0,
+      275.3999938964844
+     ],
+     [
+      425.20001220703125,
+      259.29998779296875
+     ]
+    ]
+   }
+  ],
+  "strips_on_osm_hazard": 0,
+  "texture_window_px": 9
+ },
+ "fused": {
+  "landable_frac": 0.6942,
+  "classes": {
+   "unknown": 0.0,
+   "short_grass": 0.9843,
+   "dirt": 0.0086,
+   "tree": 0.0056,
+   "rough": 0.0016
+  },
+  "strips": [
+   {
+    "rank": 1,
+    "center_latlon": [
+     -34.4973814,
+     147.4009538
+    ],
+    "center_local_m": [
+     87.5,
+     291.5
+    ],
+    "axis_deg": 90.0,
+    "length_m": 51.0,
+    "width_m": 16.1,
+    "open_len_m": 212.0,
+    "overrun_ok": true,
+    "score": 0.976,
+    "surface": "short_grass",
+    "surface_fracs": {
+     "short_grass": 0.998,
+     "dirt": 0.002
+    },
+    "slope_max_deg": 0.82,
+    "osm_conflicts": {},
+    "on_pitch": false,
+    "pitch_frac": 0.0,
+    "pitch": null,
+    "corners_px": [
+     [
+      724.0,
+      0.8999999761581421
+     ],
+     [
+      724.0,
+      33.099998474121094
+     ],
+     [
+      826.0,
+      33.099998474121094
+     ],
+     [
+      826.0,
+      0.8999999761581421
+     ]
+    ]
+   },
+   {
+    "rank": 2,
+    "center_latlon": [
+     -34.4994519,
+     147.4003215
+    ],
+    "center_local_m": [
+     29.5,
+     61.0
+    ],
+    "axis_deg": 135.0,
+    "length_m": 51.0,
+    "width_m": 16.1,
+    "open_len_m": 246.0,
+    "overrun_ok": true,
+    "score": 0.968,
+    "surface": "short_grass",
+    "surface_fracs": {
+     "short_grass": 0.989,
+     "dirt": 0.011
+    },
+    "slope_max_deg": 0.7,
+    "osm_conflicts": {},
+    "on_pitch": false,
+    "pitch_frac": 0.0,
+    "pitch": null,
+    "corners_px": [
+     [
+      634.2999877929688,
+      430.5
+     ],
+     [
+      611.5999755859375,
+      453.29998779296875
+     ],
+     [
+      683.7000122070312,
+      525.4000244140625
+     ],
+     [
+      706.4000244140625,
+      502.70001220703125
+     ]
+    ]
+   },
+   {
+    "rank": 3,
+    "center_latlon": [
+     -34.4982894,
+     147.4025027
+    ],
+    "center_local_m": [
+     229.6,
+     190.4
+    ],
+    "axis_deg": 135.0,
+    "length_m": 51.0,
+    "width_m": 16.1,
+    "open_len_m": 93.0,
+    "overrun_ok": true,
+    "score": 0.967,
+    "surface": "short_grass",
+    "surface_fracs": {
+     "short_grass": 1.0
+    },
+    "slope_max_deg": 1.32,
+    "osm_conflicts": {},
+    "on_pitch": false,
+    "pitch_frac": 0.0,
+    "pitch": null,
+    "corners_px": [
+     [
+      1034.5,
+      171.6999969482422
+     ],
+     [
+      1011.7999877929688,
+      194.5
+     ],
+     [
+      1083.9000244140625,
+      266.6000061035156
+     ],
+     [
+      1106.5999755859375,
+      243.89999389648438
+     ]
+    ]
+   },
+   {
+    "rank": 4,
+    "center_latlon": [
+     -34.4997855,
+     147.3996869
+    ],
+    "center_local_m": [
+     -28.7,
+     23.9
+    ],
+    "axis_deg": 30.0,
+    "length_m": 51.0,
+    "width_m": 16.1,
+    "open_len_m": 173.0,
+    "overrun_ok": true,
+    "score": 0.946,
+    "surface": "short_grass",
+    "surface_fracs": {
+     "short_grass": 0.986,
+     "dirt": 0.014
+    },
+    "slope_max_deg": 1.39,
+    "osm_conflicts": {},
+    "on_pitch": false,
+    "pitch_frac": 0.0,
+    "pitch": null,
+    "corners_px": [
+     [
+      503.1000061035156,
+      588.4000244140625
+     ],
+     [
+      531.0,
+      604.4000244140625
+     ],
+     [
+      582.0,
+      516.0999755859375
+     ],
+     [
+      554.0999755859375,
+      500.0
+     ]
+    ]
+   },
+   {
+    "rank": 5,
+    "center_latlon": [
+     -34.4987043,
+     147.3989843
+    ],
+    "center_local_m": [
+     -93.2,
+     144.2
+    ],
+    "axis_deg": 30.0,
+    "length_m": 51.0,
+    "width_m": 16.1,
+    "open_len_m": 460.0,
+    "overrun_ok": true,
+    "score": 0.943,
+    "surface": "short_grass",
+    "surface_fracs": {
+     "short_grass": 0.99,
+     "dirt": 0.01
+    },
+    "slope_max_deg": 2.08,
+    "osm_conflicts": {},
+    "on_pitch": false,
+    "pitch_frac": 0.0,
+    "pitch": null,
+    "corners_px": [
+     [
+      374.20001220703125,
+      347.70001220703125
+     ],
+     [
+      402.0,
+      363.70001220703125
+     ],
+     [
+      453.0,
+      275.3999938964844
+     ],
+     [
+      425.20001220703125,
+      259.29998779296875
+     ]
+    ]
+   }
+  ],
+  "strips_on_pitch": 0
+ },
+ "decision": {
+  "decider": "planner",
+  "choice": 1
+ },
+ "osm_pitches": [],
+ "imagery": "Spatial Services, NSW Department of Customer Service",
+ "seconds": 1.1,
+ "label": "BENCHMARK (aerial orthophoto + OSM + terrain) - not flight data"
+}

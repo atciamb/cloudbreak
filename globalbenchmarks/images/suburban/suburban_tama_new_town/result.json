@@ -1,0 +1,337 @@
+{
+ "id": "suburban_tama_new_town",
+ "category": "suburban",
+ "name": "Tama New Town, Tokyo",
+ "country": "JP",
+ "expect": "soccer ground among apartment blocks; Japanese school grounds are often bare dirt",
+ "focus": "",
+ "strip_m": [
+  51.0,
+  16.1
+ ],
+ "overrun_need_m": 91.0,
+ "slope_max_deg": 4.0,
+ "steep_frac": 0.4611,
+ "camera": {
+  "landable_frac": 0.1148,
+  "classes": {
+   "unknown": 0.0001,
+   "short_grass": 0.1894,
+   "pavement": 0.1387,
+   "dirt": 0.0312,
+   "tree": 0.1542,
+   "water": 0.0311,
+   "rough": 0.4553
+  },
+  "strips": [
+   {
+    "rank": 1,
+    "center_latlon": [
+     35.6171742,
+     139.4251122
+    ],
+    "center_local_m": [
+     73.5,
+     197.5
+    ],
+    "axis_deg": 90.0,
+    "length_m": 51.0,
+    "width_m": 16.1,
+    "open_len_m": 83.0,
+    "overrun_ok": false,
+    "score": 0.604,
+    "surface": "pavement",
+    "surface_fracs": {
+     "pavement": 1.0
+    },
+    "slope_max_deg": 3.08,
+    "osm_conflicts": {},
+    "on_pitch": true,
+    "pitch_frac": 1.0,
+    "pitch": "way/568656773",
+    "corners_px": [
+     [
+      696.0,
+      188.89999389648438
+     ],
+     [
+      696.0,
+      221.10000610351562
+     ],
+     [
+      798.0,
+      221.10000610351562
+     ],
+     [
+      798.0,
+      188.89999389648438
+     ]
+    ]
+   },
+   {
+    "rank": 2,
+    "center_latlon": [
+     35.6167294,
+     139.4253369
+    ],
+    "center_local_m": [
+     93.8,
+     148.0
+    ],
+    "axis_deg": 45.0,
+    "length_m": 51.0,
+    "width_m": 16.1,
+    "open_len_m": 64.0,
+    "overrun_ok": false,
+    "score": 0.589,
+    "surface": "pavement",
+    "surface_fracs": {
+     "pavement": 1.0
+    },
+    "slope_max_deg": 2.82,
+    "osm_conflicts": {},
+    "on_pitch": true,
+    "pitch_frac": 1.0,
+    "pitch": "way/568656773",
+    "corners_px": [
+     [
+      740.2999877929688,
+      328.70001220703125
+     ],
+     [
+      763.0,
+      351.3999938964844
+     ],
+     [
+      835.0999755859375,
+      279.29998779296875
+     ],
+     [
+      812.4000244140625,
+      256.6000061035156
+     ]
+    ]
+   },
+   {
+    "rank": 3,
+    "center_latlon": [
+     35.6136506,
+     139.4241348
+    ],
+    "center_local_m": [
+     -14.9,
+     -194.7
+    ],
+    "axis_deg": 60.0,
+    "length_m": 51.0,
+    "width_m": 16.1,
+    "open_len_m": 71.0,
+    "overrun_ok": false,
+    "score": 0.556,
+    "surface": "pavement",
+    "surface_fracs": {
+     "pavement": 1.0
+    },
+    "slope_max_deg": 3.79,
+    "osm_conflicts": {},
+    "on_pitch": false,
+    "pitch_frac": 0.0,
+    "pitch": null,
+    "corners_px": [
+     [
+      517.9000244140625,
+      1001.0999755859375
+     ],
+     [
+      534.0,
+      1028.9000244140625
+     ],
+     [
+      622.2999877929688,
+      977.9000244140625
+     ],
+     [
+      606.2000122070312,
+      950.0999755859375
+     ]
+    ]
+   },
+   {
+    "rank": 4,
+    "center_latlon": [
+     35.6155654,
+     139.4246156
+    ],
+    "center_local_m": [
+     28.6,
+     18.4
+    ],
+    "axis_deg": 165.0,
+    "length_m": 51.0,
+    "width_m": 16.1,
+    "open_len_m": 58.0,
+    "overrun_ok": false,
+    "score": 0.547,
+    "surface": "pavement",
+    "surface_fracs": {
+     "pavement": 1.0
+    },
+    "slope_max_deg": 3.45,
+    "osm_conflicts": {},
+    "on_pitch": true,
+    "pitch_frac": 1.0,
+    "pitch": "way/28579937",
+    "corners_px": [
+     [
+      659.4000244140625,
+      509.79998779296875
+     ],
+     [
+      628.4000244140625,
+      518.0999755859375
+     ],
+     [
+      654.7999877929688,
+      616.5999755859375
+     ],
+     [
+      685.7999877929688,
+      608.2999877929688
+     ]
+    ]
+   }
+  ],
+  "strips_on_osm_hazard": 0,
+  "texture_window_px": 9
+ },
+ "fused": {
+  "landable_frac": 0.1002,
+  "classes": {
+   "unknown": 0.0,
+   "short_grass": 0.1877,
+   "pavement": 0.1027,
+   "dirt": 0.0157,
+   "tree": 0.1653,
+   "water": 0.0301,
+   "building": 0.1507,
+   "rough": 0.3478
+  },
+  "strips": [
+   {
+    "rank": 1,
+    "center_latlon": [
+     35.6171504,
+     139.4250441
+    ],
+    "center_local_m": [
+     67.3,
+     194.9
+    ],
+    "axis_deg": 105.0,
+    "length_m": 51.0,
+    "width_m": 16.1,
+    "open_len_m": 95.0,
+    "overrun_ok": true,
+    "score": 0.86,
+    "surface": "short_grass",
+    "surface_fracs": {
+     "short_grass": 1.0
+    },
+    "slope_max_deg": 2.87,
+    "osm_conflicts": {},
+    "on_pitch": true,
+    "pitch_frac": 1.0,
+    "pitch": "way/568656773",
+    "corners_px": [
+     [
+      689.5999755859375,
+      181.60000610351562
+     ],
+     [
+      681.2999877929688,
+      212.60000610351562
+     ],
+     [
+      779.7999877929688,
+      239.0
+     ],
+     [
+      788.0999755859375,
+      208.0
+     ]
+    ]
+   },
+   {
+    "rank": 2,
+    "center_latlon": [
+     35.6155463,
+     139.4246562
+    ],
+    "center_local_m": [
+     32.2,
+     16.3
+    ],
+    "axis_deg": 165.0,
+    "length_m": 51.0,
+    "width_m": 16.1,
+    "open_len_m": 55.0,
+    "overrun_ok": false,
+    "score": 0.797,
+    "surface": "short_grass",
+    "surface_fracs": {
+     "short_grass": 0.998,
+     "pavement": 0.002
+    },
+    "slope_max_deg": 3.56,
+    "osm_conflicts": {},
+    "on_pitch": true,
+    "pitch_frac": 1.0,
+    "pitch": "way/28579937",
+    "corners_px": [
+     [
+      666.7999877929688,
+      514.0
+     ],
+     [
+      635.7999877929688,
+      522.2999877929688
+     ],
+     [
+      662.2000122070312,
+      620.7999877929688
+     ],
+     [
+      693.2000122070312,
+      612.5
+     ]
+    ]
+   }
+  ],
+  "strips_on_pitch": 2
+ },
+ "decision": {
+  "decider": "planner",
+  "choice": 1
+ },
+ "osm_pitches": [
+  {
+   "id": "way/28579937",
+   "sport": "soccer"
+  },
+  {
+   "id": "way/28729509",
+   "sport": "tennis"
+  },
+  {
+   "id": "way/568656772",
+   "sport": "tennis"
+  },
+  {
+   "id": "way/568656773",
+   "sport": "multi"
+  }
+ ],
+ "imagery": "Geospatial Information Authority of Japan (GSI tiles)",
+ "seconds": 1.1,
+ "label": "BENCHMARK (aerial orthophoto + OSM + terrain) - not flight data"
+}

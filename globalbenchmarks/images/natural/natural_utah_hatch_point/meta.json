@@ -1,0 +1,59 @@
+{
+ "id": "natural_utah_hatch_point",
+ "category": "natural",
+ "name": "Hatch Point mesa, UT",
+ "country": "US",
+ "lat": 38.3814,
+ "lon": -109.637,
+ "expect": "rocky juniper scrub giving way to open flat mesa top: strips belong on the flat, not in the rock",
+ "focus": "",
+ "extent_m": 600.0,
+ "gsd_m": 0.5,
+ "size_px": 1200,
+ "bbox_lonlat": {
+  "west": -109.64043789110288,
+  "south": 38.37870500394768,
+  "east": -109.63356210889712,
+  "north": 38.384094895651664
+ },
+ "bbox_3857": [
+  -12205117.716389108,
+  4633063.131491395,
+  -12204352.30781516,
+  4633828.540065341
+ ],
+ "crs_note": "north-up local square; pixel (0,0) = north-west corner",
+ "imagery": {
+  "source": "naip",
+  "name": "USGS NAIP Plus",
+  "licence": "Public domain (US Government)",
+  "attribution": "USGS / USDA, The National Map: NAIP Plus orthoimagery",
+  "url": "https://imagery.nationalmap.gov/arcgis/rest/services/USGSNAIPPlus/ImageServer/exportImage",
+  "zoom": null,
+  "tiles": 4,
+  "missing_tiles": 0,
+  "native_res_m": 0.3
+ },
+ "terrain": {
+  "name": "USGS 3DEP",
+  "licence": "Public domain (US Government)",
+  "attribution": "USGS 3D Elevation Program (bare earth, best available 1-10 m)",
+  "zoom": null,
+  "tiles": 4,
+  "missing_tiles": 0,
+  "native_res_m": "1-10 (best available 3DEP)",
+  "source": "3dep",
+  "offset_m": 1706.0,
+  "scale_m": 0.01,
+  "res_m": 1.0,
+  "min_m": 1706.75,
+  "max_m": 1739.11
+ },
+ "osm": {
+  "elements": 4,
+  "attribution": "OpenStreetMap contributors (ODbL)",
+  "timestamp": "2026-11-08T03:45:35Z"
+ },
+ "fetched_utc": "2026-11-08T03:46:52Z",
+ "label": "BENCHMARK IMAGERY (aerial orthophoto) - not Cloudbreak flight data"
+}

@@ -1,0 +1,1430 @@
+{
+ "id": "campus_csulb",
+ "category": "campus",
+ "name": "Cal State Long Beach campus",
+ "country": "US",
+ "expect": "Jack Rose Track, George Allen Field and the NE athletics fields should hold strips; the Walter Pyramid, parking structures and dense academic blocks should not",
+ "focus": "whole campus (OSM way 207858609)",
+ "strip_m": [
+  51.0,
+  16.1
+ ],
+ "overrun_need_m": 91.0,
+ "slope_max_deg": 4.0,
+ "steep_frac": 0.0536,
+ "camera": {
+  "landable_frac": 0.3271,
+  "classes": {
+   "unknown": 0.0,
+   "short_grass": 0.2157,
+   "pavement": 0.2325,
+   "dirt": 0.0498,
+   "tree": 0.1477,
+   "water": 0.0181,
+   "rough": 0.3361
+  },
+  "strips": [
+   {
+    "rank": 1,
+    "center_latlon": [
+     33.784563,
+     -118.1121943
+    ],
+    "center_local_m": [
+     315.1,
+     307.6
+    ],
+    "axis_deg": 150.0,
+    "length_m": 51.0,
+    "width_m": 16.1,
+    "open_len_m": 296.0,
+    "overrun_ok": true,
+    "score": 1.0,
+    "surface": "short_grass",
+    "surface_fracs": {
+     "short_grass": 1.0
+    },
+    "slope_max_deg": 0.0,
+    "osm_conflicts": {},
+    "on_pitch": true,
+    "pitch_frac": 1.0,
+    "pitch": "way/1213443060",
+    "corners_px": [
+     [
+      2118.60009765625,
+      832.5999755859375
+     ],
+     [
+      2090.800048828125,
+      848.7000122070312
+     ],
+     [
+      2141.800048828125,
+      937.0
+     ],
+     [
+      2169.60009765625,
+      921.0
+     ]
+    ]
+   },
+   {
+    "rank": 2,
+    "center_latlon": [
+     33.7863935,
+     -118.1130096
+    ],
+    "center_local_m": [
+     239.7,
+     511.3
+    ],
+    "axis_deg": 165.0,
+    "length_m": 51.0,
+    "width_m": 16.1,
+    "open_len_m": 284.0,
+    "overrun_ok": true,
+    "score": 1.0,
+    "surface": "short_grass",
+    "surface_fracs": {
+     "short_grass": 1.0
+    },
+    "slope_max_deg": 0.0,
+    "osm_conflicts": {},
+    "on_pitch": true,
+    "pitch_frac": 1.0,
+    "pitch": "way/224678366",
+    "corners_px": [
+     [
+      1981.699951171875,
+      423.8999938964844
+     ],
+     [
+      1950.5999755859375,
+      432.20001220703125
+     ],
+     [
+      1977.0,
+      530.7000122070312
+     ],
+     [
+      2008.0999755859375,
+      522.4000244140625
+     ]
+    ]
+   },
+   {
+    "rank": 3,
+    "center_latlon": [
+     33.7854072,
+     -118.1126357
+    ],
+    "center_local_m": [
+     274.3,
+     401.6
+    ],
+    "axis_deg": 165.0,
+    "length_m": 51.0,
+    "width_m": 16.1,
+    "open_len_m": 280.0,
+    "overrun_ok": true,
+    "score": 1.0,
+    "surface": "short_grass",
+    "surface_fracs": {
+     "short_grass": 1.0
+    },
+    "slope_max_deg": 0.0,
+    "osm_conflicts": {},
+    "on_pitch": true,
+    "pitch_frac": 1.0,
+    "pitch": "way/671169181",
+    "corners_px": [
+     [
+      2050.800048828125,
+      643.5
+     ],
+     [
+      2019.800048828125,
+      651.7999877929688
+     ],
+     [
+      2046.199951171875,
+      750.2999877929688
+     ],
+     [
+      2077.199951171875,
+      742.0
+     ]
+    ]
+   },
+   {
+    "rank": 4,
+    "center_latlon": [
+     33.7851334,
+     -118.1103991
+    ],
+    "center_local_m": [
+     481.2,
+     371.1
+    ],
+    "axis_deg": 165.0,
+    "length_m": 51.0,
+    "width_m": 16.1,
+    "open_len_m": 220.0,
+    "overrun_ok": true,
+    "score": 1.0,
+    "surface": "short_grass",
+    "surface_fracs": {
+     "short_grass": 1.0
+    },
+    "slope_max_deg": 0.0,
+    "osm_conflicts": {
+     "vertical": 0.142
+    },
+    "on_pitch": true,
+    "pitch_frac": 0.97,
+    "pitch": "George Allen Field",
+    "corners_px": [
+     [
+      2464.699951171875,
+      704.4000244140625
+     ],
+     [
+      2433.699951171875,
+      712.7000122070312
+     ],
+     [
+      2460.10009765625,
+      811.2999877929688
+     ],
+     [
+      2491.10009765625,
+      803.0
+     ]
+    ]
+   },
+   {
+    "rank": 5,
+    "center_latlon": [
+     33.7861902,
+     -118.1108741
+    ],
+    "center_local_m": [
+     437.3,
+     488.7
+    ],
+    "axis_deg": 165.0,
+    "length_m": 51.0,
+    "width_m": 16.1,
+    "open_len_m": 217.0,
+    "overrun_ok": true,
+    "score": 1.0,
+    "surface": "short_grass",
+    "surface_fracs": {
+     "short_grass": 1.0
+    },
+    "slope_max_deg": 0.0,
+    "osm_conflicts": {},
+    "on_pitch": true,
+    "pitch_frac": 1.0,
+    "pitch": "George Allen Field",
+    "corners_px": [
+     [
+      2376.800048828125,
+      469.20001220703125
+     ],
+     [
+      2345.800048828125,
+      477.5
+     ],
+     [
+      2372.199951171875,
+      576.0
+     ],
+     [
+      2403.199951171875,
+      567.7000122070312
+     ]
+    ]
+   },
+   {
+    "rank": 6,
+    "center_latlon": [
+     33.7846717,
+     -118.1132432
+    ],
+    "center_local_m": [
+     218.1,
+     319.7
+    ],
+    "axis_deg": 60.0,
+    "length_m": 51.0,
+    "width_m": 16.1,
+    "open_len_m": 175.0,
+    "overrun_ok": true,
+    "score": 0.997,
+    "surface": "short_grass",
+    "surface_fracs": {
+     "short_grass": 1.0
+    },
+    "slope_max_deg": 0.23,
+    "osm_conflicts": {},
+    "on_pitch": true,
+    "pitch_frac": 1.0,
+    "pitch": "way/1213443059",
+    "corners_px": [
+     [
+      1883.9000244140625,
+      872.2000122070312
+     ],
+     [
+      1900.0,
+      900.0999755859375
+     ],
+     [
+      1988.300048828125,
+      849.0999755859375
+     ],
+     [
+      1972.300048828125,
+      821.2000122070312
+     ]
+    ]
+   },
+   {
+    "rank": 7,
+    "center_latlon": [
+     33.7880837,
+     -118.1215065
+    ],
+    "center_local_m": [
+     -546.5,
+     699.5
+    ],
+    "axis_deg": 0.0,
+    "length_m": 51.0,
+    "width_m": 16.1,
+    "open_len_m": 125.0,
+    "overrun_ok": true,
+    "score": 0.995,
+    "surface": "short_grass",
+    "surface_fracs": {
+     "short_grass": 0.993,
+     "dirt": 0.007
+    },
+    "slope_max_deg": 0.06,
+    "osm_conflicts": {},
+    "on_pitch": false,
+    "pitch_frac": 0.1,
+    "pitch": null,
+    "corners_px": [
+     [
+      390.8999938964844,
+      152.0
+     ],
+     [
+      423.1000061035156,
+      152.0
+     ],
+     [
+      423.1000061035156,
+      50.0
+     ],
+     [
+      390.8999938964844,
+      50.0
+     ]
+    ]
+   },
+   {
+    "rank": 8,
+    "center_latlon": [
+     33.7845594,
+     -118.1144048
+    ],
+    "center_local_m": [
+     110.6,
+     307.2
+    ],
+    "axis_deg": 30.0,
+    "length_m": 51.0,
+    "width_m": 16.1,
+    "open_len_m": 102.0,
+    "overrun_ok": true,
+    "score": 0.98,
+    "surface": "short_grass",
+    "surface_fracs": {
+     "short_grass": 1.0
+    },
+    "slope_max_deg": 0.51,
+    "osm_conflicts": {},
+    "on_pitch": true,
+    "pitch_frac": 1.0,
+    "pitch": "way/1213443050",
+    "corners_px": [
+     [
+      1681.800048828125,
+      921.7999877929688
+     ],
+     [
+      1709.5999755859375,
+      937.7999877929688
+     ],
+     [
+      1760.5999755859375,
+      849.5
+     ],
+     [
+      1732.800048828125,
+      833.5
+     ]
+    ]
+   },
+   {
+    "rank": 9,
+    "center_latlon": [
+     33.7856887,
+     -118.1216964
+    ],
+    "center_local_m": [
+     -564.1,
+     432.9
+    ],
+    "axis_deg": 15.0,
+    "length_m": 51.0,
+    "width_m": 16.1,
+    "open_len_m": 94.0,
+    "overrun_ok": true,
+    "score": 0.821,
+    "surface": "short_grass",
+    "surface_fracs": {
+     "short_grass": 0.945,
+     "dirt": 0.055
+    },
+    "slope_max_deg": 1.55,
+    "osm_conflicts": {},
+    "on_pitch": false,
+    "pitch_frac": 0.0,
+    "pitch": null,
+    "corners_px": [
+     [
+      343.20001220703125,
+      679.2999877929688
+     ],
+     [
+      374.20001220703125,
+      687.5999755859375
+     ],
+     [
+      400.6000061035156,
+      589.0999755859375
+     ],
+     [
+      369.6000061035156,
+      580.7999877929688
+     ]
+    ]
+   },
+   {
+    "rank": 10,
+    "center_latlon": [
+     33.7883777,
+     -118.1147906
+    ],
+    "center_local_m": [
+     74.9,
+     732.2
+    ],
+    "axis_deg": 75.0,
+    "length_m": 51.0,
+    "width_m": 16.1,
+    "open_len_m": 68.0,
+    "overrun_ok": false,
+    "score": 0.997,
+    "surface": "short_grass",
+    "surface_fracs": {
+     "short_grass": 0.995,
+     "dirt": 0.005
+    },
+    "slope_max_deg": 0.0,
+    "osm_conflicts": {
+     "tree": 0.102,
+     "power": 0.783
+    },
+    "on_pitch": false,
+    "pitch_frac": 0.0,
+    "pitch": null,
+    "corners_px": [
+     [
+      1596.4000244140625,
+      33.20000076293945
+     ],
+     [
+      1604.699951171875,
+      64.30000305175781
+     ],
+     [
+      1703.199951171875,
+      37.900001525878906
+     ],
+     [
+      1694.9000244140625,
+      6.900000095367432
+     ]
+    ]
+   },
+   {
+    "rank": 11,
+    "center_latlon": [
+     33.7862781,
+     -118.114222
+    ],
+    "center_local_m": [
+     127.5,
+     498.5
+    ],
+    "axis_deg": 0.0,
+    "length_m": 51.0,
+    "width_m": 16.1,
+    "open_len_m": 65.0,
+    "overrun_ok": false,
+    "score": 0.999,
+    "surface": "short_grass",
+    "surface_fracs": {
+     "short_grass": 1.0
+    },
+    "slope_max_deg": 0.0,
+    "osm_conflicts": {},
+    "on_pitch": true,
+    "pitch_frac": 1.0,
+    "pitch": "way/671169182",
+    "corners_px": [
+     [
+      1738.9000244140625,
+      554.0
+     ],
+     [
+      1771.0999755859375,
+      554.0
+     ],
+     [
+      1771.0999755859375,
+      452.0
+     ],
+     [
+      1738.9000244140625,
+      452.0
+     ]
+    ]
+   },
+   {
+    "rank": 12,
+    "center_latlon": [
+     33.7871339,
+     -118.1144051
+    ],
+    "center_local_m": [
+     110.6,
+     593.8
+    ],
+    "axis_deg": 105.0,
+    "length_m": 51.0,
+    "width_m": 16.1,
+    "open_len_m": 57.0,
+    "overrun_ok": false,
+    "score": 1.0,
+    "surface": "short_grass",
+    "surface_fracs": {
+     "short_grass": 1.0
+    },
+    "slope_max_deg": 0.0,
+    "osm_conflicts": {
+     "building": 1.0
+    },
+    "on_pitch": false,
+    "pitch_frac": 0.0,
+    "pitch": null,
+    "corners_px": [
+     [
+      1676.0,
+      283.79998779296875
+     ],
+     [
+      1667.699951171875,
+      314.79998779296875
+     ],
+     [
+      1766.199951171875,
+      341.20001220703125
+     ],
+     [
+      1774.5,
+      310.20001220703125
+     ]
+    ]
+   },
+   {
+    "rank": 13,
+    "center_latlon": [
+     33.7787412,
+     -118.1220469
+    ],
+    "center_local_m": [
+     -596.5,
+     -340.5
+    ],
+    "axis_deg": 0.0,
+    "length_m": 51.0,
+    "width_m": 16.1,
+    "open_len_m": 51.0,
+    "overrun_ok": false,
+    "score": 0.837,
+    "surface": "short_grass",
+    "surface_fracs": {
+     "short_grass": 1.0
+    },
+    "slope_max_deg": 2.1,
+    "osm_conflicts": {},
+    "on_pitch": false,
+    "pitch_frac": 0.0,
+    "pitch": null,
+    "corners_px": [
+     [
+      290.8999938964844,
+      2232.0
+     ],
+     [
+      323.1000061035156,
+      2232.0
+     ],
+     [
+      323.1000061035156,
+      2130.0
+     ],
+     [
+      290.8999938964844,
+      2130.0
+     ]
+    ]
+   },
+   {
+    "rank": 14,
+    "center_latlon": [
+     33.7807562,
+     -118.1217054
+    ],
+    "center_local_m": [
+     -564.9,
+     -116.2
+    ],
+    "axis_deg": 60.0,
+    "length_m": 51.0,
+    "width_m": 16.1,
+    "open_len_m": 53.0,
+    "overrun_ok": false,
+    "score": 0.817,
+    "surface": "short_grass",
+    "surface_fracs": {
+     "short_grass": 0.98,
+     "dirt": 0.02
+    },
+    "slope_max_deg": 2.59,
+    "osm_conflicts": {},
+    "on_pitch": false,
+    "pitch_frac": 0.0,
+    "pitch": null,
+    "corners_px": [
+     [
+      318.0,
+      1744.0
+     ],
+     [
+      334.1000061035156,
+      1771.800048828125
+     ],
+     [
+      422.3999938964844,
+      1720.800048828125
+     ],
+     [
+      406.29998779296875,
+      1693.0
+     ]
+    ]
+   },
+   {
+    "rank": 15,
+    "center_latlon": [
+     33.7864929,
+     -118.1157866
+    ],
+    "center_local_m": [
+     -17.3,
+     522.4
+    ],
+    "axis_deg": 15.0,
+    "length_m": 51.0,
+    "width_m": 16.1,
+    "open_len_m": 55.0,
+    "overrun_ok": false,
+    "score": 0.701,
+    "surface": "pavement",
+    "surface_fracs": {
+     "short_grass": 0.006,
+     "pavement": 0.993
+    },
+    "slope_max_deg": 0.0,
+    "osm_conflicts": {
+     "building": 1.0
+    },
+    "on_pitch": false,
+    "pitch_frac": 0.0,
+    "pitch": null,
+    "corners_px": [
+     [
+      1436.800048828125,
+      500.29998779296875
+     ],
+     [
+      1467.800048828125,
+      508.6000061035156
+     ],
+     [
+      1494.199951171875,
+      410.1000061035156
+     ],
+     [
+      1463.199951171875,
+      401.79998779296875
+     ]
+    ]
+   },
+   {
+    "rank": 16,
+    "center_latlon": [
+     33.7856801,
+     -118.1206526
+    ],
+    "center_local_m": [
+     -467.5,
+     431.9
+    ],
+    "axis_deg": 120.0,
+    "length_m": 51.0,
+    "width_m": 16.1,
+    "open_len_m": 60.0,
+    "overrun_ok": false,
+    "score": 0.587,
+    "surface": "dirt",
+    "surface_fracs": {
+     "short_grass": 0.426,
+     "dirt": 0.574
+    },
+    "slope_max_deg": 1.62,
+    "osm_conflicts": {},
+    "on_pitch": false,
+    "pitch_frac": 0.0,
+    "pitch": null,
+    "corners_px": [
+     [
+      528.9000244140625,
+      596.7000122070312
+     ],
+     [
+      512.7999877929688,
+      624.5999755859375
+     ],
+     [
+      601.2000122070312,
+      675.5999755859375
+     ],
+     [
+      617.2000122070312,
+      647.7000122070312
+     ]
+    ]
+   },
+   {
+    "rank": 17,
+    "center_latlon": [
+     33.7842046,
+     -118.1214903
+    ],
+    "center_local_m": [
+     -545.0,
+     267.7
+    ],
+    "axis_deg": 120.0,
+    "length_m": 51.0,
+    "width_m": 16.1,
+    "open_len_m": 56.0,
+    "overrun_ok": false,
+    "score": 0.42,
+    "surface": "dirt",
+    "surface_fracs": {
+     "short_grass": 0.026,
+     "dirt": 0.974
+    },
+    "slope_max_deg": 2.44,
+    "osm_conflicts": {},
+    "on_pitch": false,
+    "pitch_frac": 0.0,
+    "pitch": null,
+    "corners_px": [
+     [
+      373.8999938964844,
+      925.2000122070312
+     ],
+     [
+      357.79998779296875,
+      953.0999755859375
+     ],
+     [
+      446.20001220703125,
+      1004.0999755859375
+     ],
+     [
+      462.20001220703125,
+      976.2000122070312
+     ]
+    ]
+   }
+  ],
+  "strips_on_osm_hazard": 4,
+  "texture_window_px": 9
+ },
+ "fused": {
+  "landable_frac": 0.2362,
+  "classes": {
+   "unknown": 0.0,
+   "short_grass": 0.1717,
+   "pavement": 0.1623,
+   "dirt": 0.0289,
+   "tree": 0.1312,
+   "water": 0.015,
+   "building": 0.231,
+   "pole_wire": 0.0401,
+   "rough": 0.2197
+  },
+  "strips": [
+   {
+    "rank": 1,
+    "center_latlon": [
+     33.7861985,
+     -118.1134552
+    ],
+    "center_local_m": [
+     198.4,
+     489.6
+    ],
+    "axis_deg": 150.0,
+    "length_m": 51.0,
+    "width_m": 16.1,
+    "open_len_m": 318.0,
+    "overrun_ok": true,
+    "score": 1.0,
+    "surface": "short_grass",
+    "surface_fracs": {
+     "short_grass": 1.0
+    },
+    "slope_max_deg": 0.0,
+    "osm_conflicts": {},
+    "on_pitch": true,
+    "pitch_frac": 1.0,
+    "pitch": "way/224678366",
+    "corners_px": [
+     [
+      1885.300048828125,
+      468.5
+     ],
+     [
+      1857.5,
+      484.6000061035156
+     ],
+     [
+      1908.5,
+      572.9000244140625
+     ],
+     [
+      1936.300048828125,
+      556.9000244140625
+     ]
+    ]
+   },
+   {
+    "rank": 2,
+    "center_latlon": [
+     33.7845487,
+     -118.1121594
+    ],
+    "center_local_m": [
+     318.3,
+     306.0
+    ],
+    "axis_deg": 150.0,
+    "length_m": 51.0,
+    "width_m": 16.1,
+    "open_len_m": 300.0,
+    "overrun_ok": true,
+    "score": 1.0,
+    "surface": "short_grass",
+    "surface_fracs": {
+     "short_grass": 1.0
+    },
+    "slope_max_deg": 0.0,
+    "osm_conflicts": {},
+    "on_pitch": true,
+    "pitch_frac": 1.0,
+    "pitch": "way/1213443060",
+    "corners_px": [
+     [
+      2125.10009765625,
+      835.7999877929688
+     ],
+     [
+      2097.300048828125,
+      851.9000244140625
+     ],
+     [
+      2148.300048828125,
+      940.2000122070312
+     ],
+     [
+      2176.10009765625,
+      924.2000122070312
+     ]
+    ]
+   },
+   {
+    "rank": 3,
+    "center_latlon": [
+     33.7851541,
+     -118.113074
+    ],
+    "center_local_m": [
+     233.7,
+     373.4
+    ],
+    "axis_deg": 15.0,
+    "length_m": 51.0,
+    "width_m": 16.1,
+    "open_len_m": 265.0,
+    "overrun_ok": true,
+    "score": 1.0,
+    "surface": "short_grass",
+    "surface_fracs": {
+     "short_grass": 1.0
+    },
+    "slope_max_deg": 0.0,
+    "osm_conflicts": {},
+    "on_pitch": true,
+    "pitch_frac": 1.0,
+    "pitch": null,
+    "corners_px": [
+     [
+      1938.699951171875,
+      798.2999877929688
+     ],
+     [
+      1969.699951171875,
+      806.7000122070312
+     ],
+     [
+      1996.0999755859375,
+      708.0999755859375
+     ],
+     [
+      1965.0999755859375,
+      699.7999877929688
+     ]
+    ]
+   },
+   {
+    "rank": 4,
+    "center_latlon": [
+     33.7851691,
+     -118.1106568
+    ],
+    "center_local_m": [
+     457.4,
+     375.0
+    ],
+    "axis_deg": 165.0,
+    "length_m": 51.0,
+    "width_m": 16.1,
+    "open_len_m": 212.0,
+    "overrun_ok": true,
+    "score": 1.0,
+    "surface": "short_grass",
+    "surface_fracs": {
+     "short_grass": 1.0
+    },
+    "slope_max_deg": 0.0,
+    "osm_conflicts": {},
+    "on_pitch": true,
+    "pitch_frac": 1.0,
+    "pitch": "George Allen Field",
+    "corners_px": [
+     [
+      2417.0,
+      696.5
+     ],
+     [
+      2386.0,
+      704.7999877929688
+     ],
+     [
+      2412.39990234375,
+      803.2999877929688
+     ],
+     [
+      2443.39990234375,
+      795.0
+     ]
+    ]
+   },
+   {
+    "rank": 5,
+    "center_latlon": [
+     33.7855949,
+     -118.1120881
+    ],
+    "center_local_m": [
+     324.9,
+     422.4
+    ],
+    "axis_deg": 30.0,
+    "length_m": 51.0,
+    "width_m": 16.1,
+    "open_len_m": 210.0,
+    "overrun_ok": true,
+    "score": 1.0,
+    "surface": "short_grass",
+    "surface_fracs": {
+     "short_grass": 1.0
+    },
+    "slope_max_deg": 0.0,
+    "osm_conflicts": {},
+    "on_pitch": true,
+    "pitch_frac": 1.0,
+    "pitch": "way/671169181",
+    "corners_px": [
+     [
+      2110.5,
+      691.2999877929688
+     ],
+     [
+      2138.300048828125,
+      707.2999877929688
+     ],
+     [
+      2189.300048828125,
+      619.0
+     ],
+     [
+      2161.5,
+      602.9000244140625
+     ]
+    ]
+   },
+   {
+    "rank": 6,
+    "center_latlon": [
+     33.7842899,
+     -118.1147293
+    ],
+    "center_local_m": [
+     80.6,
+     277.2
+    ],
+    "axis_deg": 30.0,
+    "length_m": 51.0,
+    "width_m": 16.1,
+    "open_len_m": 167.0,
+    "overrun_ok": true,
+    "score": 1.0,
+    "surface": "short_grass",
+    "surface_fracs": {
+     "short_grass": 1.0
+    },
+    "slope_max_deg": 0.01,
+    "osm_conflicts": {},
+    "on_pitch": true,
+    "pitch_frac": 1.0,
+    "pitch": null,
+    "corners_px": [
+     [
+      1621.699951171875,
+      981.7999877929688
+     ],
+     [
+      1649.5,
+      997.9000244140625
+     ],
+     [
+      1700.5,
+      909.5
+     ],
+     [
+      1672.699951171875,
+      893.5
+     ]
+    ]
+   },
+   {
+    "rank": 7,
+    "center_latlon": [
+     33.7862165,
+     -118.1145629
+    ],
+    "center_local_m": [
+     96.0,
+     491.6
+    ],
+    "axis_deg": 45.0,
+    "length_m": 51.0,
+    "width_m": 16.1,
+    "open_len_m": 108.0,
+    "overrun_ok": true,
+    "score": 1.0,
+    "surface": "short_grass",
+    "surface_fracs": {
+     "short_grass": 1.0
+    },
+    "slope_max_deg": 0.0,
+    "osm_conflicts": {},
+    "on_pitch": true,
+    "pitch_frac": 1.0,
+    "pitch": "way/1213443063",
+    "corners_px": [
+     [
+      1644.5,
+      541.4000244140625
+     ],
+     [
+      1667.199951171875,
+      564.0999755859375
+     ],
+     [
+      1739.300048828125,
+      492.0
+     ],
+     [
+      1716.5999755859375,
+      469.29998779296875
+     ]
+    ]
+   },
+   {
+    "rank": 8,
+    "center_latlon": [
+     33.7879835,
+     -118.1215608
+    ],
+    "center_local_m": [
+     -551.5,
+     688.3
+    ],
+    "axis_deg": 15.0,
+    "length_m": 51.0,
+    "width_m": 16.1,
+    "open_len_m": 121.0,
+    "overrun_ok": true,
+    "score": 0.994,
+    "surface": "short_grass",
+    "surface_fracs": {
+     "short_grass": 0.999,
+     "dirt": 0.001
+    },
+    "slope_max_deg": 0.27,
+    "osm_conflicts": {},
+    "on_pitch": false,
+    "pitch_frac": 0.38,
+    "pitch": null,
+    "corners_px": [
+     [
+      368.20001220703125,
+      168.39999389648438
+     ],
+     [
+      399.29998779296875,
+      176.6999969482422
+     ],
+     [
+      425.70001220703125,
+      78.19999694824219
+     ],
+     [
+      394.6000061035156,
+      69.9000015258789
+     ]
+    ]
+   },
+   {
+    "rank": 9,
+    "center_latlon": [
+     33.7842268,
+     -118.1132174
+    ],
+    "center_local_m": [
+     220.4,
+     270.1
+    ],
+    "axis_deg": 75.0,
+    "length_m": 51.0,
+    "width_m": 16.1,
+    "open_len_m": 145.0,
+    "overrun_ok": true,
+    "score": 0.95,
+    "surface": "short_grass",
+    "surface_fracs": {
+     "short_grass": 1.0
+    },
+    "slope_max_deg": 0.55,
+    "osm_conflicts": {},
+    "on_pitch": true,
+    "pitch_frac": 1.0,
+    "pitch": "way/1213443059",
+    "corners_px": [
+     [
+      1887.5,
+      957.4000244140625
+     ],
+     [
+      1895.800048828125,
+      988.4000244140625
+     ],
+     [
+      1994.300048828125,
+      962.0
+     ],
+     [
+      1986.0,
+      931.0
+     ]
+    ]
+   },
+   {
+    "rank": 10,
+    "center_latlon": [
+     33.7852901,
+     -118.1146232
+    ],
+    "center_local_m": [
+     90.4,
+     388.5
+    ],
+    "axis_deg": 75.0,
+    "length_m": 51.0,
+    "width_m": 16.1,
+    "open_len_m": 78.0,
+    "overrun_ok": false,
+    "score": 0.968,
+    "surface": "short_grass",
+    "surface_fracs": {
+     "short_grass": 1.0
+    },
+    "slope_max_deg": 0.52,
+    "osm_conflicts": {},
+    "on_pitch": true,
+    "pitch_frac": 1.0,
+    "pitch": null,
+    "corners_px": [
+     [
+      1627.300048828125,
+      720.7000122070312
+     ],
+     [
+      1635.5999755859375,
+      751.7000122070312
+     ],
+     [
+      1734.199951171875,
+      725.2999877929688
+     ],
+     [
+      1725.9000244140625,
+      694.2999877929688
+     ]
+    ]
+   }
+  ],
+  "strips_on_pitch": 9
+ },
+ "decision": {
+  "decider": "planner",
+  "choice": 1
+ },
+ "osm_pitches": [
+  {
+   "id": "way/224678366",
+   "sport": "baseball"
+  },
+  {
+   "id": "way/224678367",
+   "sport": "tennis"
+  },
+  {
+   "id": "way/224678369",
+   "sport": "tennis"
+  },
+  {
+   "id": "way/224678370",
+   "sport": "tennis"
+  },
+  {
+   "id": "way/224678376",
+   "sport": "tennis"
+  },
+  {
+   "id": "way/224678377",
+   "sport": "tennis"
+  },
+  {
+   "id": "way/224678380",
+   "sport": "tennis"
+  },
+  {
+   "id": "way/224678382",
+   "sport": "tennis"
+  },
+  {
+   "id": "way/224678383",
+   "sport": "tennis"
+  },
+  {
+   "id": "way/224678385",
+   "sport": "tennis"
+  },
+  {
+   "id": "way/224678387",
+   "sport": "tennis"
+  },
+  {
+   "id": "way/224678388",
+   "sport": "tennis"
+  },
+  {
+   "id": "way/224678389",
+   "sport": "tennis"
+  },
+  {
+   "id": "way/224678391",
+   "sport": "baseball"
+  },
+  {
+   "id": "way/440150177",
+   "sport": "basketball"
+  },
+  {
+   "id": "way/440157843",
+   "sport": "tennis"
+  },
+  {
+   "id": "way/477437073",
+   "sport": "basketball"
+  },
+  {
+   "id": "way/545957483",
+   "sport": "baseball"
+  },
+  {
+   "id": "way/570096144",
+   "sport": "tennis"
+  },
+  {
+   "id": "way/570096148",
+   "sport": "athletics"
+  },
+  {
+   "id": "way/570096149",
+   "sport": "athletics"
+  },
+  {
+   "id": "way/665767341",
+   "sport": "volleyball"
+  },
+  {
+   "id": "way/671169181",
+   "sport": "multi"
+  },
+  {
+   "id": "way/671169182",
+   "sport": null
+  },
+  {
+   "id": "way/681430721",
+   "sport": "soccer"
+  },
+  {
+   "id": "way/878831281",
+   "sport": "beachvolleyball"
+  },
+  {
+   "id": "way/1213443040",
+   "sport": "athletics"
+  },
+  {
+   "id": "way/1213443041",
+   "sport": "athletics"
+  },
+  {
+   "id": "way/1213443046",
+   "sport": "athletics"
+  },
+  {
+   "id": "way/1213443047",
+   "sport": "athletics"
+  },
+  {
+   "id": "way/1213443049",
+   "sport": "athletics"
+  },
+  {
+   "id": "way/1213443050",
+   "sport": "athletics"
+  },
+  {
+   "id": "way/1213443054",
+   "sport": "athletics"
+  },
+  {
+   "id": "way/1213443055",
+   "sport": "athletics"
+  },
+  {
+   "id": "way/1213443056",
+   "sport": "athletics"
+  },
+  {
+   "id": "way/1213443058",
+   "sport": "athletics"
+  },
+  {
+   "id": "way/1213443059",
+   "sport": "soccer"
+  },
+  {
+   "id": "way/1213443060",
+   "sport": "american_football"
+  },
+  {
+   "id": "way/1213443061",
+   "sport": "athletics"
+  },
+  {
+   "id": "way/1213443062",
+   "sport": "athletics"
+  },
+  {
+   "id": "way/1213443063",
+   "sport": "athletics"
+  },
+  {
+   "id": "way/1213443064",
+   "sport": "athletics"
+  }
+ ],
+ "imagery": "USGS / USDA, The National Map: NAIP Plus orthoimagery",
+ "seconds": 19.4,
+ "label": "BENCHMARK (aerial orthophoto + OSM + terrain) - not flight data"
+}

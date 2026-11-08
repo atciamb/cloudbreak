@@ -1,0 +1,490 @@
+{
+ "id": "rural_iowa_story_county",
+ "category": "rural",
+ "name": "Story County, Iowa",
+ "country": "US",
+ "expect": "corn/soy sections and gravel roads: lots of fits, but tall crops are not landable",
+ "focus": "",
+ "strip_m": [
+  51.0,
+  16.1
+ ],
+ "overrun_need_m": 91.0,
+ "slope_max_deg": 4.0,
+ "steep_frac": 0.0024,
+ "camera": {
+  "landable_frac": 0.9745,
+  "classes": {
+   "short_grass": 0.9801,
+   "pavement": 0.0048,
+   "dirt": 0.0,
+   "tree": 0.0143,
+   "rough": 0.0008
+  },
+  "strips": [
+   {
+    "rank": 1,
+    "center_latlon": [
+     42.1007142,
+     -93.4521974
+    ],
+    "center_local_m": [
+     -181.5,
+     79.5
+    ],
+    "axis_deg": 90.0,
+    "length_m": 51.0,
+    "width_m": 16.1,
+    "open_len_m": 597.0,
+    "overrun_ok": true,
+    "score": 0.981,
+    "surface": "short_grass",
+    "surface_fracs": {
+     "short_grass": 1.0
+    },
+    "slope_max_deg": 0.38,
+    "osm_conflicts": {},
+    "on_pitch": false,
+    "pitch_frac": 0.0,
+    "pitch": null,
+    "corners_px": [
+     [
+      186.0,
+      424.8999938964844
+     ],
+     [
+      186.0,
+      457.1000061035156
+     ],
+     [
+      288.0,
+      457.1000061035156
+     ],
+     [
+      288.0,
+      424.8999938964844
+     ]
+    ]
+   },
+   {
+    "rank": 2,
+    "center_latlon": [
+     42.0994429,
+     -93.4514921
+    ],
+    "center_local_m": [
+     -123.2,
+     -62.0
+    ],
+    "axis_deg": 45.0,
+    "length_m": 51.0,
+    "width_m": 16.1,
+    "open_len_m": 573.0,
+    "overrun_ok": true,
+    "score": 0.978,
+    "surface": "short_grass",
+    "surface_fracs": {
+     "short_grass": 1.0
+    },
+    "slope_max_deg": 0.43,
+    "osm_conflicts": {},
+    "on_pitch": false,
+    "pitch_frac": 0.0,
+    "pitch": null,
+    "corners_px": [
+     [
+      306.1000061035156,
+      748.7000122070312
+     ],
+     [
+      328.79998779296875,
+      771.5
+     ],
+     [
+      400.8999938964844,
+      699.2999877929688
+     ],
+     [
+      378.20001220703125,
+      676.5999755859375
+     ]
+    ]
+   },
+   {
+    "rank": 3,
+    "center_latlon": [
+     42.0995128,
+     -93.4522369
+    ],
+    "center_local_m": [
+     -184.8,
+     -54.2
+    ],
+    "axis_deg": 45.0,
+    "length_m": 51.0,
+    "width_m": 16.1,
+    "open_len_m": 561.0,
+    "overrun_ok": true,
+    "score": 0.977,
+    "surface": "short_grass",
+    "surface_fracs": {
+     "short_grass": 1.0
+    },
+    "slope_max_deg": 0.55,
+    "osm_conflicts": {},
+    "on_pitch": false,
+    "pitch_frac": 0.0,
+    "pitch": null,
+    "corners_px": [
+     [
+      183.10000610351562,
+      733.2000122070312
+     ],
+     [
+      205.8000030517578,
+      755.9000244140625
+     ],
+     [
+      277.8999938964844,
+      683.7999877929688
+     ],
+     [
+      255.1999969482422,
+      661.0999755859375
+     ]
+    ]
+   },
+   {
+    "rank": 4,
+    "center_latlon": [
+     42.1011274,
+     -93.453166
+    ],
+    "center_local_m": [
+     -261.5,
+     125.5
+    ],
+    "axis_deg": 90.0,
+    "length_m": 51.0,
+    "width_m": 16.1,
+    "open_len_m": 536.0,
+    "overrun_ok": true,
+    "score": 0.979,
+    "surface": "short_grass",
+    "surface_fracs": {
+     "short_grass": 1.0
+    },
+    "slope_max_deg": 0.36,
+    "osm_conflicts": {},
+    "on_pitch": false,
+    "pitch_frac": 0.0,
+    "pitch": null,
+    "corners_px": [
+     [
+      26.0,
+      332.8999938964844
+     ],
+     [
+      26.0,
+      365.1000061035156
+     ],
+     [
+      128.0,
+      365.1000061035156
+     ],
+     [
+      128.0,
+      332.8999938964844
+     ]
+    ]
+   },
+   {
+    "rank": 5,
+    "center_latlon": [
+     42.1025557,
+     -93.4496307
+    ],
+    "center_local_m": [
+     30.5,
+     284.5
+    ],
+    "axis_deg": 90.0,
+    "length_m": 51.0,
+    "width_m": 16.1,
+    "open_len_m": 506.0,
+    "overrun_ok": true,
+    "score": 0.981,
+    "surface": "short_grass",
+    "surface_fracs": {
+     "short_grass": 1.0
+    },
+    "slope_max_deg": 0.45,
+    "osm_conflicts": {},
+    "on_pitch": false,
+    "pitch_frac": 0.0,
+    "pitch": null,
+    "corners_px": [
+     [
+      610.0,
+      14.899999618530273
+     ],
+     [
+      610.0,
+      47.099998474121094
+     ],
+     [
+      712.0,
+      47.099998474121094
+     ],
+     [
+      712.0,
+      14.899999618530273
+     ]
+    ]
+   }
+  ],
+  "strips_on_osm_hazard": 0,
+  "texture_window_px": 9
+ },
+ "fused": {
+  "landable_frac": 0.9745,
+  "classes": {
+   "short_grass": 0.9801,
+   "pavement": 0.0048,
+   "dirt": 0.0,
+   "tree": 0.0143,
+   "rough": 0.0008
+  },
+  "strips": [
+   {
+    "rank": 1,
+    "center_latlon": [
+     42.1007142,
+     -93.4521974
+    ],
+    "center_local_m": [
+     -181.5,
+     79.5
+    ],
+    "axis_deg": 90.0,
+    "length_m": 51.0,
+    "width_m": 16.1,
+    "open_len_m": 597.0,
+    "overrun_ok": true,
+    "score": 0.981,
+    "surface": "short_grass",
+    "surface_fracs": {
+     "short_grass": 1.0
+    },
+    "slope_max_deg": 0.38,
+    "osm_conflicts": {},
+    "on_pitch": false,
+    "pitch_frac": 0.0,
+    "pitch": null,
+    "corners_px": [
+     [
+      186.0,
+      424.8999938964844
+     ],
+     [
+      186.0,
+      457.1000061035156
+     ],
+     [
+      288.0,
+      457.1000061035156
+     ],
+     [
+      288.0,
+      424.8999938964844
+     ]
+    ]
+   },
+   {
+    "rank": 2,
+    "center_latlon": [
+     42.0994429,
+     -93.4514921
+    ],
+    "center_local_m": [
+     -123.2,
+     -62.0
+    ],
+    "axis_deg": 45.0,
+    "length_m": 51.0,
+    "width_m": 16.1,
+    "open_len_m": 573.0,
+    "overrun_ok": true,
+    "score": 0.978,
+    "surface": "short_grass",
+    "surface_fracs": {
+     "short_grass": 1.0
+    },
+    "slope_max_deg": 0.43,
+    "osm_conflicts": {},
+    "on_pitch": false,
+    "pitch_frac": 0.0,
+    "pitch": null,
+    "corners_px": [
+     [
+      306.1000061035156,
+      748.7000122070312
+     ],
+     [
+      328.79998779296875,
+      771.5
+     ],
+     [
+      400.8999938964844,
+      699.2999877929688
+     ],
+     [
+      378.20001220703125,
+      676.5999755859375
+     ]
+    ]
+   },
+   {
+    "rank": 3,
+    "center_latlon": [
+     42.0995128,
+     -93.4522369
+    ],
+    "center_local_m": [
+     -184.8,
+     -54.2
+    ],
+    "axis_deg": 45.0,
+    "length_m": 51.0,
+    "width_m": 16.1,
+    "open_len_m": 561.0,
+    "overrun_ok": true,
+    "score": 0.977,
+    "surface": "short_grass",
+    "surface_fracs": {
+     "short_grass": 1.0
+    },
+    "slope_max_deg": 0.55,
+    "osm_conflicts": {},
+    "on_pitch": false,
+    "pitch_frac": 0.0,
+    "pitch": null,
+    "corners_px": [
+     [
+      183.10000610351562,
+      733.2000122070312
+     ],
+     [
+      205.8000030517578,
+      755.9000244140625
+     ],
+     [
+      277.8999938964844,
+      683.7999877929688
+     ],
+     [
+      255.1999969482422,
+      661.0999755859375
+     ]
+    ]
+   },
+   {
+    "rank": 4,
+    "center_latlon": [
+     42.1011274,
+     -93.453166
+    ],
+    "center_local_m": [
+     -261.5,
+     125.5
+    ],
+    "axis_deg": 90.0,
+    "length_m": 51.0,
+    "width_m": 16.1,
+    "open_len_m": 536.0,
+    "overrun_ok": true,
+    "score": 0.979,
+    "surface": "short_grass",
+    "surface_fracs": {
+     "short_grass": 1.0
+    },
+    "slope_max_deg": 0.36,
+    "osm_conflicts": {},
+    "on_pitch": false,
+    "pitch_frac": 0.0,
+    "pitch": null,
+    "corners_px": [
+     [
+      26.0,
+      332.8999938964844
+     ],
+     [
+      26.0,
+      365.1000061035156
+     ],
+     [
+      128.0,
+      365.1000061035156
+     ],
+     [
+      128.0,
+      332.8999938964844
+     ]
+    ]
+   },
+   {
+    "rank": 5,
+    "center_latlon": [
+     42.1025557,
+     -93.4496307
+    ],
+    "center_local_m": [
+     30.5,
+     284.5
+    ],
+    "axis_deg": 90.0,
+    "length_m": 51.0,
+    "width_m": 16.1,
+    "open_len_m": 506.0,
+    "overrun_ok": true,
+    "score": 0.981,
+    "surface": "short_grass",
+    "surface_fracs": {
+     "short_grass": 1.0
+    },
+    "slope_max_deg": 0.45,
+    "osm_conflicts": {},
+    "on_pitch": false,
+    "pitch_frac": 0.0,
+    "pitch": null,
+    "corners_px": [
+     [
+      610.0,
+      14.899999618530273
+     ],
+     [
+      610.0,
+      47.099998474121094
+     ],
+     [
+      712.0,
+      47.099998474121094
+     ],
+     [
+      712.0,
+      14.899999618530273
+     ]
+    ]
+   }
+  ],
+  "strips_on_pitch": 0
+ },
+ "decision": {
+  "decider": "planner",
+  "choice": 1
+ },
+ "osm_pitches": [],
+ "imagery": "USGS / USDA, The National Map: NAIP Plus orthoimagery",
+ "seconds": 1.2,
+ "label": "BENCHMARK (aerial orthophoto + OSM + terrain) - not flight data"
+}

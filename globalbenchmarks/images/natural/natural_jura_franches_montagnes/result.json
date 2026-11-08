@@ -1,0 +1,276 @@
+{
+ "id": "natural_jura_franches_montagnes",
+ "category": "natural",
+ "name": "Franches-Montagnes wooded pasture, Jura",
+ "country": "CH",
+ "expect": "wooded pasture: grass clearings between spruce stands",
+ "focus": "",
+ "strip_m": [
+  51.0,
+  16.1
+ ],
+ "overrun_need_m": 91.0,
+ "slope_max_deg": 4.0,
+ "steep_frac": 0.5445,
+ "camera": {
+  "landable_frac": 0.2192,
+  "classes": {
+   "unknown": 0.199,
+   "short_grass": 0.4156,
+   "pavement": 0.0068,
+   "dirt": 0.0333,
+   "tree": 0.28,
+   "rough": 0.0653
+  },
+  "strips": [
+   {
+    "rank": 1,
+    "center_latlon": [
+     47.2267587,
+     7.0385653
+    ],
+    "center_local_m": [
+     -108.5,
+     195.8
+    ],
+    "axis_deg": 30.0,
+    "length_m": 51.0,
+    "width_m": 16.1,
+    "open_len_m": 207.0,
+    "overrun_ok": true,
+    "score": 0.946,
+    "surface": "short_grass",
+    "surface_fracs": {
+     "short_grass": 1.0
+    },
+    "slope_max_deg": 1.03,
+    "osm_conflicts": {},
+    "on_pitch": false,
+    "pitch_frac": 0.0,
+    "pitch": null,
+    "corners_px": [
+     [
+      343.70001220703125,
+      244.60000610351562
+     ],
+     [
+      371.5,
+      260.6000061035156
+     ],
+     [
+      422.5,
+      172.3000030517578
+     ],
+     [
+      394.70001220703125,
+      156.3000030517578
+     ]
+    ]
+   },
+   {
+    "rank": 2,
+    "center_latlon": [
+     47.2266589,
+     7.0375974
+    ],
+    "center_local_m": [
+     -181.6,
+     184.7
+    ],
+    "axis_deg": 75.0,
+    "length_m": 51.0,
+    "width_m": 16.1,
+    "open_len_m": 186.0,
+    "overrun_ok": true,
+    "score": 0.948,
+    "surface": "short_grass",
+    "surface_fracs": {
+     "short_grass": 1.0
+    },
+    "slope_max_deg": 1.02,
+    "osm_conflicts": {},
+    "on_pitch": false,
+    "pitch_frac": 0.0,
+    "pitch": null,
+    "corners_px": [
+     [
+      183.3000030517578,
+      228.39999389648438
+     ],
+     [
+      191.60000610351562,
+      259.3999938964844
+     ],
+     [
+      290.20001220703125,
+      233.0
+     ],
+     [
+      281.79998779296875,
+      202.0
+     ]
+    ]
+   },
+   {
+    "rank": 3,
+    "center_latlon": [
+     47.2274659,
+     7.0393585
+    ],
+    "center_local_m": [
+     -48.5,
+     274.5
+    ],
+    "axis_deg": 0.0,
+    "length_m": 51.0,
+    "width_m": 16.1,
+    "open_len_m": 254.0,
+    "overrun_ok": true,
+    "score": 0.925,
+    "surface": "short_grass",
+    "surface_fracs": {
+     "short_grass": 1.0
+    },
+    "slope_max_deg": 1.73,
+    "osm_conflicts": {
+     "power": 0.363
+    },
+    "on_pitch": false,
+    "pitch_frac": 0.0,
+    "pitch": null,
+    "corners_px": [
+     [
+      486.8999938964844,
+      102.0
+     ],
+     [
+      519.0999755859375,
+      102.0
+     ],
+     [
+      519.0999755859375,
+      0.0
+     ],
+     [
+      486.8999938964844,
+      0.0
+     ]
+    ]
+   }
+  ],
+  "strips_on_osm_hazard": 1,
+  "texture_window_px": 9
+ },
+ "fused": {
+  "landable_frac": 0.1844,
+  "classes": {
+   "unknown": 0.0897,
+   "short_grass": 0.3656,
+   "pavement": 0.0056,
+   "dirt": 0.0248,
+   "tree": 0.4509,
+   "water": 0.0059,
+   "pole_wire": 0.031,
+   "rough": 0.0266
+  },
+  "strips": [
+   {
+    "rank": 1,
+    "center_latlon": [
+     47.2266589,
+     7.0375974
+    ],
+    "center_local_m": [
+     -181.6,
+     184.7
+    ],
+    "axis_deg": 75.0,
+    "length_m": 51.0,
+    "width_m": 16.1,
+    "open_len_m": 186.0,
+    "overrun_ok": true,
+    "score": 0.948,
+    "surface": "short_grass",
+    "surface_fracs": {
+     "short_grass": 1.0
+    },
+    "slope_max_deg": 1.02,
+    "osm_conflicts": {},
+    "on_pitch": false,
+    "pitch_frac": 0.0,
+    "pitch": null,
+    "corners_px": [
+     [
+      183.3000030517578,
+      228.39999389648438
+     ],
+     [
+      191.60000610351562,
+      259.3999938964844
+     ],
+     [
+      290.20001220703125,
+      233.0
+     ],
+     [
+      281.79998779296875,
+      202.0
+     ]
+    ]
+   },
+   {
+    "rank": 2,
+    "center_latlon": [
+     47.2267587,
+     7.0385653
+    ],
+    "center_local_m": [
+     -108.5,
+     195.8
+    ],
+    "axis_deg": 30.0,
+    "length_m": 51.0,
+    "width_m": 16.1,
+    "open_len_m": 129.0,
+    "overrun_ok": true,
+    "score": 0.946,
+    "surface": "short_grass",
+    "surface_fracs": {
+     "short_grass": 1.0
+    },
+    "slope_max_deg": 1.03,
+    "osm_conflicts": {},
+    "on_pitch": false,
+    "pitch_frac": 0.0,
+    "pitch": null,
+    "corners_px": [
+     [
+      343.70001220703125,
+      244.60000610351562
+     ],
+     [
+      371.5,
+      260.6000061035156
+     ],
+     [
+      422.5,
+      172.3000030517578
+     ],
+     [
+      394.70001220703125,
+      156.3000030517578
+     ]
+    ]
+   }
+  ],
+  "strips_on_pitch": 0
+ },
+ "decision": {
+  "decider": "planner",
+  "choice": 1
+ },
+ "osm_pitches": [],
+ "imagery": "Federal Office of Topography swisstopo",
+ "seconds": 1.0,
+ "label": "BENCHMARK (aerial orthophoto + OSM + terrain) - not flight data"
+}

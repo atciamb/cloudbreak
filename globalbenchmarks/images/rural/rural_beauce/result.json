@@ -1,0 +1,448 @@
+{
+ "id": "rural_beauce",
+ "category": "rural",
+ "name": "Beauce plain near Voves",
+ "country": "FR",
+ "expect": "huge flat cereal fields with tramlines",
+ "focus": "",
+ "strip_m": [
+  51.0,
+  16.1
+ ],
+ "overrun_need_m": 91.0,
+ "slope_max_deg": 4.0,
+ "steep_frac": 0.0,
+ "camera": {
+  "landable_frac": 0.9373,
+  "classes": {
+   "short_grass": 0.8795,
+   "pavement": 0.0454,
+   "dirt": 0.0337,
+   "tree": 0.0183,
+   "water": 0.0018,
+   "rough": 0.0212
+  },
+  "strips": [
+   {
+    "rank": 1,
+    "center_latlon": [
+     48.2502747,
+     1.700724
+    ],
+    "center_local_m": [
+     53.7,
+     30.6
+    ],
+    "axis_deg": 30.0,
+    "length_m": 51.0,
+    "width_m": 16.1,
+    "open_len_m": 634.0,
+    "overrun_ok": true,
+    "score": 0.996,
+    "surface": "short_grass",
+    "surface_fracs": {
+     "short_grass": 1.0
+    },
+    "slope_max_deg": 0.1,
+    "osm_conflicts": {},
+    "on_pitch": false,
+    "pitch_frac": 0.0,
+    "pitch": null,
+    "corners_px": [
+     [
+      667.9000244140625,
+      575.0
+     ],
+     [
+      695.7000122070312,
+      591.0
+     ],
+     [
+      746.7000122070312,
+      502.70001220703125
+     ],
+     [
+      718.9000244140625,
+      486.6000061035156
+     ]
+    ]
+   },
+   {
+    "rank": 2,
+    "center_latlon": [
+     48.2487622,
+     1.6988401
+    ],
+    "center_local_m": [
+     -86.0,
+     -137.8
+    ],
+    "axis_deg": 15.0,
+    "length_m": 51.0,
+    "width_m": 16.1,
+    "open_len_m": 573.0,
+    "overrun_ok": true,
+    "score": 0.996,
+    "surface": "short_grass",
+    "surface_fracs": {
+     "short_grass": 1.0
+    },
+    "slope_max_deg": 0.13,
+    "osm_conflicts": {},
+    "on_pitch": false,
+    "pitch_frac": 0.0,
+    "pitch": null,
+    "corners_px": [
+     [
+      399.29998779296875,
+      920.7000122070312
+     ],
+     [
+      430.29998779296875,
+      929.0
+     ],
+     [
+      456.70001220703125,
+      830.5
+     ],
+     [
+      425.70001220703125,
+      822.2000122070312
+     ]
+    ]
+   },
+   {
+    "rank": 3,
+    "center_latlon": [
+     48.2502844,
+     1.7012543
+    ],
+    "center_local_m": [
+     93.0,
+     31.7
+    ],
+    "axis_deg": 105.0,
+    "length_m": 51.0,
+    "width_m": 16.1,
+    "open_len_m": 560.0,
+    "overrun_ok": true,
+    "score": 0.996,
+    "surface": "short_grass",
+    "surface_fracs": {
+     "short_grass": 1.0
+    },
+    "slope_max_deg": 0.13,
+    "osm_conflicts": {},
+    "on_pitch": false,
+    "pitch_frac": 0.0,
+    "pitch": null,
+    "corners_px": [
+     [
+      740.7999877929688,
+      508.0
+     ],
+     [
+      732.5,
+      539.0
+     ],
+     [
+      831.0999755859375,
+      565.4000244140625
+     ],
+     [
+      839.4000244140625,
+      534.4000244140625
+     ]
+    ]
+   },
+   {
+    "rank": 4,
+    "center_latlon": [
+     48.2501752,
+     1.6988735
+    ],
+    "center_local_m": [
+     -83.5,
+     19.5
+    ],
+    "axis_deg": 0.0,
+    "length_m": 51.0,
+    "width_m": 16.1,
+    "open_len_m": 559.0,
+    "overrun_ok": true,
+    "score": 0.995,
+    "surface": "short_grass",
+    "surface_fracs": {
+     "short_grass": 1.0
+    },
+    "slope_max_deg": 0.09,
+    "osm_conflicts": {},
+    "on_pitch": false,
+    "pitch_frac": 0.0,
+    "pitch": null,
+    "corners_px": [
+     [
+      416.8999938964844,
+      612.0
+     ],
+     [
+      449.1000061035156,
+      612.0
+     ],
+     [
+      449.1000061035156,
+      510.0
+     ],
+     [
+      416.8999938964844,
+      510.0
+     ]
+    ]
+   },
+   {
+    "rank": 5,
+    "center_latlon": [
+     48.2507802,
+     1.6978442
+    ],
+    "center_local_m": [
+     -159.8,
+     86.9
+    ],
+    "axis_deg": 120.0,
+    "length_m": 51.0,
+    "width_m": 16.1,
+    "open_len_m": 613.0,
+    "overrun_ok": true,
+    "score": 0.992,
+    "surface": "short_grass",
+    "surface_fracs": {
+     "short_grass": 1.0
+    },
+    "slope_max_deg": 0.13,
+    "osm_conflicts": {},
+    "on_pitch": false,
+    "pitch_frac": 0.0,
+    "pitch": null,
+    "corners_px": [
+     [
+      244.3000030517578,
+      386.8999938964844
+     ],
+     [
+      228.1999969482422,
+      414.70001220703125
+     ],
+     [
+      316.5,
+      465.70001220703125
+     ],
+     [
+      332.6000061035156,
+      437.8999938964844
+     ]
+    ]
+   }
+  ],
+  "strips_on_osm_hazard": 0,
+  "texture_window_px": 9
+ },
+ "fused": {
+  "landable_frac": 0.9373,
+  "classes": {
+   "short_grass": 0.8671,
+   "pavement": 0.0581,
+   "dirt": 0.0335,
+   "tree": 0.0183,
+   "water": 0.0018,
+   "rough": 0.0212
+  },
+  "strips": [
+   {
+    "rank": 1,
+    "center_latlon": [
+     48.2502747,
+     1.700724
+    ],
+    "center_local_m": [
+     53.7,
+     30.6
+    ],
+    "axis_deg": 30.0,
+    "length_m": 51.0,
+    "width_m": 16.1,
+    "open_len_m": 634.0,
+    "overrun_ok": true,
+    "score": 0.996,
+    "surface": "short_grass",
+    "surface_fracs": {
+     "short_grass": 1.0
+    },
+    "slope_max_deg": 0.1,
+    "osm_conflicts": {},
+    "on_pitch": false,
+    "pitch_frac": 0.0,
+    "pitch": null,
+    "corners_px": [
+     [
+      667.9000244140625,
+      575.0
+     ],
+     [
+      695.7000122070312,
+      591.0
+     ],
+     [
+      746.7000122070312,
+      502.70001220703125
+     ],
+     [
+      718.9000244140625,
+      486.6000061035156
+     ]
+    ]
+   },
+   {
+    "rank": 2,
+    "center_latlon": [
+     48.2487622,
+     1.6988401
+    ],
+    "center_local_m": [
+     -86.0,
+     -137.8
+    ],
+    "axis_deg": 15.0,
+    "length_m": 51.0,
+    "width_m": 16.1,
+    "open_len_m": 573.0,
+    "overrun_ok": true,
+    "score": 0.996,
+    "surface": "short_grass",
+    "surface_fracs": {
+     "short_grass": 1.0
+    },
+    "slope_max_deg": 0.13,
+    "osm_conflicts": {},
+    "on_pitch": false,
+    "pitch_frac": 0.0,
+    "pitch": null,
+    "corners_px": [
+     [
+      399.29998779296875,
+      920.7000122070312
+     ],
+     [
+      430.29998779296875,
+      929.0
+     ],
+     [
+      456.70001220703125,
+      830.5
+     ],
+     [
+      425.70001220703125,
+      822.2000122070312
+     ]
+    ]
+   },
+   {
+    "rank": 3,
+    "center_latlon": [
+     48.2502844,
+     1.7012543
+    ],
+    "center_local_m": [
+     93.0,
+     31.7
+    ],
+    "axis_deg": 105.0,
+    "length_m": 51.0,
+    "width_m": 16.1,
+    "open_len_m": 560.0,
+    "overrun_ok": true,
+    "score": 0.996,
+    "surface": "short_grass",
+    "surface_fracs": {
+     "short_grass": 1.0
+    },
+    "slope_max_deg": 0.13,
+    "osm_conflicts": {},
+    "on_pitch": false,
+    "pitch_frac": 0.0,
+    "pitch": null,
+    "corners_px": [
+     [
+      740.7999877929688,
+      508.0
+     ],
+     [
+      732.5,
+      539.0
+     ],
+     [
+      831.0999755859375,
+      565.4000244140625
+     ],
+     [
+      839.4000244140625,
+      534.4000244140625
+     ]
+    ]
+   },
+   {
+    "rank": 4,
+    "center_latlon": [
+     48.2501752,
+     1.6988735
+    ],
+    "center_local_m": [
+     -83.5,
+     19.5
+    ],
+    "axis_deg": 0.0,
+    "length_m": 51.0,
+    "width_m": 16.1,
+    "open_len_m": 559.0,
+    "overrun_ok": true,
+    "score": 0.995,
+    "surface": "short_grass",
+    "surface_fracs": {
+     "short_grass": 1.0
+    },
+    "slope_max_deg": 0.09,
+    "osm_conflicts": {},
+    "on_pitch": false,
+    "pitch_frac": 0.0,
+    "pitch": null,
+    "corners_px": [
+     [
+      416.8999938964844,
+      612.0
+     ],
+     [
+      449.1000061035156,
+      612.0
+     ],
+     [
+      449.1000061035156,
+      510.0
+     ],
+     [
+      416.8999938964844,
+      510.0
+     ]
+    ]
+   }
+  ],
+  "strips_on_pitch": 0
+ },
+ "decision": {
+  "decider": "planner",
+  "choice": 1
+ },
+ "osm_pitches": [],
+ "imagery": "IGN France, BD ORTHO",
+ "seconds": 1.4,
+ "label": "BENCHMARK (aerial orthophoto + OSM + terrain) - not flight data"
+}

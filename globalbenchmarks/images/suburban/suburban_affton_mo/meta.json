@@ -1,0 +1,59 @@
+{
+ "id": "suburban_affton_mo",
+ "category": "suburban",
+ "name": "Affton High School, Affton MO",
+ "country": "US",
+ "lat": 38.55885,
+ "lon": -90.3262,
+ "expect": "the American football field (OSM way 633082326) should hold a strip along its long axis",
+ "focus": "Affton High School football field",
+ "extent_m": 600.0,
+ "gsd_m": 0.5,
+ "size_px": 1200,
+ "bbox_lonlat": {
+  "west": -90.32964636183351,
+  "south": 38.55615500362747,
+  "east": -90.3227536381665,
+  "north": 38.56154489533145
+ },
+ "bbox_3857": [
+  -10055450.236535784,
+  4658292.534658248,
+  -10054682.942046992,
+  4659059.829147037
+ ],
+ "crs_note": "north-up local square; pixel (0,0) = north-west corner",
+ "imagery": {
+  "source": "naip",
+  "name": "USGS NAIP Plus",
+  "licence": "Public domain (US Government)",
+  "attribution": "USGS / USDA, The National Map: NAIP Plus orthoimagery",
+  "url": "https://imagery.nationalmap.gov/arcgis/rest/services/USGSNAIPPlus/ImageServer/exportImage",
+  "zoom": null,
+  "tiles": 1,
+  "missing_tiles": 0,
+  "native_res_m": 0.3
+ },
+ "terrain": {
+  "source": "3dep",
+  "name": "USGS 3DEP",
+  "licence": "Public domain (US Government)",
+  "attribution": "USGS 3D Elevation Program (bare earth, best available 1-10 m)",
+  "zoom": null,
+  "tiles": 1,
+  "missing_tiles": 0,
+  "native_res_m": "1-10 (best available 3DEP)",
+  "offset_m": 158.0,
+  "scale_m": 0.01,
+  "res_m": 1.0,
+  "min_m": 158.66,
+  "max_m": 177.85
+ },
+ "osm": {
+  "elements": 86,
+  "attribution": "OpenStreetMap contributors (ODbL)",
+  "timestamp": "2026-11-08T02:44:15Z"
+ },
+ "fetched_utc": "2026-11-08T02:45:24Z",
+ "label": "BENCHMARK IMAGERY (aerial orthophoto) - not Cloudbreak flight data"
+}

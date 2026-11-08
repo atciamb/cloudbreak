@@ -1,0 +1,59 @@
+{
+ "id": "natural_jura_franches_montagnes",
+ "category": "natural",
+ "name": "Franches-Montagnes wooded pasture, Jura",
+ "country": "CH",
+ "lat": 47.225,
+ "lon": 7.04,
+ "expect": "wooded pasture: grass clearings between spruce stands",
+ "focus": "",
+ "extent_m": 600.0,
+ "gsd_m": 0.5,
+ "size_px": 1200,
+ "bbox_lonlat": {
+  "west": 7.036031715265734,
+  "south": 47.222304985644115,
+  "east": 7.043968284734267,
+  "north": 47.227694877349144
+ },
+ "bbox_3857": [
+  783247.4677487047,
+  5978435.693804309,
+  784130.9626205872,
+  5979319.1886761915
+ ],
+ "crs_note": "north-up local square; pixel (0,0) = north-west corner",
+ "imagery": {
+  "source": "swisstopo",
+  "name": "swisstopo SWISSIMAGE",
+  "licence": "swisstopo open data (free use with attribution)",
+  "attribution": "Federal Office of Topography swisstopo",
+  "url": "https://wmts.geo.admin.ch/1.0.0/ch.swisstopo.swissimage/default/current/3857/{z}/{x}/{y}.jpeg",
+  "zoom": 18,
+  "tiles": 49,
+  "missing_tiles": 0,
+  "native_res_m": 0.406
+ },
+ "terrain": {
+  "source": "terrarium",
+  "name": "AWS Terrain Tiles",
+  "licence": "Open data (per-source attribution)",
+  "attribution": "Terrain Tiles on AWS (Mapzen): SRTM, EU-DEM, GMTED and national DEMs, ~10-30 m",
+  "zoom": 15,
+  "tiles": 4,
+  "missing_tiles": 0,
+  "native_res_m": "3.2 m tiles (source DEM ~10-30 m)",
+  "offset_m": 986.0,
+  "scale_m": 0.01,
+  "res_m": 1.0,
+  "min_m": 986.21,
+  "max_m": 1035.29
+ },
+ "osm": {
+  "elements": 440,
+  "attribution": "OpenStreetMap contributors (ODbL)",
+  "timestamp": "2026-11-08T02:46:21Z"
+ },
+ "fetched_utc": "2026-11-08T02:47:23Z",
+ "label": "BENCHMARK IMAGERY (aerial orthophoto) - not Cloudbreak flight data"
+}

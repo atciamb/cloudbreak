@@ -1,0 +1,59 @@
+{
+ "id": "rural_iowa_story_county",
+ "category": "rural",
+ "name": "Story County, Iowa",
+ "country": "US",
+ "lat": 42.1,
+ "lon": -93.45,
+ "expect": "corn/soy sections and gravel roads: lots of fits, but tall crops are not landable",
+ "focus": "",
+ "extent_m": 600.0,
+ "gsd_m": 0.5,
+ "size_px": 1200,
+ "bbox_lonlat": {
+  "west": -93.45363212075587,
+  "south": 42.09730499688021,
+  "east": -93.44636787924412,
+  "north": 42.10269488858458
+ },
+ "bbox_3857": [
+  -10403210.740464458,
+  5175566.423373267,
+  -10402402.088798372,
+  5176375.075039353
+ ],
+ "crs_note": "north-up local square; pixel (0,0) = north-west corner",
+ "imagery": {
+  "source": "naip",
+  "name": "USGS NAIP Plus",
+  "licence": "Public domain (US Government)",
+  "attribution": "USGS / USDA, The National Map: NAIP Plus orthoimagery",
+  "url": "https://imagery.nationalmap.gov/arcgis/rest/services/USGSNAIPPlus/ImageServer/exportImage",
+  "zoom": null,
+  "tiles": 4,
+  "missing_tiles": 0,
+  "native_res_m": 0.3
+ },
+ "terrain": {
+  "source": "3dep",
+  "name": "USGS 3DEP",
+  "licence": "Public domain (US Government)",
+  "attribution": "USGS 3D Elevation Program (bare earth, best available 1-10 m)",
+  "zoom": null,
+  "tiles": 1,
+  "missing_tiles": 0,
+  "native_res_m": "1-10 (best available 3DEP)",
+  "offset_m": 316.0,
+  "scale_m": 0.01,
+  "res_m": 1.0,
+  "min_m": 316.17,
+  "max_m": 326.76
+ },
+ "osm": {
+  "elements": 0,
+  "attribution": "OpenStreetMap contributors (ODbL)",
+  "timestamp": "2026-11-08T03:22:53Z"
+ },
+ "fetched_utc": "2026-11-08T03:24:03Z",
+ "label": "BENCHMARK IMAGERY (aerial orthophoto) - not Cloudbreak flight data"
+}

@@ -1,0 +1,406 @@
+{
+ "id": "rural_flevoland",
+ "category": "rural",
+ "name": "Flevoland polder near Dronten",
+ "country": "NL",
+ "expect": "rectangular polder plots split by drainage ditches (water hazards)",
+ "focus": "",
+ "strip_m": [
+  51.0,
+  16.1
+ ],
+ "overrun_need_m": 91.0,
+ "slope_max_deg": 4.0,
+ "steep_frac": 0.0,
+ "camera": {
+  "landable_frac": 0.8084,
+  "classes": {
+   "unknown": 0.0,
+   "short_grass": 0.1807,
+   "pavement": 0.6721,
+   "dirt": 0.0135,
+   "tree": 0.0475,
+   "water": 0.0,
+   "rough": 0.0861
+  },
+  "strips": [
+   {
+    "rank": 1,
+    "center_latlon": [
+     52.5519883,
+     5.6241257
+    ],
+    "center_local_m": [
+     279.3,
+     221.3
+    ],
+    "axis_deg": 30.0,
+    "length_m": 51.0,
+    "width_m": 16.1,
+    "open_len_m": 162.0,
+    "overrun_ok": true,
+    "score": 1.0,
+    "surface": "short_grass",
+    "surface_fracs": {
+     "short_grass": 1.0
+    },
+    "slope_max_deg": 0.0,
+    "osm_conflicts": {},
+    "on_pitch": false,
+    "pitch_frac": 0.0,
+    "pitch": null,
+    "corners_px": [
+     [
+      1119.0999755859375,
+      193.5
+     ],
+     [
+      1146.9000244140625,
+      209.5
+     ],
+     [
+      1197.9000244140625,
+      121.19999694824219
+     ],
+     [
+      1170.0999755859375,
+      105.0999984741211
+     ]
+    ]
+   },
+   {
+    "rank": 2,
+    "center_latlon": [
+     52.5517995,
+     5.6232039
+    ],
+    "center_local_m": [
+     216.9,
+     200.3
+    ],
+    "axis_deg": 135.0,
+    "length_m": 51.0,
+    "width_m": 16.1,
+    "open_len_m": 159.0,
+    "overrun_ok": true,
+    "score": 1.0,
+    "surface": "short_grass",
+    "surface_fracs": {
+     "short_grass": 1.0
+    },
+    "slope_max_deg": 0.0,
+    "osm_conflicts": {},
+    "on_pitch": false,
+    "pitch_frac": 0.0,
+    "pitch": null,
+    "corners_px": [
+     [
+      1009.0,
+      151.89999389648438
+     ],
+     [
+      986.2999877929688,
+      174.6999969482422
+     ],
+     [
+      1058.5,
+      246.8000030517578
+     ],
+     [
+      1081.199951171875,
+      224.10000610351562
+     ]
+    ]
+   },
+   {
+    "rank": 3,
+    "center_latlon": [
+     52.5512659,
+     5.6231204
+    ],
+    "center_local_m": [
+     211.2,
+     140.9
+    ],
+    "axis_deg": 45.0,
+    "length_m": 51.0,
+    "width_m": 16.1,
+    "open_len_m": 155.0,
+    "overrun_ok": true,
+    "score": 1.0,
+    "surface": "short_grass",
+    "surface_fracs": {
+     "short_grass": 1.0
+    },
+    "slope_max_deg": 0.0,
+    "osm_conflicts": {},
+    "on_pitch": false,
+    "pitch_frac": 0.0,
+    "pitch": null,
+    "corners_px": [
+     [
+      975.0,
+      342.8999938964844
+     ],
+     [
+      997.7000122070312,
+      365.6000061035156
+     ],
+     [
+      1069.9000244140625,
+      293.3999938964844
+     ],
+     [
+      1047.0999755859375,
+      270.70001220703125
+     ]
+    ]
+   },
+   {
+    "rank": 4,
+    "center_latlon": [
+     52.5513907,
+     5.6239964
+    ],
+    "center_local_m": [
+     270.5,
+     154.8
+    ],
+    "axis_deg": 150.0,
+    "length_m": 51.0,
+    "width_m": 16.1,
+    "open_len_m": 150.0,
+    "overrun_ok": true,
+    "score": 1.0,
+    "surface": "short_grass",
+    "surface_fracs": {
+     "short_grass": 1.0
+    },
+    "slope_max_deg": 0.0,
+    "osm_conflicts": {},
+    "on_pitch": false,
+    "pitch_frac": 0.0,
+    "pitch": null,
+    "corners_px": [
+     [
+      1129.4000244140625,
+      238.1999969482422
+     ],
+     [
+      1101.5999755859375,
+      254.1999969482422
+     ],
+     [
+      1152.5999755859375,
+      342.6000061035156
+     ],
+     [
+      1180.4000244140625,
+      326.5
+     ]
+    ]
+   }
+  ],
+  "strips_on_osm_hazard": 0,
+  "texture_window_px": 9
+ },
+ "fused": {
+  "landable_frac": 0.7997,
+  "classes": {
+   "short_grass": 0.1628,
+   "pavement": 0.6816,
+   "dirt": 0.0097,
+   "tree": 0.0446,
+   "water": 0.013,
+   "pole_wire": 0.0125,
+   "rough": 0.0757
+  },
+  "strips": [
+   {
+    "rank": 1,
+    "center_latlon": [
+     52.5519883,
+     5.6241257
+    ],
+    "center_local_m": [
+     279.3,
+     221.3
+    ],
+    "axis_deg": 30.0,
+    "length_m": 51.0,
+    "width_m": 16.1,
+    "open_len_m": 162.0,
+    "overrun_ok": true,
+    "score": 1.0,
+    "surface": "short_grass",
+    "surface_fracs": {
+     "short_grass": 1.0
+    },
+    "slope_max_deg": 0.0,
+    "osm_conflicts": {},
+    "on_pitch": false,
+    "pitch_frac": 0.0,
+    "pitch": null,
+    "corners_px": [
+     [
+      1119.0999755859375,
+      193.5
+     ],
+     [
+      1146.9000244140625,
+      209.5
+     ],
+     [
+      1197.9000244140625,
+      121.19999694824219
+     ],
+     [
+      1170.0999755859375,
+      105.0999984741211
+     ]
+    ]
+   },
+   {
+    "rank": 2,
+    "center_latlon": [
+     52.5517995,
+     5.6232039
+    ],
+    "center_local_m": [
+     216.9,
+     200.3
+    ],
+    "axis_deg": 135.0,
+    "length_m": 51.0,
+    "width_m": 16.1,
+    "open_len_m": 159.0,
+    "overrun_ok": true,
+    "score": 1.0,
+    "surface": "short_grass",
+    "surface_fracs": {
+     "short_grass": 1.0
+    },
+    "slope_max_deg": 0.0,
+    "osm_conflicts": {},
+    "on_pitch": false,
+    "pitch_frac": 0.0,
+    "pitch": null,
+    "corners_px": [
+     [
+      1009.0,
+      151.89999389648438
+     ],
+     [
+      986.2999877929688,
+      174.6999969482422
+     ],
+     [
+      1058.5,
+      246.8000030517578
+     ],
+     [
+      1081.199951171875,
+      224.10000610351562
+     ]
+    ]
+   },
+   {
+    "rank": 3,
+    "center_latlon": [
+     52.5512659,
+     5.6231204
+    ],
+    "center_local_m": [
+     211.2,
+     140.9
+    ],
+    "axis_deg": 45.0,
+    "length_m": 51.0,
+    "width_m": 16.1,
+    "open_len_m": 155.0,
+    "overrun_ok": true,
+    "score": 1.0,
+    "surface": "short_grass",
+    "surface_fracs": {
+     "short_grass": 1.0
+    },
+    "slope_max_deg": 0.0,
+    "osm_conflicts": {},
+    "on_pitch": false,
+    "pitch_frac": 0.0,
+    "pitch": null,
+    "corners_px": [
+     [
+      975.0,
+      342.8999938964844
+     ],
+     [
+      997.7000122070312,
+      365.6000061035156
+     ],
+     [
+      1069.9000244140625,
+      293.3999938964844
+     ],
+     [
+      1047.0999755859375,
+      270.70001220703125
+     ]
+    ]
+   },
+   {
+    "rank": 4,
+    "center_latlon": [
+     52.5513907,
+     5.6239964
+    ],
+    "center_local_m": [
+     270.5,
+     154.8
+    ],
+    "axis_deg": 150.0,
+    "length_m": 51.0,
+    "width_m": 16.1,
+    "open_len_m": 150.0,
+    "overrun_ok": true,
+    "score": 1.0,
+    "surface": "short_grass",
+    "surface_fracs": {
+     "short_grass": 1.0
+    },
+    "slope_max_deg": 0.0,
+    "osm_conflicts": {},
+    "on_pitch": false,
+    "pitch_frac": 0.0,
+    "pitch": null,
+    "corners_px": [
+     [
+      1129.4000244140625,
+      238.1999969482422
+     ],
+     [
+      1101.5999755859375,
+      254.1999969482422
+     ],
+     [
+      1152.5999755859375,
+      342.6000061035156
+     ],
+     [
+      1180.4000244140625,
+      326.5
+     ]
+    ]
+   }
+  ],
+  "strips_on_pitch": 0
+ },
+ "decision": {
+  "decider": "planner",
+  "choice": 1
+ },
+ "osm_pitches": [],
+ "imagery": "Beeldmateriaal Nederland / PDOK",
+ "seconds": 1.1,
+ "label": "BENCHMARK (aerial orthophoto + OSM + terrain) - not flight data"
+}

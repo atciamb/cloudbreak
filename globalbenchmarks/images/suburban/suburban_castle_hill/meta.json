@@ -1,0 +1,59 @@
+{
+ "id": "suburban_castle_hill",
+ "category": "suburban",
+ "name": "Castle Hill, Sydney",
+ "country": "AU",
+ "lat": -33.7274,
+ "lon": 150.9988,
+ "expect": "suburban oval / soccer field surrounded by houses and trees",
+ "focus": "",
+ "extent_m": 600.0,
+ "gsd_m": 0.5,
+ "size_px": 1200,
+ "bbox_lonlat": {
+  "west": 150.9955596699493,
+  "south": -33.73009490353927,
+  "east": 151.00204033005065,
+  "north": -33.72470501183566
+ },
+ "bbox_3857": [
+  16808748.814504113,
+  -3992617.6885209936,
+  16809470.238286596,
+  -3991896.2647385127
+ ],
+ "crs_note": "north-up local square; pixel (0,0) = north-west corner",
+ "imagery": {
+  "source": "nsw",
+  "name": "NSW Spatial Services imagery",
+  "licence": "CC BY 4.0",
+  "attribution": "Spatial Services, NSW Department of Customer Service",
+  "url": "https://maps.six.nsw.gov.au/arcgis/rest/services/public/NSW_Imagery/MapServer/tile/{z}/{y}/{x}",
+  "zoom": 18,
+  "tiles": 36,
+  "missing_tiles": 0,
+  "native_res_m": 0.497
+ },
+ "terrain": {
+  "source": "terrarium",
+  "name": "AWS Terrain Tiles",
+  "licence": "Open data (per-source attribution)",
+  "attribution": "Terrain Tiles on AWS (Mapzen): SRTM, EU-DEM, GMTED and national DEMs, ~10-30 m",
+  "zoom": 15,
+  "tiles": 2,
+  "missing_tiles": 0,
+  "native_res_m": "4.0 m tiles (source DEM ~10-30 m)",
+  "offset_m": 101.0,
+  "scale_m": 0.01,
+  "res_m": 1.0,
+  "min_m": 101.35,
+  "max_m": 128.0
+ },
+ "osm": {
+  "elements": 185,
+  "attribution": "OpenStreetMap contributors (ODbL)",
+  "timestamp": "2026-11-08T03:19:42Z"
+ },
+ "fetched_utc": "2026-11-08T03:21:05Z",
+ "label": "BENCHMARK IMAGERY (aerial orthophoto) - not Cloudbreak flight data"
+}

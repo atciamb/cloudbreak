@@ -1,0 +1,59 @@
+{
+ "id": "rural_tokachi",
+ "category": "rural",
+ "name": "Tokachi plain, Hokkaido",
+ "country": "JP",
+ "lat": 42.92,
+ "lon": 143.1,
+ "expect": "patchwork fields with windbreak tree rows",
+ "focus": "",
+ "extent_m": 600.0,
+ "gsd_m": 0.5,
+ "size_px": 1200,
+ "bbox_lonlat": {
+  "west": 143.09631991454734,
+  "south": 42.917304995210856,
+  "east": 143.10368008545265,
+  "north": 42.9226948869153
+ },
+ "bbox_3857": [
+  15929409.467278782,
+  5299393.2824753085,
+  15930228.797756113,
+  5300212.6129526375
+ ],
+ "crs_note": "north-up local square; pixel (0,0) = north-west corner",
+ "imagery": {
+  "source": "gsi",
+  "name": "GSI seamless photo",
+  "licence": "GSI Terms of Use (CC BY 4.0 compatible)",
+  "attribution": "Geospatial Information Authority of Japan (GSI tiles)",
+  "url": "https://cyberjapandata.gsi.go.jp/xyz/seamlessphoto/{z}/{x}/{y}.jpg",
+  "zoom": 18,
+  "tiles": 36,
+  "missing_tiles": 0,
+  "native_res_m": 0.437
+ },
+ "terrain": {
+  "source": "terrarium",
+  "name": "AWS Terrain Tiles",
+  "licence": "Open data (per-source attribution)",
+  "attribution": "Terrain Tiles on AWS (Mapzen): SRTM, EU-DEM, GMTED and national DEMs, ~10-30 m",
+  "zoom": 15,
+  "tiles": 2,
+  "missing_tiles": 0,
+  "native_res_m": "3.5 m tiles (source DEM ~10-30 m)",
+  "offset_m": 55.0,
+  "scale_m": 0.01,
+  "res_m": 1.0,
+  "min_m": 55.06,
+  "max_m": 70.35
+ },
+ "osm": {
+  "elements": 128,
+  "attribution": "OpenStreetMap contributors (ODbL)",
+  "timestamp": "2026-11-08T03:20:59Z"
+ },
+ "fetched_utc": "2026-11-08T03:21:49Z",
+ "label": "BENCHMARK IMAGERY (aerial orthophoto) - not Cloudbreak flight data"
+}

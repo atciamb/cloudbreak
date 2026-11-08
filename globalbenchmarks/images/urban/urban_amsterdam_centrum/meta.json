@@ -1,0 +1,59 @@
+{
+ "id": "urban_amsterdam_centrum",
+ "category": "urban",
+ "name": "Amsterdam Centrum",
+ "country": "NL",
+ "lat": 52.3727,
+ "lon": 4.893,
+ "expect": "canal ring: water, narrow streets and pitched roofs; nothing should qualify",
+ "focus": "",
+ "extent_m": 600.0,
+ "gsd_m": 0.5,
+ "size_px": 1200,
+ "bbox_lonlat": {
+  "west": 4.888585837692047,
+  "south": 52.37000497192832,
+  "east": 4.897414162307952,
+  "north": 52.37539486363439
+ },
+ "bbox_3857": [
+  544194.8861510874,
+  6867305.59326666,
+  545177.6507518877,
+  6868288.357867461
+ ],
+ "crs_note": "north-up local square; pixel (0,0) = north-west corner",
+ "imagery": {
+  "source": "pdok",
+  "name": "PDOK Luchtfoto RGB",
+  "licence": "CC BY 4.0",
+  "attribution": "Beeldmateriaal Nederland / PDOK",
+  "url": "https://service.pdok.nl/hwh/luchtfotorgb/wmts/v1_0/Actueel_orthoHR/EPSG:3857/{z}/{x}/{y}.jpeg",
+  "zoom": 18,
+  "tiles": 56,
+  "missing_tiles": 0,
+  "native_res_m": 0.365
+ },
+ "terrain": {
+  "source": "terrarium",
+  "name": "AWS Terrain Tiles",
+  "licence": "Open data (per-source attribution)",
+  "attribution": "Terrain Tiles on AWS (Mapzen): SRTM, EU-DEM, GMTED and national DEMs, ~10-30 m",
+  "zoom": 15,
+  "tiles": 2,
+  "missing_tiles": 0,
+  "native_res_m": "2.9 m tiles (source DEM ~10-30 m)",
+  "offset_m": 8.0,
+  "scale_m": 0.01,
+  "res_m": 1.0,
+  "min_m": 8.07,
+  "max_m": 15.33
+ },
+ "osm": {
+  "elements": 2552,
+  "attribution": "OpenStreetMap contributors (ODbL)",
+  "timestamp": "2026-11-08T03:10:50Z"
+ },
+ "fetched_utc": "2026-11-08T03:12:27Z",
+ "label": "BENCHMARK IMAGERY (aerial orthophoto) - not Cloudbreak flight data"
+}

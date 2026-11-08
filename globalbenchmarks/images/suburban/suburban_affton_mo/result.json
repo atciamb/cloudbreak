@@ -1,0 +1,369 @@
+{
+ "id": "suburban_affton_mo",
+ "category": "suburban",
+ "name": "Affton High School, Affton MO",
+ "country": "US",
+ "expect": "the American football field (OSM way 633082326) should hold a strip along its long axis",
+ "focus": "Affton High School football field",
+ "strip_m": [
+  51.0,
+  16.1
+ ],
+ "overrun_need_m": 91.0,
+ "slope_max_deg": 4.0,
+ "steep_frac": 0.2871,
+ "camera": {
+  "landable_frac": 0.1953,
+  "classes": {
+   "unknown": 0.0279,
+   "short_grass": 0.2309,
+   "pavement": 0.1168,
+   "dirt": 0.0595,
+   "tree": 0.2261,
+   "water": 0.0245,
+   "rough": 0.3143
+  },
+  "strips": [
+   {
+    "rank": 1,
+    "center_latlon": [
+     38.5601481,
+     -90.3263321
+    ],
+    "center_local_m": [
+     -11.5,
+     144.5
+    ],
+    "axis_deg": 0.0,
+    "length_m": 51.0,
+    "width_m": 16.1,
+    "open_len_m": 104.0,
+    "overrun_ok": true,
+    "score": 0.975,
+    "surface": "short_grass",
+    "surface_fracs": {
+     "short_grass": 1.0
+    },
+    "slope_max_deg": 0.59,
+    "osm_conflicts": {},
+    "on_pitch": false,
+    "pitch_frac": 0.0,
+    "pitch": null,
+    "corners_px": [
+     [
+      560.9000244140625,
+      362.0
+     ],
+     [
+      593.0999755859375,
+      362.0
+     ],
+     [
+      593.0999755859375,
+      260.0
+     ],
+     [
+      560.9000244140625,
+      260.0
+     ]
+    ]
+   },
+   {
+    "rank": 2,
+    "center_latlon": [
+     38.5605207,
+     -90.3261712
+    ],
+    "center_local_m": [
+     2.5,
+     186.0
+    ],
+    "axis_deg": 120.0,
+    "length_m": 51.0,
+    "width_m": 16.1,
+    "open_len_m": 91.0,
+    "overrun_ok": true,
+    "score": 0.915,
+    "surface": "short_grass",
+    "surface_fracs": {
+     "short_grass": 1.0
+    },
+    "slope_max_deg": 2.24,
+    "osm_conflicts": {},
+    "on_pitch": false,
+    "pitch_frac": 0.0,
+    "pitch": null,
+    "corners_px": [
+     [
+      568.9000244140625,
+      188.60000610351562
+     ],
+     [
+      552.7999877929688,
+      216.39999389648438
+     ],
+     [
+      641.2000122070312,
+      267.3999938964844
+     ],
+     [
+      657.2000122070312,
+      239.60000610351562
+     ]
+    ]
+   },
+   {
+    "rank": 3,
+    "center_latlon": [
+     38.5603573,
+     -90.3257719
+    ],
+    "center_local_m": [
+     37.3,
+     167.8
+    ],
+    "axis_deg": 135.0,
+    "length_m": 51.0,
+    "width_m": 16.1,
+    "open_len_m": 59.0,
+    "overrun_ok": false,
+    "score": 0.876,
+    "surface": "short_grass",
+    "surface_fracs": {
+     "short_grass": 1.0
+    },
+    "slope_max_deg": 2.12,
+    "osm_conflicts": {},
+    "on_pitch": false,
+    "pitch_frac": 0.0,
+    "pitch": null,
+    "corners_px": [
+     [
+      649.7999877929688,
+      217.0
+     ],
+     [
+      627.0999755859375,
+      239.6999969482422
+     ],
+     [
+      699.2000122070312,
+      311.79998779296875
+     ],
+     [
+      722.0,
+      289.1000061035156
+     ]
+    ]
+   }
+  ],
+  "strips_on_osm_hazard": 0,
+  "texture_window_px": 9
+ },
+ "fused": {
+  "landable_frac": 0.1944,
+  "classes": {
+   "unknown": 0.0267,
+   "short_grass": 0.2426,
+   "pavement": 0.1084,
+   "dirt": 0.0296,
+   "tree": 0.2079,
+   "water": 0.0231,
+   "building": 0.042,
+   "pole_wire": 0.061,
+   "rough": 0.2588
+  },
+  "strips": [
+   {
+    "rank": 1,
+    "center_latlon": [
+     38.5601481,
+     -90.3263321
+    ],
+    "center_local_m": [
+     -11.5,
+     144.5
+    ],
+    "axis_deg": 0.0,
+    "length_m": 51.0,
+    "width_m": 16.1,
+    "open_len_m": 104.0,
+    "overrun_ok": true,
+    "score": 0.975,
+    "surface": "short_grass",
+    "surface_fracs": {
+     "short_grass": 1.0
+    },
+    "slope_max_deg": 0.59,
+    "osm_conflicts": {},
+    "on_pitch": false,
+    "pitch_frac": 0.0,
+    "pitch": null,
+    "corners_px": [
+     [
+      560.9000244140625,
+      362.0
+     ],
+     [
+      593.0999755859375,
+      362.0
+     ],
+     [
+      593.0999755859375,
+      260.0
+     ],
+     [
+      560.9000244140625,
+      260.0
+     ]
+    ]
+   },
+   {
+    "rank": 2,
+    "center_latlon": [
+     38.5586299,
+     -90.3262862
+    ],
+    "center_local_m": [
+     -7.5,
+     -24.5
+    ],
+    "axis_deg": 0.0,
+    "length_m": 51.0,
+    "width_m": 16.1,
+    "open_len_m": 172.0,
+    "overrun_ok": true,
+    "score": 0.912,
+    "surface": "short_grass",
+    "surface_fracs": {
+     "short_grass": 1.0
+    },
+    "slope_max_deg": 1.13,
+    "osm_conflicts": {},
+    "on_pitch": true,
+    "pitch_frac": 1.0,
+    "pitch": "way/633082326",
+    "corners_px": [
+     [
+      568.9000244140625,
+      700.0
+     ],
+     [
+      601.0999755859375,
+      700.0
+     ],
+     [
+      601.0999755859375,
+      598.0
+     ],
+     [
+      568.9000244140625,
+      598.0
+     ]
+    ]
+   },
+   {
+    "rank": 3,
+    "center_latlon": [
+     38.5605207,
+     -90.3261712
+    ],
+    "center_local_m": [
+     2.5,
+     186.0
+    ],
+    "axis_deg": 120.0,
+    "length_m": 51.0,
+    "width_m": 16.1,
+    "open_len_m": 91.0,
+    "overrun_ok": true,
+    "score": 0.915,
+    "surface": "short_grass",
+    "surface_fracs": {
+     "short_grass": 1.0
+    },
+    "slope_max_deg": 2.24,
+    "osm_conflicts": {},
+    "on_pitch": false,
+    "pitch_frac": 0.0,
+    "pitch": null,
+    "corners_px": [
+     [
+      568.9000244140625,
+      188.60000610351562
+     ],
+     [
+      552.7999877929688,
+      216.39999389648438
+     ],
+     [
+      641.2000122070312,
+      267.3999938964844
+     ],
+     [
+      657.2000122070312,
+      239.60000610351562
+     ]
+    ]
+   },
+   {
+    "rank": 4,
+    "center_latlon": [
+     38.5594162,
+     -90.3260449
+    ],
+    "center_local_m": [
+     13.5,
+     63.0
+    ],
+    "axis_deg": 75.0,
+    "length_m": 51.0,
+    "width_m": 16.1,
+    "open_len_m": 82.0,
+    "overrun_ok": false,
+    "score": 0.907,
+    "surface": "short_grass",
+    "surface_fracs": {
+     "short_grass": 1.0
+    },
+    "slope_max_deg": 1.86,
+    "osm_conflicts": {},
+    "on_pitch": true,
+    "pitch_frac": 1.0,
+    "pitch": null,
+    "corners_px": [
+     [
+      573.5999755859375,
+      471.6000061035156
+     ],
+     [
+      581.9000244140625,
+      502.6000061035156
+     ],
+     [
+      680.4000244140625,
+      476.20001220703125
+     ],
+     [
+      672.0999755859375,
+      445.20001220703125
+     ]
+    ]
+   }
+  ],
+  "strips_on_pitch": 2
+ },
+ "decision": {
+  "decider": "planner",
+  "choice": 1
+ },
+ "osm_pitches": [
+  {
+   "id": "way/633082326",
+   "sport": "american_football"
+  }
+ ],
+ "imagery": "USGS / USDA, The National Map: NAIP Plus orthoimagery",
+ "seconds": 0.9,
+ "label": "BENCHMARK (aerial orthophoto + OSM + terrain) - not flight data"
+}
