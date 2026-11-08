@@ -1,19 +1,23 @@
 # Cloudbreak — Master Status
 
-**Last merged:** 2026-11-07 19:48 (≈H8.8; H0 = Sat 11:00) · **Hard end H24 (Sun 11:00): flying and coding both stop.** ⚠️ **Devpost:** HackRPI's published schedule says projects must be on Devpost **by 09:00 Sunday**. This conflicts with "Devpost isn't a deadline" below; see §5.
+**Last merged:** 2026-11-07 21:02 (≈H10.0; H0 = Sat 11:00) · **Hard end H24 (Sun 11:00): flying and coding both stop.** ⚠️ **Devpost:** HackRPI's published schedule says projects must be on Devpost **by 09:00 Sunday**. This conflicts with "Devpost isn't a deadline" below; see §5.
 
-**Changed in this merge (P1 19:48):**
-- M1.C power-board soldering reported finished; G1 → G2 next.
-- The FC hand-over blocker is closed.
-- Three conflicts raised for the team (Devpost 09:00, GPS supply, Pi ≥ 5.1 V criterion), see §5.
-- Pi GND on pin 14 accepted by P1.
+**Changed in this merge (P1 21:02):**
+- ✅ **G2 passed** (approximate readings): pack ≈12 V; FC 5V, 4V5, Vx and UBEC output all ≈5 V; no heat.
+- The **FC supply rails are healthy** after the wiring incident.
+- The **ESC has a BEC** (≈5 V on its plug's middle wire), so its red contact must be lifted before S1.
+- XR1 goes on the receiver header's 4V5. The GPS supply waits for the exact 4V5 decimals.
+- G1 results were not recorded.
+- **M2 starts now:** output map → XR1 → bind → accelerometer calibration → ESC on S1.
+
+*Previous merge (P1 19:48–20:03):* M1.C soldered; the capacitor sits across B+/B−; the ESC is on an XT60 pair; UBEC jumper on 5 V; conflicts raised (Devpost 09:00, GPS supply, Pi ≥ 5.1 V); Pi GND on pin 14 accepted.
 
 **Per-person work plan with checklists: [`docs/WORKPLAN.md`](docs/WORKPLAN.md).**
 
 > 📣 **Open notice for Iain (P1):** [`docs/notices/2026-11-07_1920_for-P1-Iain.md`](docs/notices/2026-11-07_1920_for-P1-Iain.md). It lists every change since his 17:37 review. ⏳ unacknowledged.
 
 **Merged so far:**
-- **P1** updates 17:11, 17:31, 17:37, **19:48** (M1.C done; conflicts)
+- **P1** updates 17:11, 17:31, 17:37, 19:48 (M1.C done; conflicts), 19:53, 20:03, **21:02 (G2 pass)**
 - **P2** updates 17:21, 18:30
 - **Software / HITL** from the repo:
   - HITL bench test (17:34, `9cd547e`)
@@ -36,7 +40,7 @@
   - Everything (flying + coding) stops at 11:00.
   - **New at 19:18:** a governed autoland now **fits inside the Schuyler fence in SITL** (one-sided circuit). Real F3/F4 becomes a **stretch after F2**, only if F1's measured turn radius is ≤ ~50 m and the team agrees (§5).
 - ⏱️ **To fly at ≈06:35, F0 has to pass by ≈04:00.** That means G1 → G5 tonight with almost no slack.
-  - **M1.C power-board soldering finished (19:48, reported; photos pending).** Next: G1 cold checks → **G2 by ≈20:30**. This is the critical path.
+  - **M1.C soldered (19:48) and G2 passed (≈21:00, approximate readings).** Next: **M2**, the output map (P4, Iain checks) → XR1 → bind → accelerometer calibration → ESC on S1 → **G3**. About 30 min behind the plan. This is the critical path.
   - P3 takes over the camera opening (A1); P4 preps the radio, the parameter sheet and the field config (`docs/WORKPLAN.md`).
 - ✅ **Software is essentially done.** S1–S3 pass; the S4 SITL flow passes; HITL passes on the real FC (10/10); the fence is set and the audit is 17/17; FC parameters can be changed through the Pi. Governed circuit + stabilized-approach gate fit Schuyler in Tutor-speed SITL; the JEV-9B agent runs locally (template fallback).
 - ✈️ **The airframe is built** (P2). Wing fit + layout ≈20:30; surfaces at G3 (≈21:30); install + CG ≈23:30.
@@ -56,8 +60,8 @@
 | — | Firmware + Cloudbreak FC parameters | ✅ Applied | CHECKLIST: param backup 1137/1137, `fc_setup_usb.py` applied (sysid 42, signing, MAV stream rates, FS settings, WP_RADIUS 20). Re-verified through the Pi at 17:46: only intended changes. **Servo outputs not touched** (see §2) |
 | — | Geofence on the FC | ✅ Set (bench) | 17:48: Schuyler 21-vertex polygon uploaded and read back identical. FENCE_TYPE 5, ACTION 1 (RTL), ALT_MAX 100 m, RET_ALT 50, OPTIONS 0, ENABLE 1; RTL_ALTITUDE → 50. Not yet checked outdoors with a GPS fix |
 | — | Airframe build (P2) | ◐ Built, untested | Fuselage, wing, power pod, gear, skewers done. Motor mounted (not wired). 4 servos installed + linked. Not a gate; feeds G3 (surfaces) and F0 (CG) |
-| **G1** | Harness checked cold | ⬜ **Next** | M1.C soldering finished 19:48 (P1, reported). Still to record: joint photos, capacitor location, ESC red contact (P10) |
-| **G2** | First power, numbers logged | ⬜ | After G1 |
+| **G1** | Harness checked cold | ◐ **Not recorded** | M1.C soldered 19:48. The G1 meter results weren't posted before G2. Still to confirm: capacitor polarity (striped leg ≈0 Ω to B−), the ESC XT60 polarity, joint photos |
+| **G2** | First power, numbers logged | ✅ **Pass (approx.)** | ≈21:00 (P1). Pack ≈12 V; FC 5V ≈5 V; 4V5 ≈5 V; Vx 5 V; UBEC out ≈5 V; ESC plug middle wire ≈5 V (it has a BEC); no heat at 60 s. `docs/CHECKLIST.md` |
 | **G3** | Radio + surfaces correct | ⬜ | Outputs still at ArduPlane defaults (S1 = aileron, S3 = throttle). Accelerometer calibration needed. No receiver yet. Surface work = P2 step A4 |
 | **G3b** | GPS + compass + log | ⬜ | "Compass 1 not healthy" (nothing connected yet) |
 | **G4** | Pi ↔ FC MAVLink **on UBEC** | ◐ **Partial** | MAVLink passes over TELEM/UART4 at 230400 (FC→Pi 17:14; signed HITL 17:33). That was a Pi 3 on its own supply with the FC on USB. **Not yet done:** Pi on the UBEC, voltage under load, the Zero 2 W |
@@ -89,7 +93,7 @@ F0 ground checks · F1 maiden · F2 AUTO survey · F3 practice approaches · F4 
    - `SERVO6_FUNCTION=21` (rudder)
 
    At the moment S1 sends an aileron-centre signal, which could mean about half throttle.
-2. 🟠 **Wiring incident on the Pi↔FC link** (CHECKLIST). The FC's **settings** were verified intact through the Pi (17:46). But the FC still reports `POWER_STATUS Vcc = 0`, so a **4V5 back-feed hasn't been ruled out** in hardware; P1 checks the 4V5 and FC 5 V readings at G2. **TELEM pin 6 (4V5) and pins 2–3 stay taped.** The FC holder owes P1 a short write-up.
+2. 🟠 **Wiring incident on the Pi↔FC link** (CHECKLIST). The FC's **settings** were verified intact through the Pi (17:46). **G2 (≈21:00): the FC 5V and 4V5 supplies both measure ≈5 V, so the supply rails are healthy.** The `POWER_STATUS Vcc = 0` report is a software reading. **TELEM pin 6 (4V5) and pins 2–3 stay taped.** The FC holder owes P1 a short write-up.
 3. 🟠 **Every session with the Pi wired to the FC goes through the power marshal (P1)**, the same as USB and battery sessions.
 4. The prop stays in its bag. No soldering unless the hardware is COLD. Electronics booting ≠ flight readiness.
 5. During USB-only FC sessions, the GPS and the Pi link are unplugged or both boards are powered (the 4V5 pins are live on USB).
@@ -111,20 +115,21 @@ F0 ground checks · F1 maiden · F2 AUTO survey · F3 practice approaches · F4 
 ### Tonight at a glance
 | Who | Now → ≈21:30 | Later tonight | Sunday |
 |---|---|---|---|
-| **P1** Iain (power) | M1.C ✅ (19:48) → **G1** → **G2 by ≈20:30** · record the ESC red contact + capacitor location · ESC method with P4 | Map check, XR1, accel cal with P4 → G3 → GPS harness + log card → G4 with P3 → install with Andrew → G3b → G5 → F0 | Power owner (proposed) |
+| **P1** Iain (power) | M1.C ✅ · **G2 ✅ (≈21:00)** → **M2**: check the output map on screen → XR1 wired (COLD) → USB for bind/calibration → lift the ESC red contact → ESC on S1 · ESC method with P4 | Map check, XR1, accel cal with P4 → G3 → GPS harness + log card → G4 with P3 → install with Andrew → G3b → G5 → F0 | Power owner (proposed) |
 | **P2** Andrew (airframe) | **Soldering M1.C with Iain** (heat-shrink, photos, meter, G2 readings) · hands A1 to P3 | A3 wing fit + approve layout (≈20:30) → **G3** servos (≈21:30) → install + **CG/weight** (≈23:30) → F0 CG + structure | Between-flight inspections · flight role TBD |
 | **P3** (Pi & camera, air software) | Zero 2 W swap · UBEC lead re-pinned (pin 2 / pin 14) · **A1 camera opening + mount** · propose the Pi spot · ribbon length to Andrew | **G4** (≈23:00) · recording checked in G5 | Pi recording on F1/F2 · real imagery into core |
 | **P4** (FC & radio, ground software) | Pocket model + switches + bind prep · parameter sheet · ESC-calibration method with Iain · flight-site fence + hotspot config · propose receiver/GPS spots | Map + bind + radio/accel cal (≈20:30) → G3 → GPS → G3b → **G5** (governor read-only) → F0 fence audit | Ground operator (proposed) · `sysid.py` · F2 on the governor |
 
-### P1 · Power & integration (power marshal) · Iain — *update 19:48*
+### P1 · Power & integration (power marshal) · Iain — *update 21:02*
 - **Done:**
   - G0
-  - M1.B power prep
-  - **M1.C power-board soldering**: XT60 → B+/B−, capacitor, ESC → pair 1, UBEC input → pair 2 (output unconnected). Reported; photos pending.
-- **Now:** G1 cold checks → G2 (target ≈20:30).
-- **To record:** capacitor location; ESC red contact (P10) lifted or not.
-- **Raised:** Devpost 09:00 deadline; GPS supply (4V5 vs UBEC); Pi ≥ 5.1 V criterion (§5). Accepts the Pi GND move to pin 14.
-- Full detail: [`docs/updates/P1_2026-11-07_1948_M1C.md`](docs/updates/P1_2026-11-07_1948_M1C.md).
+  - M1.B
+  - **M1.C**: XT60 → B+/B−; capacitor across B+/B−; ESC on an XT60 pair from ESC pads 1; UBEC input → ESC pads 2; UBEC jumper 5 V
+  - **G2 ✅** (approximate readings, see the gate board)
+- **Now:** M2: output map checked on screen → XR1 (TX→R6, RX→T6, 5V→4V5, GND) → bind and calibrations (P4) → ESC red contact lifted → ESC on S1.
+- **To record:** G1 meter results (capacitor polarity, ESC XT60 polarity); joint photos; exact 4V5 decimals (decides the GPS supply).
+- **Raised (still open, §5):** Devpost 09:00; GPS supply; Pi ≥ 5.1 V criterion.
+- Full detail: [`docs/updates/P1_2026-11-07_2102_G2.md`](docs/updates/P1_2026-11-07_2102_G2.md).
 
 ### P2 · Airframe · Andrew — *updates 17:21, 18:30*
 - **Done:** Tutor fuselage, wing, power pod, landing gear, wing hold-down skewers. Motor mounted (not wired). 4 servos glued in, horns on and linked.
@@ -176,7 +181,7 @@ F0 ground checks · F1 maiden · F2 AUTO survey · F3 practice approaches · F4 
 | Blocker | Blocks | Owner | Unblocks when |
 |---|---|---|---|
 | ~~FC is on the Pi/HITL bench~~ | — | — | ✅ Closed: M1.C soldered (19:48) |
-| G1 + G2 not done | Output map, receiver, G3 and everything after | P1 | G2 readings logged (`WIRING.md` §9) |
+| ~~G1 + G2 not done~~ | — | — | ✅ G2 passed ≈21:00 (G1 results still to record) |
 | No servo tester confirmed | ESC-calibration method (a) | Anyone | Someone finds one (event hardware table / mentors), or the team picks (b)/(c) |
 | Output mapping at defaults | ESC on S1, servo centring, G3 / P2 A4 | P4 | Values confirmed on screen by P1 |
 | Wiring-incident details | Clearing the 4V5 back-feed concern | FC holder | Write-up in CHECKLIST + P1 inspection at G2 (4V5 / FC 5 V readings) |
@@ -197,7 +202,7 @@ F0 ground checks · F1 maiden · F2 AUTO survey · F3 practice approaches · F4 
 | Output mapping | ⬜ S1 ESC (70), S3/S4 ailerons (4), S5 elevator (19), S6 rudder (21). Set by P4, checked by P1 |
 | Capacitor location | ✅ **Across B+ / B−** (P1, 19:53). Polarity meter check at G1 |
 | ESC connection | ✅ **XT60 pair**: PDB ESC pair 1 → 14 AWG pigtail → XT60 ↔ ESC (P1, 19:53). `WIRING.md` §1 updated |
-| XR1 power pin | ⬜ receiver header 4V5, if ≥4.5 V under battery at G2 |
+| XR1 power pin | ✅ Receiver header **4V5** (≈5 V at G2, above 4.5 V) |
 | Pi Zero 2 W swap timing | ⬜ recommend **before G4-on-UBEC**, so the power test uses the real load |
 | Camera mount | ⬜ P2 proposes nadir, recessed, foam soft-mount. Confirm with P3 |
 | Fence parameters | ✅ Schuyler polygon (21 vertices, 12.3 ha, ≥19 m from buildings), FENCE_TYPE 5, ACTION 1 (RTL), ALT_MAX 100 m, RET_ALT 50, OPTIONS 0; RTL_ALTITUDE 50. Planner/governor margin 20 m inside |
@@ -220,7 +225,7 @@ P1's hardware path, re-baselined at H7.75. Each window starts as soon as the one
 | 7.5 – 9.0 | 18:30–20:00 | **M1.C** power-board soldering ✅ done 19:48 (reported) → **G1** cold checks (next) | P1 + P2 |
 | 7.5 – 9.5 | 18:30–20:30 | *Parallel:* Zero 2 W swap; UBEC lead re-pinned; **A1 camera opening + mount**; Pi spot proposed | P3 |
 | 7.5 – 9.5 | 18:30–20:30 | *Parallel:* Pocket model + switches; bind prep; parameter sheet; ESC-calibration method; flight-site fence + hotspot config; receiver/GPS spots proposed | P4 |
-| 9.0 – 9.5 | 20:00–20:30 | **G2** first power; log the readings (`WIRING.md` §9) | P1 + P2 |
+| 9.0 – 10.0 | 20:00–21:00 | **G2** first power ✅ (≈21:00; about 30 min late) | P1 + P2 |
 | 9.5 – 10.5 | 20:30–21:30 | Output map (Iain checks on screen) → XR1 wired + bound → radio cal → accel cal (bare stack) → ESC plugged into S1. *Parallel:* A3 wing fit + A2 layout approved | P4 + P1 · P2 |
 | 10.5 – 11.5 | 21:30–22:30 | **G3** servos: FC centres, pushrods to neutral, throws, **FBWA then MANUAL** directions, TX-off failsafe | P2 + P4 + P1 |
 | 11.5 – 12.0 | 22:30–23:00 | GPS harness by function, indoor detection, **microSD log card in the FC** | P1 + P4 |

@@ -75,6 +75,9 @@ Legend: **passed** means evidence is recorded here. *Proposed* means it is writt
 | Field addressing for the Pi Zero 2 W | `config/targets.toml` reads `CLOUDBREAK_PI_HOST` (default: bench ethernet 169.254.77.2). On the field, set it to the Zero's Wi-Fi address before starting core/governor/scripts. *Not yet run on the Zero* |
 | Param audit for governor uploads (`[real.param_audit]`) | **passed** 2026-11-07 17:49: 17/17 audited values match, now including the fence and RTL altitude (`C:\cb-data\hitl\hitl_20261107T174904.json`) |
 | Airframe (Tutor) build | **built, nothing checked yet** (2026-11-07): fuselage, wing, power pod, landing gear, wing hold-down skewers done; motor mounted (not wired); 4 servos installed and linked. Camera opening, avionics mounting, wing fit, surface setup and CG still to do; see `docs/updates/P2_2026-11-07_1721.md` |
+| PDB power harness (M1.C) | **soldered** 2026-11-07 19:48 (P1): XT60 → B+/B−; 470 µF capacitor across B+/B− on leads; PDB ESC pair 1 → 14 AWG pigtail → XT60 ↔ ESC; UBEC input → ESC pair 2; UBEC jumper on 5 V. Joint photos: *not yet posted* |
+| G1 cold checks | *no results recorded*: P1 went straight to G2. Still to confirm: the capacitor's striped leg reads ≈0 Ω to B−, and the ESC XT60 polarity through the mated pair |
+| **G2 first power** | **passed (approximate readings)** 2026-11-07 ≈20:50–21:02 (P1, reported). Connected: FC stack + ESC (on its XT60, signal plug unplugged) + UBEC with no load. Pack ≈12 V; Vx = 5 V (S1 middle pin to G); FC 5V pad ≈5 V; 4V5 ≈5 V; UBEC output ≈5 V; ESC 3-pin plug middle wire ≈5 V to ground (**the ESC has a BEC, so its red contact must come out before S1**); nothing warm at 60 s. The FC 5V and 4V5 rails are healthy after the wiring incident. Exact decimals for 4V5 *pending* (they decide the GPS supply threshold of 4.75 V) |
 
 ### Pi ↔ FC wiring (UART4 = SERIAL4, TELEM connector)
 
