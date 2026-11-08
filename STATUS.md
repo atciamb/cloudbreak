@@ -195,7 +195,8 @@ F0 ground checks · F1 maiden · F2 AUTO survey · F3 practice approaches · F4 
 | Pi ↔ FC baud | ✅ **230400** (`SERIAL4_BAUD=230`, Pi `air.toml` matches). Replaces 115200 in the original plan |
 | Pi link connector | ✅ TELEM GH1.25: pin 1 GND → Pi pin 6, pin 4 RX4 → Pi pin 8, pin 5 TX4 → Pi pin 10. Pins 2, 3 and 6 taped |
 | Output mapping | ⬜ S1 ESC (70), S3/S4 ailerons (4), S5 elevator (19), S6 rudder (21). Set by P4, checked by P1 |
-| Capacitor location | ⬜ middle ESC pads (after photo + continuity check) or short leads to B+/B− |
+| Capacitor location | ✅ **Across B+ / B−** (P1, 19:53). Polarity meter check at G1 |
+| ESC connection | ✅ **XT60 pair**: PDB ESC pair 1 → 14 AWG pigtail → XT60 ↔ ESC (P1, 19:53). `WIRING.md` §1 updated |
 | XR1 power pin | ⬜ receiver header 4V5, if ≥4.5 V under battery at G2 |
 | Pi Zero 2 W swap timing | ⬜ recommend **before G4-on-UBEC**, so the power test uses the real load |
 | Camera mount | ⬜ P2 proposes nadir, recessed, foam soft-mount. Confirm with P3 |

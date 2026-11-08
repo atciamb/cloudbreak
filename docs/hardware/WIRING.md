@@ -19,8 +19,9 @@ To regenerate the diagram, edit `docs/hardware/wiring_svg.py`, then run `python 
 |---|---|---|---|
 | Battery XT60 + | PDB **B+** | 14 AWG red (P1-made lead) | Polarity matched to the XT60 housing marks |
 | Battery XT60 − | PDB **B−** | 14 AWG black | B+ and B− are at opposite ends of the PDB edge |
-| 470 µF 35 V capacitor | Across B+ / B− with short twisted 22 AWG leads, **or** across the two middle ESC pads after a continuity check | — | ⬜ Location is P1's decision. Stripe (−) to negative; insulate both legs; glue the body down |
-| ESC thick + / − | PDB **ESC+ / ESC−** (pair 1) | ESC leads | Don't cut the + lead short |
+| 470 µF 35 V capacitor | **Across B+ / B−** (as built, P1 19:53) | Leads | Stripe (−) to B−; insulate both legs; glue the body down |
+| PDB **ESC+ / ESC−** (pair 1) | **XT60 (ESC side)** | 14 AWG pigtail (as built, P1 19:53) | The PDB-side connector should be the female (shrouded) one. Label it **ESC**, and the battery lead **BATTERY** |
+| ESC thick + / − | Mating XT60 | ESC leads | Polarity checked through the mated pair at G1 |
 | UBEC input + / − | PDB **ESC+ / ESC−** (pair 2) | — | UBEC output stays disconnected until G4 |
 | UBEC output +5 V | Pi **pin 2** (or pin 4) | — | GPIO 5 V has no reverse-polarity protection. Meter it before plugging in |
 | UBEC output GND | Pi **pin 14** (or 9 / 20) | — | ⚠️ **Not pin 6**: the proven TELEM ground already uses pin 6 (P1's draft lead had pin 6) |
