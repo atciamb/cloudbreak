@@ -4,6 +4,8 @@
 # - apt deps (picamera2, opencv, numpy, simplejpeg) + venv with system site packages + pymavlink
 # - /etc/cloudbreak/air.toml (kept if present)
 # - UART: PL011 on /dev/serial0 (dtoverlay=disable-bt), serial login console OFF, UART hardware ON
+# - Zero 2 W USB network link to the laptop (usbnet_install.sh: RNDIS gadget, usb0 = 169.254.77.2/16)
+# - flight trim (slim_pi.sh: 1-Wire overlay off, cloud-init off, unused services disabled; reversible)
 # - systemd units (memory-capped for the Zero's 512 MB); a reboot is needed for the UART change
 set -euo pipefail
 CB_USER="${SUDO_USER:-$(id -un)}"
@@ -35,6 +37,11 @@ if command -v raspi-config >/dev/null; then
   raspi-config nonint do_serial_cons 1 || true   # 1 = disable login shell on serial
   raspi-config nonint do_serial_hw 0 || true     # 0 = enable serial hardware
 fi
+
+# Zero 2 W: the USB data port as a network link to the laptop (usb0 = 169.254.77.2); does nothing on a Pi 3
+bash "$SRC/cloudbreak/air/usbnet_install.sh" "$SRC/cloudbreak/air"
+# Flight trim for 512 MB: 1-Wire overlay, cloud-init, old dnsmasq, printing/modem/desktop audio (undo: --undo)
+bash "$SRC/cloudbreak/air/slim_pi.sh"
 
 for unit in mavbridge capture frameserver; do
   sed "s#@USER@#${CB_USER}#g" "$SRC/cloudbreak/air/systemd/cloudbreak-${unit}.service" \

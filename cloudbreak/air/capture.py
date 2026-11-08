@@ -104,6 +104,13 @@ class Camera:
         from picamera2 import Picamera2
         from libcamera import controls
 
+        if not Picamera2.global_camera_info():
+            # CSI cameras are only found at boot, so a fast restart loop cannot help; on the Zero each restart costs
+            # ~10 s of CPU (picamera2 import). Say why once, wait, and let systemd retry about once a minute.
+            print("capture: no camera detected (check the ribbon: 22-pin Zero cable, contacts toward the board, "
+                  "latches closed; then reboot). Retrying in 60 s.", flush=True)
+            time.sleep(60)
+            raise SystemExit(3)
         self.picam2 = Picamera2()
         fd = int(1e6 / cam_cfg["fps"])
         config = self.picam2.create_video_configuration(

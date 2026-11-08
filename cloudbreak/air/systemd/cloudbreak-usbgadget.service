@@ -1,0 +1,11 @@
+[Unit]
+Description=Cloudbreak USB gadget (Pi Zero 2 W data port: RNDIS network + serial console)
+After=systemd-modules-load.service sys-kernel-config.mount systemd-udev-trigger.service
+
+[Service]
+Type=oneshot
+RemainAfterExit=yes
+ExecStart=/usr/local/sbin/cloudbreak-usb-gadget
+
+[Install]
+WantedBy=multi-user.target

@@ -123,6 +123,13 @@ The same SD card later moves to the Pi Zero 2 W. Swap the camera ribbon for the 
 $env:CLOUDBREAK_PI_HOST = "192.168.137.x"     # the Zero's Wi-Fi address (bench default: 169.254.77.2 over ethernet)
 ```
 
+On the bench, the Zero talks to the laptop over a cable in its USB **data** port (not PWR IN). It shows up in Windows as an RNDIS network adapter plus a COM port, using Windows' own drivers, and keeps the bench address `169.254.77.2`. A card that has never had this set up is prepared in the laptop's card reader, because the Zero can't be reached until it is:
+
+```powershell
+.venv\Scripts\python scripts\sd_usbnet.py            # writes a one-shot first run to the boot partition
+.venv\Scripts\python scripts\sd_usbnet.py --status   # after the Zero has booted it: shows firstrun.log
+```
+
 ## FC configuration (through the Pi, no USB)
 
 Desired values are in `config/fc_params.toml`. Every command signs with the governor key, and writes only work while the FC is disarmed:
