@@ -1,8 +1,14 @@
 # Cloudbreak — Master Status
 
-**Last merged:** 2026-11-08 00:26 (≈H13.4; H0 = Sat 11:00) · **Hard end H24 (Sun 11:00): flying and coding both stop.** ⚠️ **Devpost:** HackRPI's published schedule says projects must be on Devpost **by 09:00 Sunday**. This conflicts with "Devpost isn't a deadline" below; see §5.
+**Last merged:** 2026-11-08 01:00 (≈H14.0; H0 = Sat 11:00) · **Hard end H24 (Sun 11:00): flying and coding both stop.** ⚠️ **Devpost:** HackRPI's published schedule says projects must be on Devpost **by 09:00 Sunday**. This conflicts with "Devpost isn't a deadline" below; see §5.
 
-**Changed in this merge (software 00:26):** bench tests with the FC and the Pocket at the software laptop ([`SW_2026-11-08_0026`](docs/updates/SW_2026-11-08_0026_bench-tests.md)):
+**Changed in this merge (software 01:00):** battery on the bench, motor on the ESC, prop off ([`SW_2026-11-08_0100`](docs/updates/SW_2026-11-08_0100_motor.md)):
+- ✅ **Motor spins through the FC** (bench procedure §2 #6 (d), P1-approved): counter-clockwise from the front at about 19 % throttle. The FC was restored and re-audited after every run (37 values + fence polygon).
+- ⚠️ The ESC signal lead was on the **SBUS pad**, not S1. Moved to S1 (red still lifted).
+- ✅ **Low-battery failsafe set** (it was off): RTL after 10 s below 10.5 V.
+- ⚠️ First arm attempt refused (`Logging not started`: slow SD card); the retry worked. Expect the same at the field.
+
+**Previous merge (software 00:26):** bench tests with the FC and the Pocket at the software laptop ([`SW_2026-11-08_0026`](docs/updates/SW_2026-11-08_0026_bench-tests.md)):
 - ✅ Mission Planner connected through the proxy (its log: 842 FC messages accepted).
 - ✅ Accel calibration (bare FC); ✅ XR1 bound (16 channels); ✅ radio calibration; ✅ flight modes FBWA / AUTO / RTL (switch-low used to be RTL).
 - ✅ Pocket switches: CH8 mode switch, CH7 consent (latching, 2000 when ON). Before tonight nothing was mapped to CH5–CH8.
@@ -114,6 +120,8 @@ F0 ground checks · F1 maiden · F2 AUTO survey · F3 practice approaches · F4 
    - **(a)** ESC calibration + motor direction with a **servo tester**, if anyone has one: no arming, any time after G2;
    - **(b)** check P1's ESC label photo: if the ESC doesn't need calibrating, only motor direction remains;
    - **(c)** in the outdoor **G3b** slot with a GPS fix, under a temporary fence arrangement P1 approves. Then **re-upload the flight-site fence and re-audit to 17/17 before anything else**.
+
+   - **(d) bench motor run, used 2026-11-08 00:44–00:56 with P1's approval:** `scripts/bench_motor_run.py` saves the originals, sets FENCE_ENABLE 0, ARMING_SKIPCHK 4124 and THR_MAX 40 for one run, arms only in FBWA/MANUAL with the throttle down, disarms on any mode change, RC loss or timeout, then restores (fence last) and re-audits. Prop off. `--restore` recovers from a crash.
 
    Before flying anywhere, upload that site's fence (`fc_params_pi.py fence --site <key>`).
 7. 🟠 **Pi pin 6 is double-booked.** The proven TELEM GND is on Pi pin 6. P1's UBEC→Pi lead was drafted as pin 2 (+5 V) / pin 6 (GND). **Move the UBEC GND to pin 14** (or 9 / 20). The GPIO 5 V pins have no reverse-polarity protection, so meter polarity before plugging in.

@@ -19,6 +19,9 @@ FS_GCS_ENABL = 3          # GCS heartbeat failsafe ONLY in AUTO (verified in 4.7
 FS_LONG_ACTN = 1          # RTL
 FS_LONG_TIMEOUT = 20
 FS_SHORT_ACTN = 0
+BATT_LOW_VOLT = 10.5      # 3S pack: 3.5 V/cell for BATT_LOW_TIMER -> low-battery failsafe (was 0 = off)
+BATT_LOW_TIMER = 10       # s below BATT_LOW_VOLT before it triggers (filters sag on a full-throttle climb)
+BATT_FS_LOW_ACT = 1       # RTL. Check the FC's voltage against a meter: the threshold is only as good as BATT_VOLT_MULT
 RTL_AUTOLAND = 0          # RTL loiters at home; it never lands by itself
 RTL_ALTITUDE = 50         # m; flight card says 50 m, and it must stay well below FENCE_ALT_MAX (100)
 BRD_RTC_TYPES = 1

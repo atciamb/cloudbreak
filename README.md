@@ -181,6 +181,8 @@ Bench checks and calibrations without Mission Planner (`scripts/fc_bench.py`; th
 .venv\Scripts\python scripts\fc_bench.py level      # installed, at flying attitude
 ```
 
+Bench motor run (prop off, P1-approved; STATUS.md section 2 #6 (d)): `scripts\bench_motor_run.py` relaxes the fence and the GPS/compass/AHRS pre-arm checks for one run, with throttle capped at 40 %. It disarms on any mode change, RC loss or timeout, then restores and re-audits everything. `--restore` recovers from a crash.
+
 **After changing any SERVOn_FUNCTION, reboot the FC and run `fc_bench.py outputs` before plugging anything in.** On 2026-11-07, S1 kept putting out 1500 µs (aileron centre) after it became the throttle output, and dropped to the 1100 µs minimum only after a reboot.
 
 The listen-only link check from the initial skeleton still works. On the Pi, stop `cloudbreak-mavbridge` first, because the UART can have only one reader:
