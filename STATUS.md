@@ -1,13 +1,19 @@
 # Cloudbreak — Master Status
 
-**Last merged:** 2026-11-07 ≈19:35 (≈H8.6; H0 = Sat 11:00) · **Hard end H24 (Sun 11:00): flying and coding both stop.** Devpost isn't a deadline or a blocker.
+**Last merged:** 2026-11-07 19:48 (≈H8.8; H0 = Sat 11:00) · **Hard end H24 (Sun 11:00): flying and coding both stop.** ⚠️ **Devpost:** HackRPI's published schedule says projects must be on Devpost **by 09:00 Sunday**. This conflicts with "Devpost isn't a deadline" below; see §5.
+
+**Changed in this merge (P1 19:48):**
+- M1.C power-board soldering reported finished; G1 → G2 next.
+- The FC hand-over blocker is closed.
+- Three conflicts raised for the team (Devpost 09:00, GPS supply, Pi ≥ 5.1 V criterion), see §5.
+- Pi GND on pin 14 accepted by P1.
 
 **Per-person work plan with checklists: [`docs/WORKPLAN.md`](docs/WORKPLAN.md).**
 
 > 📣 **Open notice for Iain (P1):** [`docs/notices/2026-11-07_1920_for-P1-Iain.md`](docs/notices/2026-11-07_1920_for-P1-Iain.md). It lists every change since his 17:37 review. ⏳ unacknowledged.
 
 **Merged so far:**
-- **P1** updates 17:11, 17:31, 17:37
+- **P1** updates 17:11, 17:31, 17:37, **19:48** (M1.C done; conflicts)
 - **P2** updates 17:21, 18:30
 - **Software / HITL** from the repo:
   - HITL bench test (17:34, `9cd547e`)
@@ -30,7 +36,7 @@
   - Everything (flying + coding) stops at 11:00.
   - **New at 19:18:** a governed autoland now **fits inside the Schuyler fence in SITL** (one-sided circuit). Real F3/F4 becomes a **stretch after F2**, only if F1's measured turn radius is ≤ ~50 m and the team agrees (§5).
 - ⏱️ **To fly at ≈06:35, F0 has to pass by ≈04:00.** That means G1 → G5 tonight with almost no slack.
-  - **Iain + Andrew are soldering the power board now** (M1.C → G1 → G2 by ≈20:30). This is the critical path.
+  - **M1.C power-board soldering finished (19:48, reported; photos pending).** Next: G1 cold checks → **G2 by ≈20:30**. This is the critical path.
   - P3 takes over the camera opening (A1); P4 preps the radio, the parameter sheet and the field config (`docs/WORKPLAN.md`).
 - ✅ **Software is essentially done.** S1–S3 pass; the S4 SITL flow passes; HITL passes on the real FC (10/10); the fence is set and the audit is 17/17; FC parameters can be changed through the Pi. Governed circuit + stabilized-approach gate fit Schuyler in Tutor-speed SITL; the JEV-9B agent runs locally (template fallback).
 - ✈️ **The airframe is built** (P2). Wing fit + layout ≈20:30; surfaces at G3 (≈21:30); install + CG ≈23:30.
@@ -50,7 +56,7 @@
 | — | Firmware + Cloudbreak FC parameters | ✅ Applied | CHECKLIST: param backup 1137/1137, `fc_setup_usb.py` applied (sysid 42, signing, MAV stream rates, FS settings, WP_RADIUS 20). Re-verified through the Pi at 17:46: only intended changes. **Servo outputs not touched** (see §2) |
 | — | Geofence on the FC | ✅ Set (bench) | 17:48: Schuyler 21-vertex polygon uploaded and read back identical. FENCE_TYPE 5, ACTION 1 (RTL), ALT_MAX 100 m, RET_ALT 50, OPTIONS 0, ENABLE 1; RTL_ALTITUDE → 50. Not yet checked outdoors with a GPS fix |
 | — | Airframe build (P2) | ◐ Built, untested | Fuselage, wing, power pod, gear, skewers done. Motor mounted (not wired). 4 servos installed + linked. Not a gate; feeds G3 (surfaces) and F0 (CG) |
-| **G1** | Harness checked cold | ⬜ **Blocked** | P1 is waiting for the FC hand-over (it's on the Pi/HITL bench) |
+| **G1** | Harness checked cold | ⬜ **Next** | M1.C soldering finished 19:48 (P1, reported). Still to record: joint photos, capacitor location, ESC red contact (P10) |
 | **G2** | First power, numbers logged | ⬜ | After G1 |
 | **G3** | Radio + surfaces correct | ⬜ | Outputs still at ArduPlane defaults (S1 = aileron, S3 = throttle). Accelerometer calibration needed. No receiver yet. Surface work = P2 step A4 |
 | **G3b** | GPS + compass + log | ⬜ | "Compass 1 not healthy" (nothing connected yet) |
@@ -67,7 +73,7 @@
 | HITL signed command path via Pi | ✅ Pass | `hitl_20261107T173318.json`: 10/10. Unsigned, wrong-sysid, PARAM_SET and DO_SET_MODE dropped at the Pi; wrong-key and direct-unsigned ignored by the FC |
 | Param audit for real uploads | ✅ Pass | 17:49: 17/17 audited values match, including the fence and RTL altitude (`hitl_20261107T174904.json`). HITL re-run 10/10 |
 | FC configuration through the Pi | ✅ Pass | `scripts/fc_params_pi.py` backup/audit/apply/fence. PARAM_SET only forwarded in an SSH-opened maintenance window while disarmed. Link/identity/arming params stay USB-only |
-| **D1** Demo assembled (Devpost optional, not a blocker) | ⬜ | Due before 11:00 |
+| **D1** Demo assembled + Devpost | ⬜ | ⚠️ HackRPI schedule: Devpost by **09:00**; coding stops 11:00 (conflict with the "optional" wording, see §5) |
 
 ### Flight ladder (`config/flight_gates.toml`)
 F0 ground checks · F1 maiden · F2 AUTO survey · F3 practice approaches · F4 end-to-end: **all not started.** F0 can't start before G5.
@@ -105,15 +111,20 @@ F0 ground checks · F1 maiden · F2 AUTO survey · F3 practice approaches · F4 
 ### Tonight at a glance
 | Who | Now → ≈21:30 | Later tonight | Sunday |
 |---|---|---|---|
-| **P1** Iain (power) | **Soldering M1.C with Andrew** → G1 → **G2 by ≈20:30** · lift the ESC red contact · capacitor location | Map check, XR1, accel cal with P4 → G3 → GPS harness + log card → G4 with P3 → install with Andrew → G3b → G5 → F0 | Power owner (proposed) |
+| **P1** Iain (power) | M1.C ✅ (19:48) → **G1** → **G2 by ≈20:30** · record the ESC red contact + capacitor location · ESC method with P4 | Map check, XR1, accel cal with P4 → G3 → GPS harness + log card → G4 with P3 → install with Andrew → G3b → G5 → F0 | Power owner (proposed) |
 | **P2** Andrew (airframe) | **Soldering M1.C with Iain** (heat-shrink, photos, meter, G2 readings) · hands A1 to P3 | A3 wing fit + approve layout (≈20:30) → **G3** servos (≈21:30) → install + **CG/weight** (≈23:30) → F0 CG + structure | Between-flight inspections · flight role TBD |
 | **P3** (Pi & camera, air software) | Zero 2 W swap · UBEC lead re-pinned (pin 2 / pin 14) · **A1 camera opening + mount** · propose the Pi spot · ribbon length to Andrew | **G4** (≈23:00) · recording checked in G5 | Pi recording on F1/F2 · real imagery into core |
 | **P4** (FC & radio, ground software) | Pocket model + switches + bind prep · parameter sheet · ESC-calibration method with Iain · flight-site fence + hotspot config · propose receiver/GPS spots | Map + bind + radio/accel cal (≈20:30) → G3 → GPS → G3b → **G5** (governor read-only) → F0 fence audit | Ground operator (proposed) · `sysid.py` · F2 on the governor |
 
-### P1 · Power & integration (power marshal) · Iain — *update 17:37*
-- **Done:** G0; M1.B power prep (UBEC set to 5 V, ESC photographed with red contact not lifted, XT60 lead on 14 AWG, leads tinned).
-- **Now:** waiting for the FC hand-over. Meanwhile, off-board prep: capacitor, lead lengths, GPS harness by function, UBEC → Pi lead, LiPo cell log.
-- **Lane:** about 2.5 h behind (G2 was due at H4). This lane is the project's critical path.
+### P1 · Power & integration (power marshal) · Iain — *update 19:48*
+- **Done:**
+  - G0
+  - M1.B power prep
+  - **M1.C power-board soldering**: XT60 → B+/B−, capacitor, ESC → pair 1, UBEC input → pair 2 (output unconnected). Reported; photos pending.
+- **Now:** G1 cold checks → G2 (target ≈20:30).
+- **To record:** capacitor location; ESC red contact (P10) lifted or not.
+- **Raised:** Devpost 09:00 deadline; GPS supply (4V5 vs UBEC); Pi ≥ 5.1 V criterion (§5). Accepts the Pi GND move to pin 14.
+- Full detail: [`docs/updates/P1_2026-11-07_1948_M1C.md`](docs/updates/P1_2026-11-07_1948_M1C.md).
 
 ### P2 · Airframe · Andrew — *updates 17:21, 18:30*
 - **Done:** Tutor fuselage, wing, power pod, landing gear, wing hold-down skewers. Motor mounted (not wired). 4 servos glued in, horns on and linked.
@@ -164,7 +175,9 @@ F0 ground checks · F1 maiden · F2 AUTO survey · F3 practice approaches · F4 
 ## 4 · Blockers & dependencies
 | Blocker | Blocks | Owner | Unblocks when |
 |---|---|---|---|
-| **FC is on the Pi/HITL bench** | M1.C soldering, G1, G2, and everything after | Software team → P1 | FC handed over COLD (USB + Pi pigtail off) |
+| ~~FC is on the Pi/HITL bench~~ | — | — | ✅ Closed: M1.C soldered (19:48) |
+| G1 + G2 not done | Output map, receiver, G3 and everything after | P1 | G2 readings logged (`WIRING.md` §9) |
+| No servo tester confirmed | ESC-calibration method (a) | Anyone | Someone finds one (event hardware table / mentors), or the team picks (b)/(c) |
 | Output mapping at defaults | ESC on S1, servo centring, G3 / P2 A4 | P4 | Values confirmed on screen by P1 |
 | Wiring-incident details | Clearing the 4V5 back-feed concern | FC holder | Write-up in CHECKLIST + P1 inspection at G2 (4V5 / FC 5 V readings) |
 | Pad photo + ESC photo review | Capacitor location; ESC red contact | P1 → AI | Photos sent |
@@ -192,15 +205,18 @@ F0 ground checks · F1 maiden · F2 AUTO survey · F3 practice approaches · F4 
 | Remote ID | ✅ Team handling. No arming block on our firmware (OpenDroneID isn't compiled in) |
 | Flight roles | ⬜ PIC · ground operator · safety observer · power owner, one each (`docs/FLIGHT_CARDS.md`). Proposed: P1 power owner, P4 ground operator |
 | ESC calibration method under the fence | ⬜ (a) servo tester · (b) skip if not needed · (c) outdoor G3b slot under P1 (§2 #6). Due ≈20:30 |
-| UBEC → Pi pins | ⬜ +5 V pin 2, GND **pin 14** (§2 #7) |
+| UBEC → Pi pins | ✅ +5 V pin 2, GND **pin 14** (§2 #7). Accepted by P1 at 19:48; P3 re-pins, P1 meters polarity at G4 |
 | Rest rota | ⬜ 04:00–05:45, at least 2 awake (attended LiPo charging) |
+| ⚠️ **Devpost deadline** (raised by P1, 19:48) | ⬜ **Conflict.** This file and `WORKPLAN.md` say Devpost isn't a deadline. HackRPI's published schedule says "All projects must be on Devpost by 9 AM Sunday". Proposal: hard deadline 09:00 with one named owner who isn't on a flight role; submit a complete entry (SITL video, bench footage, repo) before F2; ask the organizers whether edits are allowed until 11:00 |
+| ⚠️ **GPS supply** (raised by P1, 19:48) | ⬜ **Conflict.** `WIRING.md` §5 / `WORKPLAN.md` say VCC → FC 4V5. The original plan was the UBEC 5 V (RMRC rates the module at 5.0 V). Proposal: use 4V5 if it measures ≥ 4.75 V under battery at G2, otherwise the UBEC. P1 decides at G2 |
+| ⚠️ **Pi voltage criterion** (raised by P1, 19:48) | ⬜ **Conflict.** `WORKPLAN.md` / `WIRING.md` §9 ask for ≥ 5.1 V at the Pi, but the UBEC's correct setting is 5.0 V (6 V would exceed the Pi's input). Proposal: pass = `get_throttled` 0x0 throughout + ≥ 4.9 V at pins 2/14 under camera load. Fix sag with leads, not a higher setting |
 
 ## 6 · Remaining plan — tonight → first flight → 11:00
 P1's hardware path, re-baselined at H7.75. Each window starts as soon as the one before it passes; if a step slips, shift everything after it by the same amount. Checklists per person: [`docs/WORKPLAN.md`](docs/WORKPLAN.md).
 
 | Window (H) | Clock | Step | Who |
 |---|---|---|---|
-| 7.5 – 9.0 | 18:30–20:00 | **M1.C** power-board soldering (P10 red contact lifted first) → **G1** cold checks | P1 + P2 |
+| 7.5 – 9.0 | 18:30–20:00 | **M1.C** power-board soldering ✅ done 19:48 (reported) → **G1** cold checks (next) | P1 + P2 |
 | 7.5 – 9.5 | 18:30–20:30 | *Parallel:* Zero 2 W swap; UBEC lead re-pinned; **A1 camera opening + mount**; Pi spot proposed | P3 |
 | 7.5 – 9.5 | 18:30–20:30 | *Parallel:* Pocket model + switches; bind prep; parameter sheet; ESC-calibration method; flight-site fence + hotspot config; receiver/GPS spots proposed | P4 |
 | 9.0 – 9.5 | 20:00–20:30 | **G2** first power; log the readings (`WIRING.md` §9) | P1 + P2 |
@@ -231,7 +247,8 @@ P1's hardware path, re-baselined at H7.75. Each window starts as soon as the one
 
 ## 7 · Questions for the next round of updates
 - **FC holder (P4?):** short write-up of the wiring incident for Iain.
-- **P1:** G1/G2 results + readings? Capacitor location? UBEC GND on Pi pin 14?
+- **P1:** G1/G2 results + readings? Capacitor location? ESC red contact lifted? GPS supply decision at G2?
+- **Team:** Devpost: who owns the 09:00 submission (§5)? Agree the Pi voltage pass criterion (§5).
 - **P4:** output map + accel cal done? Pocket EdgeTX/ELRS versions? Which ESC-calibration method (§2 #6)?
 - **P3:** which Zero ribbon (length)? Zero 2 W swap done?
 - **P2:** motor label; A3 + layout done? CG marks checked against the kit manual?

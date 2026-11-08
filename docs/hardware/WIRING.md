@@ -74,7 +74,7 @@ The physical pad order on the PDB edge is `B− | ESC− | ESC− | ESC+ | ESC+ 
 |---|---|
 | TX | **RX5** |
 | RX | **TX5** |
-| VCC (5 V) | **4V5** |
+| VCC (5 V) | **4V5** ⬜ *or UBEC 5 V*. P1 decides at G2: 4V5 if it measures ≥ 4.75 V under battery (RMRC rates the module at 5.0 V), otherwise the UBEC (`STATUS.md` §5) |
 | GND | **GND** |
 | SCL | **SCL** |
 | SDA | **SDA** |
@@ -120,7 +120,7 @@ Mount the camera pointing straight down (nadir), recessed so a hard landing can'
 | FC 5 V pad | 5.2 ± 0.1 V |
 | 4V5 | 4.5–5.0 V |
 | Vx servo rail | 5.0 ± 0.1 V |
-| UBEC output | ≈ 5.0 V. Then at G4, ≥ 5.1 V **at the Pi pins** with the camera running |
+| UBEC output | ≈ 5.0 V. Then at G4, at the Pi pins with the camera running: ⬜ proposed pass = `get_throttled` 0x0 and ≥ 4.9 V. The UBEC's 5.0 V setting can't reliably give ≥ 5.1 V, and 6 V is too high for the Pi (`STATUS.md` §5) |
 | Anything warm at 60 s? | no |
 
 The 4V5 and 5 V readings also settle the wiring-incident question: the FC reports `Vcc = 0` over MAVLink.

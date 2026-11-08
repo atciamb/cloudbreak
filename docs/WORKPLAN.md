@@ -1,6 +1,6 @@
 # Work plan — tonight → 11:00 Sunday
 
-**Drafted Sat 11/7 18:45 (≈H7.75).** **Hard end Sun 11:00: flying and coding both stop.** Devpost isn't a deadline or a blocker; do it whenever there's slack.
+**Drafted Sat 11/7 18:45 (≈H7.75).** **Hard end Sun 11:00: flying and coding both stop.** Devpost isn't a deadline or a blocker; do it whenever there's slack. ⚠️ *Conflict raised by P1 (19:48): HackRPI's published schedule says projects must be on Devpost by **09:00 Sunday**. See `STATUS.md` §5.*
 
 **Goal:** real Tutor flight data in the demo, next to the SITL governed autoland:
 - F0 ground checks overnight
@@ -62,8 +62,8 @@ Hardware COLD: no LiPo, no USB. All of these go on the **PDB (power board)**, no
 - [ ] **Check the output map on screen** (`SERVO1_FUNCTION=70`, 2 = 0, 3 and 4 = 4, 5 = 19, 6 = 21) **before** the ESC signal plug goes on S1.
 - [ ] Agree the ESC-calibration / motor-direction method with P4 (§ P4 below). Approve it before anyone arms.
 - [ ] 21:30–22:30 **G3** with Andrew + P4: servos powered for centring and the direction checks; TX-off failsafe, prop off.
-- [ ] 22:30–23:00: GPS harness **by function** (`TX→RX5`, `RX→TX5`, `VCC→4V5`, `GND`, `SCL`, `SDA`), continuity on each wire, indoor detection. **microSD card in the FC**: the DataFlash log is what `sysid.py` needs from F1.
-- [ ] 23:00–23:30 **G4** with P3: Pi on the UBEC (+5 V **pin 2**, GND **pin 14**, not pin 6) plus TELEM (pins 6/8/10). Meter ≥ 5.1 V at the Pi pins with the camera running.
+- [ ] 22:30–23:00: GPS harness **by function** (`TX→RX5`, `RX→TX5`, `VCC→4V5` ⬜ *or UBEC 5 V, decided at G2 (STATUS §5)*, `GND`, `SCL`, `SDA`), continuity on each wire, indoor detection. **microSD card in the FC**: the DataFlash log is what `sysid.py` needs from F1.
+- [ ] 23:00–23:30 **G4** with P3: Pi on the UBEC (+5 V **pin 2**, GND **pin 14**, not pin 6) plus TELEM (pins 6/8/10). Meter the Pi pins with the camera running (⬜ proposed pass: `get_throttled` 0x0 and ≥ 4.9 V; never raise the UBEC above 5 V, see STATUS §5).
 - [ ] 23:30–00:30: install wiring with Andrew. TELEM pins 2, 3, 6 stay taped; tidy every wire away from the prop arc.
 - [ ] 00:30–01:15 **G3b** outdoors with P4: GPS fix, compass calibration; ESC calibration + motor direction there, if that's the method chosen.
 - [ ] 01:15–02:30 **G5** integrated run; 02:30–04:00 **F0** (TX-off failsafe, abort drill; you run power).
