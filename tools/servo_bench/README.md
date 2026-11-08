@@ -11,6 +11,7 @@ A browser page plus an Arduino sketch for testing the Tutor's servos one at a ti
 | `servo_bench_gui.html` | The control page. Opens in **Chrome or Edge** and talks to the UNO Q over USB (Web Serial). Nothing to install. |
 | `open_servo_bench.bat` | Opens the page in Chrome, or in Edge if Chrome isn't installed. Useful when your default browser is Firefox, which has no Web Serial. |
 | `servo_bench_d9/servo_bench_d9.ino` | The UNO Q sketch: drives D9 and takes commands over USB. |
+| `servo_bench_d9/src/Servo/` | The official Servo 1.3.0 library's UNO Q backend, bundled so nothing needs installing (LGPL 2.1, see its README). |
 
 ## Wiring (one servo at a time)
 
@@ -32,7 +33,7 @@ The page has the same wiring as a diagram.
 1. Open `servo_bench_d9/servo_bench_d9.ino`.
 2. **Tools › Board › Arduino UNO Q Board › Arduino UNO Q**, and pick its port. Not "Arduino Uno": that board's avrdude upload fails with `stk500_getsync`.
    If the UNO Q isn't listed, install **Arduino UNO Q Board** in Boards Manager first.
-3. In Library Manager, install **Arduino_RouterBridge** (choose "Install all"). Make sure **Servo** is **1.3.0 or newer**, the first version that supports the UNO Q. Older versions stop with "This library only supports boards with an AVR, SAM…".
+3. Servo is bundled with the sketch (`servo_bench_d9/src/Servo`), so there's nothing to install for it. Keep the whole `servo_bench_d9` folder together. If the IDE says `Arduino_RouterBridge.h` is missing, install **Arduino_RouterBridge** from Library Manager (choose "Install all").
 4. Upload. The servo centres at 1500 µs right away, even before the USB link is up, so the board doubles as a centring jig.
 
 ## Using it
@@ -77,7 +78,7 @@ Replies are `ID cloudbreak-servo-bench v1 …`, `ST us=… tgt=… mode=HOLD|SWE
 
 - The UNO Q's USB-C port goes to its Linux processor, not to the microcontroller. The sketch therefore talks to the PC through the `Monitor` object from **Arduino_RouterBridge**. On this board `Serial` is the hardware UART on D0/D1.
 - `Monitor.begin()` waits until Linux has booted. The sketch attaches the servo before calling it, which is why centring starts immediately.
-- Pulses come from the **Servo** library's hardware-timer interrupt (4 µs steps, 50 Hz), so they keep running while the sketch waits on USB traffic. **Release** detaches the servo with interrupts off, so the library's interrupt never sees a half-freed slot.
+- Pulses come from the bundled **Servo** library's hardware-timer interrupt (4 µs steps, 50 Hz), so they keep running while the sketch waits on USB traffic. **Release** detaches the servo with interrupts off, so the library's interrupt never sees a half-freed slot.
 - The page clamps to 1100–1900 µs (or 1000–2000 µs in extended mode). The sketch also clamps to 1000–2000 µs whatever it's sent.
 
 ## Troubleshooting
@@ -87,7 +88,7 @@ Replies are `ID cloudbreak-servo-bench v1 …`, `ST us=… tgt=… mode=HOLD|SWE
 | Upload error `avrdude … stk500_getsync` | Wrong board selected: choose Arduino UNO Q. |
 | `Arduino_RouterBridge.h: No such file` | Install Arduino_RouterBridge from Library Manager. |
 | `Please update the Arduino_RouterBridge library` | Update it in Library Manager. |
-| Servo library `#error` about supported boards | Update Servo to 1.3.0 or newer. |
+| `Servo.h: No such file or directory` | The sketch was copied without its `src/` folder. Copy the whole `servo_bench_d9` folder. |
 | "Couldn't open the port" | Close the IDE Serial Monitor (or any other app using the port), then retry. |
 | Port open but the board stays quiet | Wait about a minute after power-up. Check the sketch uploaded. Try **Other port…** and pick COM3 directly. |
 | Page says the browser can't open serial ports | Open it in Chrome or Edge, or run `open_servo_bench.bat`. |

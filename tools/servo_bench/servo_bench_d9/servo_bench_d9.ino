@@ -12,8 +12,8 @@
 
   BEFORE UPLOADING (Arduino IDE 2)
     Tools > Board > Arduino UNO Q Board > Arduino UNO Q   (NOT "Arduino Uno")
-    Library Manager: install "Arduino_RouterBridge" (accept "Install all")
-    Library Manager: "Servo" must be 1.3.0 or newer (first version with UNO Q support)
+    Library Manager: install "Arduino_RouterBridge" if the IDE says it's missing
+    Servo is bundled in src/Servo (official Servo 1.3.0, UNO Q backend): nothing to install
 
   WHY Monitor AND NOT Serial
     On the UNO Q the USB-C port goes to the Linux side. Text to and from the
@@ -40,7 +40,7 @@
 */
 
 #include <Arduino_RouterBridge.h>
-#include <Servo.h>
+#include "src/Servo/Servo.h"   // bundled Servo 1.3.0, see src/Servo/README.md
 #include <math.h>
 
 #if !defined(ARDUINO_ARCH_ZEPHYR)

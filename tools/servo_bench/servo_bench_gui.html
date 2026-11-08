@@ -339,7 +339,7 @@
         <ol>
           <li>Open <code>tools\servo_bench\servo_bench_d9\servo_bench_d9.ino</code> in the Arduino IDE.</li>
           <li><b>Tools › Board › Arduino UNO Q Board › Arduino UNO Q</b>, port <b>COM3</b>. Not "Arduino Uno".</li>
-          <li>Library Manager: install <b>Arduino_RouterBridge</b> (choose "Install all"), and make sure <b>Servo</b> is <b>1.3.0 or newer</b>.</li>
+          <li>Nothing to install for Servo: it's bundled in the sketch's <code>src</code> folder. If the IDE says <code>Arduino_RouterBridge.h</code> is missing, install <b>Arduino_RouterBridge</b> from Library Manager ("Install all").</li>
           <li>Upload. The servo centres right away; the USB link comes up once the board's Linux side has booted (up to a minute after power-up).</li>
           <li><b>Close the IDE's Serial Monitor</b> (it holds COM3), then press <b>Connect UNO Q</b> here and pick the UNO Q port.</li>
           <li>No reply? Press <b>Other port…</b> and choose COM3, or type commands in the IDE Serial Monitor instead (line ending "New Line").</li>
