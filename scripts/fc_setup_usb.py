@@ -7,11 +7,14 @@ What it sets (ArduPlane 4.7.2 names, verified in SITL):
   * Pi link on SERIAL4 (UART4 T4/R4): MAVLink2 @115200, stream rates on the matching MAVn instance
   * identity: MAV_SYSID=42 (4.7 name for SYSID_THISMAV); only the governor (sysid 245) counts as GCS for the GCS failsafe
   * no airspeed sensor; throttle-up landing abort; RC + GCS failsafes -> RTL; RTL never auto-lands
+  * the Tutor output map ([outputs]: S1 ESC, S3/S4 ailerons, S5 elevator, S6 rudder)
   * MAVLink2 signing key (C:\\cb-data\\keys\\mavlink_real.key) -- after this, only signed commands are accepted on
     non-USB ports (i.e. through the Pi). USB stays open for setup/recovery.
-It does NOT touch control tuning, servo outputs, mode switches or arming checks. The desired values live in
+It does NOT touch servo directions/trims, control tuning, mode switches or arming checks. The desired values live in
 config/fc_params.toml. Normal setup and the geofence go through the Pi (scripts/fc_params_pi.py). This USB script
 is for recovery and for the link/identity parameters the Pi refuses to change (SERIAL4_*, MAV_SYSID, signing key).
+With the FC on this laptop's USB and scripts/gcs_proxy.py running, use --port tcp:127.0.0.1:5770 --no-signing
+(the proxy never forwards SETUP_SIGNING; the key is already on the FC).
 Prop OFF and battery handling per the team's power-on rules while doing this.
 """
 from __future__ import annotations
@@ -25,7 +28,8 @@ from cloudbreak.common.mav import GCS_COMPID, Link, install_signing_key, load_ke
 from cloudbreak.common.config import load_toml  # noqa: E402
 
 # single source of truth, shared with scripts/fc_params_pi.py (SERIAL4_BAUD comes from --baud here)
-PARAMS = {k: v for k, v in load_toml("fc_params.toml")["params"].items() if k != "SERIAL4_BAUD"}
+_CFG = load_toml("fc_params.toml")
+PARAMS = {k: v for k, v in {**_CFG["params"], **_CFG.get("outputs", {}), **_CFG.get("radio", {})}.items() if k != "SERIAL4_BAUD"}
 STREAMS = {"EXTRA1": 20, "POSITION": 10, "EXTRA2": 5, "EXTRA3": 2, "EXT_STAT": 4, "RC_CHAN": 4, "RAW_SENS": 2}
 
 

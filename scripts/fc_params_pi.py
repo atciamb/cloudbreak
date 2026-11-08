@@ -2,7 +2,7 @@
 
     .venv\\Scripts\\python scripts\\fc_params_pi.py backup                   # full parameter backup (read-only)
     .venv\\Scripts\\python scripts\\fc_params_pi.py audit                    # config/fc_params.toml vs the FC (read-only)
-    .venv\\Scripts\\python scripts\\fc_params_pi.py apply [--yes]            # set differing [params]
+    .venv\\Scripts\\python scripts\\fc_params_pi.py apply [--yes]            # set differing [params] + [outputs]
     .venv\\Scripts\\python scripts\\fc_params_pi.py fence --site schuyler [--yes]   # upload polygon, then [fence] params
 
 Without --yes, apply/fence only print what they would do.
@@ -139,7 +139,7 @@ def cmd_backup(link: Link, a) -> int:
 
 def cmd_audit(link: Link, a) -> int:
     cfg = load_toml("fc_params.toml")
-    plan = dict(cfg["params"])
+    plan = {**cfg["params"], **cfg.get("outputs", {}), **cfg.get("radio", {})}
     if a.site:
         set_site(a.site)
     fence = site_fence(site())
@@ -156,7 +156,8 @@ def cmd_audit(link: Link, a) -> int:
 
 
 def cmd_apply(link: Link, a) -> int:
-    plan = dict(load_toml("fc_params.toml")["params"])
+    cfg = load_toml("fc_params.toml")
+    plan = {**cfg["params"], **cfg.get("outputs", {}), **cfg.get("radio", {})}
     rows = diff(link, plan)
     print_rows(rows)
     changes = [(k, want) for k, cur, want in rows if cur is not None and abs(cur - want) > 1e-4 and not param_denied(k)]

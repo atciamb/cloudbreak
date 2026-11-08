@@ -3,7 +3,8 @@
 #   over USB (recovery):   scripts/fc_setup_usb.py --port COMx [--apply]
 # The Pi bridge refuses to forward SERIAL4_*, MAV3_*, MAV_SYSID, MAV_GCS_SYSID and ARMING_* changes (they could cut
 # the link or weaken arming checks), so those can only be changed over USB. They are still audited here.
-# Not touched: control tuning, servo outputs, mode switches, arming checks.
+# Output functions are in [outputs]. Not touched: servo directions/trims/throws (set at G3 on the airframe),
+# control tuning, mode switches, arming checks.
 
 [params]
 SERIAL4_PROTOCOL = 2      # MAVLink2 on UART4 (TELEM connector) to the Pi            (USB only)
@@ -22,6 +23,25 @@ RTL_AUTOLAND = 0          # RTL loiters at home; it never lands by itself
 RTL_ALTITUDE = 50         # m; flight card says 50 m, and it must stay well below FENCE_ALT_MAX (100)
 BRD_RTC_TYPES = 1
 WP_RADIUS = 20
+
+[outputs]
+# Tutor output map (STATUS.md section 2 #1). Applied by fc_setup_usb.py / fc_params_pi.py apply, audited with [params].
+# The ESC goes on S1 only after P1 has seen these values read back. Directions (SERVOn_REVERSED) are set at G3.
+SERVO1_FUNCTION = 70      # S1: ESC / throttle
+SERVO2_FUNCTION = 0       # S2: unused
+SERVO3_FUNCTION = 4       # S3: aileron (left)
+SERVO4_FUNCTION = 4       # S4: aileron (right)
+SERVO5_FUNCTION = 19      # S5: elevator
+SERVO6_FUNCTION = 21      # S6: rudder
+
+[radio]
+# Flight modes + RC options from P4's parameter sheet (docs/WORKPLAN.md). A 3-position switch on FLTMODE_CH gives
+# slots 1 / 4 / 6 (ELRS ~988 / 1500 / 2012 us). RC calibration (RCn_MIN/MAX/TRIM) is per radio: scripts/fc_bench.py radio.
+FLTMODE_CH = 8            # mode channel
+FLTMODE1 = 5              # switch low: FBWA (was RTL: the FC sat in RTL whenever the switch was low)
+FLTMODE4 = 10             # switch middle: AUTO
+FLTMODE6 = 11             # switch high: RTL
+RC7_OPTION = 0            # the consent switch (RC7) does nothing on the FC; the governor reads it (> 1700 us)
 
 [fence]
 # Applied by `fc_params_pi.py fence --site <key>` AFTER the site's polygon is uploaded and read back.

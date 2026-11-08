@@ -1,8 +1,21 @@
 # Cloudbreak — Master Status
 
-**Last merged:** 2026-11-07 21:02 (≈H10.0; H0 = Sat 11:00) · **Hard end H24 (Sun 11:00): flying and coding both stop.** ⚠️ **Devpost:** HackRPI's published schedule says projects must be on Devpost **by 09:00 Sunday**. This conflicts with "Devpost isn't a deadline" below; see §5.
+**Last merged:** 2026-11-08 00:26 (≈H13.4; H0 = Sat 11:00) · **Hard end H24 (Sun 11:00): flying and coding both stop.** ⚠️ **Devpost:** HackRPI's published schedule says projects must be on Devpost **by 09:00 Sunday**. This conflicts with "Devpost isn't a deadline" below; see §5.
 
-**Changed in this merge (P1 21:02):**
+**Changed in this merge (software 00:26):** bench tests with the FC and the Pocket at the software laptop ([`SW_2026-11-08_0026`](docs/updates/SW_2026-11-08_0026_bench-tests.md)):
+- ✅ Mission Planner connected through the proxy (its log: 842 FC messages accepted).
+- ✅ Accel calibration (bare FC); ✅ XR1 bound (16 channels); ✅ radio calibration; ✅ flight modes FBWA / AUTO / RTL (switch-low used to be RTL).
+- ✅ Pocket switches: CH8 mode switch, CH7 consent (latching, 2000 when ON). Before tonight nothing was mapped to CH5–CH8.
+- ✅ TX-off failsafe, FC side (bench): CIRCLE at once, RTL after 19 s, cleared when the Pocket came back.
+- ⚠️ The bare-board level step left AHRS trim at roll −6.7°: **Calibrate Level after install** is now required, not optional.
+
+*Previous merge (software 23:25, plus P1 22:51 and P2 22:30):*
+- ✅ **Mission Planner blocker fixed without touching signing.** `scripts/gcs_proxy.py` on the key-holding laptop checks and strips the FC's signatures toward Mission Planner (UDP 14550) and signs Mission Planner's commands toward the FC. It never forwards SETUP_SIGNING. Tested on the real FC with repo clients; Mission Planner itself (1.3.83, now installed on the software laptop) not yet.
+- ✅ **Output map set and read back** (23:09, through the proxy): S1 70, S2 0, S3/S4 4, S5 19, S6 21. ⚠️ S1 put out 1500 µs until the FC was rebooted, and S3 kept the old throttle trim (fixed to 1500). After the reboot S1 reads 1100 µs disarmed. **P1 still checks it on screen before the ESC goes on S1.**
+- FC checks (USB, indoors): microSD card present and healthy; GPS detected (no fix indoors); compass QMC5883L at I2C 0x0D detected. **RC: 0 channels**, so the XR1 isn't bound yet. Accel and compass not calibrated (tools ready: `scripts/fc_bench.py`).
+- From P1 22:51: XR1 wired (TX→R6, RX→T6, 5V→4V5); GPS harness built by function. From P2 22:30: servo bench tester (`tools/servo_bench`), a candidate for ESC-calibration method (a).
+
+*Previous merge (P1 21:02):*
 - ✅ **G2 passed** (approximate readings): pack ≈12 V; FC 5V, 4V5, Vx and UBEC output all ≈5 V; no heat.
 - The **FC supply rails are healthy** after the wiring incident.
 - The **ESC has a BEC** (≈5 V on its plug's middle wire), so its red contact must be lifted before S1.
@@ -46,7 +59,7 @@
 - ✈️ **The airframe is built** (P2). Wing fit + layout ≈20:30; surfaces at G3 (≈21:30); install + CG ≈23:30.
 - 🔌 **Wiring:** full diagram + connection tables in [`docs/hardware/WIRING.md`](docs/hardware/WIRING.md).
 - ⚠️ **Top hazards:**
-  - Output map still at defaults (no ESC on S1 yet).
+  - Output map set 23:09 and read back; waiting for P1's on-screen check before the ESC goes on S1. Reboot the FC after any SERVOn_FUNCTION change (S1 kept 1500 µs until a reboot).
   - Possible 4V5 back-feed.
   - The FC can't arm at the bench (fence + no GPS indoors), so ESC calibration and motor direction need the method in §2 #6.
   - Pi pin 6 is double-booked (§2 #7).
@@ -62,8 +75,8 @@
 | — | Airframe build (P2) | ◐ Built, untested | Fuselage, wing, power pod, gear, skewers done. Motor mounted (not wired). 4 servos installed + linked. Not a gate; feeds G3 (surfaces) and F0 (CG) |
 | **G1** | Harness checked cold | ◐ **Not recorded** | M1.C soldered 19:48. The G1 meter results weren't posted before G2. Still to confirm: capacitor polarity (striped leg ≈0 Ω to B−), the ESC XT60 polarity, joint photos |
 | **G2** | First power, numbers logged | ✅ **Pass (approx.)** | ≈21:00 (P1). Pack ≈12 V; FC 5V ≈5 V; 4V5 ≈5 V; Vx 5 V; UBEC out ≈5 V; ESC plug middle wire ≈5 V (it has a BEC); no heat at 60 s. `docs/CHECKLIST.md` |
-| **G3** | Radio + surfaces correct | ⬜ | Outputs still at ArduPlane defaults (S1 = aileron, S3 = throttle). Accelerometer calibration needed. No receiver yet. Surface work = P2 step A4 |
-| **G3b** | GPS + compass + log | ⬜ | "Compass 1 not healthy" (nothing connected yet) |
+| **G3** | Radio + surfaces correct | ⬜ | Output map **set 23:09** and read back (S1 1100 µs disarmed after a reboot; `docs/CHECKLIST.md`); P1's on-screen check pending. XR1 **bound** (00:00, 16 channels); **radio cal** and **accel cal** done; flight modes + Pocket mode/consent switches set; TX-off failsafe passes on the FC side. Left: surfaces (centring, throws, FBWA then MANUAL directions) and the failsafe with servos + ESC powered. Mission Planner now usable via `scripts/gcs_proxy.py`. Surface work = P2 step A4 |
+| **G3b** | GPS + compass + log | ◐ Detected indoors | GPS harness built (P1 22:51). 23:11: GPS detected (no fix indoors), compass QMC5883L at I2C 0x0D, microSD present and healthy. Still to do outdoors: 3D fix, compass calibration (installed), a log |
 | **G4** | Pi ↔ FC MAVLink **on UBEC** | ◐ **Partial** | MAVLink passes over TELEM/UART4 at 230400 (FC→Pi 17:14; signed HITL 17:33). That was a Pi 3 on its own supply with the FC on USB. **Not yet done:** Pi on the UBEC, voltage under load, the Zero 2 W |
 | **G5** | Integrated bench run | ⬜ | — |
 
@@ -92,7 +105,7 @@ F0 ground checks · F1 maiden · F2 AUTO survey · F3 practice approaches · F4 
    - `SERVO5_FUNCTION=19` (elevator)
    - `SERVO6_FUNCTION=21` (rudder)
 
-   At the moment S1 sends an aileron-centre signal, which could mean about half throttle.
+   **Set 23:09 and read back** (`docs/CHECKLIST.md`). It took a reboot before S1 put out the 1100 µs minimum: until then it still sent 1500 µs, about half throttle. P1 checks the values on screen (`scripts/fc_bench.py outputs` or Mission Planner via `scripts/gcs_proxy.py`) before the ESC goes on S1.
 2. 🟠 **Wiring incident on the Pi↔FC link** (CHECKLIST). The FC's **settings** were verified intact through the Pi (17:46). **G2 (≈21:00): the FC 5V and 4V5 supplies both measure ≈5 V, so the supply rails are healthy.** The `POWER_STATUS Vcc = 0` report is a software reading. **TELEM pin 6 (4V5) and pins 2–3 stay taped.** The FC holder owes P1 a short write-up.
 3. 🟠 **Every session with the Pi wired to the FC goes through the power marshal (P1)**, the same as USB and battery sessions.
 4. The prop stays in its bag. No soldering unless the hardware is COLD. Electronics booting ≠ flight readiness.
@@ -182,12 +195,12 @@ F0 ground checks · F1 maiden · F2 AUTO survey · F3 practice approaches · F4 
 |---|---|---|---|
 | ~~FC is on the Pi/HITL bench~~ | — | — | ✅ Closed: M1.C soldered (19:48) |
 | ~~G1 + G2 not done~~ | — | — | ✅ G2 passed ≈21:00 (G1 results still to record) |
-| 🔴 **Mission Planner can't connect over USB (21:27)** | M2 output map check, radio cal, accel cal, G3 surface/failsafe checks | Key holder (software) + P4 + P1 | The FC signs everything (USB too) and MP without the key drops it all: raw log 100 % signed sysid-42 frames, zero accepted. Options in `docs/updates/P1_2026-11-07_2127_MP-signing.md`: (1) output map via repo tools; (2) team key loaded into MP (untested); (3) P1-approved temporary signing removal, restored and re-audited 17/17 + HITL |
-| No servo tester confirmed | ESC-calibration method (a) | Anyone | Someone finds one (event hardware table / mentors), or the team picks (b)/(c) |
-| Output mapping at defaults | ESC on S1, servo centring, G3 / P2 A4 | P4 | Values confirmed on screen by P1 |
+| ~~Mission Planner can't connect over USB (21:27)~~ | — | — | ✅ 23:13: signing proxy on the key-holding laptop (`scripts\mission_planner_signed.bat`; MP → UDP 14550). Signing stays on. Use the FC on that laptop's USB for calibrations. MP itself not yet exercised |
+| No servo tester confirmed | ESC-calibration method (a) | P1 + P4 | Candidate: P2's UNO Q servo bench tester (`tools/servo_bench`, 22:30). Team decides whether it is used for the ESC, or picks (b)/(c) |
+| Output mapping checked on screen | ESC on S1, servo centring, G3 / P2 A4 | P1 | Set + read back 23:09 (software); P1 confirms on screen |
 | Wiring-incident details | Clearing the 4V5 back-feed concern | FC holder | Write-up in CHECKLIST + P1 inspection at G2 (4V5 / FC 5 V readings) |
 | Pad photo + ESC photo review | Capacitor location; ESC red contact | P1 → AI | Photos sent |
-| No receiver bound | G3, all pre-arm | P4 | XR1 wired after G2 |
+| ~~No receiver bound~~ | — | — | ✅ 00:00: XR1 bound to the Pocket, radio cal written, mode + consent switches mapped |
 | Bay layout not agreed | P2 A2 (gluing), install at ≈23:00 | P2 + P1 + P4 | Layout agreed on the dry-fit |
 | Camera cable length unknown | P2 A1 final cut | P3 | P3 confirms which Zero ribbon we have |
 | Fence blocks arming off-site | ESC calibration + motor direction through the FC | P4 + P1 | Method agreed by ≈20:30 (§2 #6) |

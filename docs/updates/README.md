@@ -36,5 +36,7 @@ Software work (SITL, core, planner, governor, agent, HITL) is logged in the comm
 | [P1_2026-11-07_2003.md](P1_2026-11-07_2003.md) | P1 | UBEC jumper on 5 V (output measured at G2); ESC red-contact method; G1 → G2 next |
 | [P1_2026-11-07_2102_G2.md](P1_2026-11-07_2102_G2.md) | P1 | **G2 passed** (approximate readings); ESC has a BEC; XR1 on 4V5; M2 order |
 | [P1_2026-11-07_2127_MP-signing.md](P1_2026-11-07_2127_MP-signing.md) | P1 | 🔴 Mission Planner can't connect over USB: the FC signs everything and MP has no key. Options |
+| [SW_2026-11-07_2325_FC-ground-station.md](SW_2026-11-07_2325_FC-ground-station.md) | Software (key holder) | Signing proxy so Mission Planner can run on the signed FC (tested with repo clients; MP itself not yet); output map set + read back; S1 needed a reboot; SD card, GPS, compass checked; RC not bound |
+| [SW_2026-11-08_0026_bench-tests.md](SW_2026-11-08_0026_bench-tests.md) | Software (key holder) | Mission Planner connected; accel cal; XR1 bound; radio cal; flight modes; Pocket mode + consent switches; TX-off failsafe (FC side) |
 
 Path note: P1's updates refer to `docs/inav_backup.txt` (P1's local copy). In the repo it's [`docs/hardware/fc/inav_8.0.1_backup_20261107.txt`](../hardware/fc/inav_8.0.1_backup_20261107.txt).

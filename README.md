@@ -151,6 +151,38 @@ The Pi forwards parameter writes only inside a 5-minute maintenance window, whic
 
 **Geofence:** each site's `[fence]` polygon is uploaded to the FC (breach → RTL). The planner and governor require every planned path point to be 20 m inside it. With the fence enabled, the FC refuses to arm outside the polygon, so upload the right site's fence before flying somewhere else.
 
+## Operating the FC from the laptop (Mission Planner + the signing proxy)
+
+The FC signs every frame it sends, USB included, so a ground station without the key (Mission Planner) discards all of it. Mission Planner can't hold our key either: its signing dialog makes a key from a passphrase. `scripts/gcs_proxy.py` holds the key instead:
+- FC → ground station: it checks each frame's signature and strips it.
+- Ground station → FC: it signs each frame.
+- It never forwards SETUP_SIGNING, so no ground station can change or clear the key.
+
+It listens on 127.0.0.1 only and logs every parameter write, command and mode change to `C:\cb-data\proxy\`.
+
+```powershell
+scripts\mission_planner_signed.bat                                  # proxy (FC on USB, found by itself) + Mission Planner
+.venv\Scripts\python scripts\gcs_proxy.py                           # proxy only; --fc COM5 or --fc tcp:<pi>:14560
+.venv\Scripts\python scripts\gcs_proxy.py --read-only               # watching only: nothing that changes the FC is sent
+```
+
+In Mission Planner, choose **UDP** in the connection box at the top right, then **Connect**, port **14550**. Don't pick the FC's COM port there, because the proxy holds it. Repo scripts use the proxy's TCP port: `--port tcp:127.0.0.1:5770` (`fc_setup_usb.py` also needs `--no-signing` this way; the key is already on the FC).
+
+Bench checks and calibrations without Mission Planner (`scripts/fc_bench.py`; through the proxy if it's running, else straight on USB). Each run writes a record to `C:\cb-data\fc\bench_*.json`:
+
+```powershell
+.venv\Scripts\python scripts\fc_bench.py status     # pre-arm failures, GPS, compass, RC, SD card, output map
+.venv\Scripts\python scripts\fc_bench.py outputs    # output map read-back for P1 (flags throttle not at minimum, off-centre trims)
+.venv\Scripts\python scripts\fc_bench.py rc         # live RC channels (bind check)
+.venv\Scripts\python scripts\fc_bench.py logs       # microSD card check + DataFlash log list
+.venv\Scripts\python scripts\fc_bench.py accel      # 6-position accel calibration; detects each position by itself
+.venv\Scripts\python scripts\fc_bench.py radio      # RCn_MIN/MAX/TRIM from stick sweeps (needs the receiver bound)
+.venv\Scripts\python scripts\fc_bench.py compass --accept   # outdoors, installed in the airframe
+.venv\Scripts\python scripts\fc_bench.py level      # installed, at flying attitude
+```
+
+**After changing any SERVOn_FUNCTION, reboot the FC and run `fc_bench.py outputs` before plugging anything in.** On 2026-11-07, S1 kept putting out 1500 µs (aileron centre) after it became the throttle output, and dropped to the 1100 µs minimum only after a reboot.
+
 The listen-only link check from the initial skeleton still works. On the Pi, stop `cloudbreak-mavbridge` first, because the UART can have only one reader:
 
 ```bash
