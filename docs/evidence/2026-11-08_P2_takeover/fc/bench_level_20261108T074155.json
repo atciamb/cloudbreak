@@ -1,0 +1,20 @@
+{
+  "command": "level",
+  "port": "COM4",
+  "time": "2026-11-08T07:41:55",
+  "result": {
+    "ok": true,
+    "trims": {
+      "AHRS_TRIM_X": -0.015888303518295288,
+      "AHRS_TRIM_Y": -0.013932687230408192
+    },
+    "text": [
+      "Initialising ArduPilot",
+      "Trim OK: roll=-0.91 pitch=-0.79 yaw=0.00",
+      "PreArm: Accels calibrated requires reboot",
+      "PreArm: Compass not calibrated",
+      "PreArm: GPS 1: Bad fix",
+      "PreArm: Fence requires position"
+    ]
+  }
+}

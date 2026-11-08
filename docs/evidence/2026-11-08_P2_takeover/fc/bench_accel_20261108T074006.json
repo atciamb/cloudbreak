@@ -1,0 +1,37 @@
+{
+  "command": "accel",
+  "port": "COM4",
+  "time": "2026-11-08T07:40:06",
+  "result": {
+    "ok": true,
+    "done": [
+      "LEFT",
+      "RIGHT",
+      "NOSE DOWN",
+      "NOSE UP",
+      "BACK"
+    ],
+    "params": {
+      "INS_ACCOFFS_X": -0.010180605575442314,
+      "INS_ACCOFFS_Y": -0.1843695342540741,
+      "INS_ACCOFFS_Z": -0.022067176178097725,
+      "INS_ACCSCAL_X": 0.9983517527580261,
+      "INS_ACCSCAL_Y": 0.996051549911499,
+      "INS_ACCSCAL_Z": 0.9907332062721252
+    },
+    "text": [
+      "PreArm: AHRS: EKF3 Roll/Pitch inconsistent 48 deg.",
+      " Wait or rebo",
+      "PreArm: Compass not calibrated",
+      "PreArm: GPS 1: Bad fix",
+      "PreArm: Fence requires position",
+      "PreArm: AHRS: EKF3 Roll/Pitch inconsistent 74 deg.",
+      " Wait or rebo",
+      "PreArm: Compass not calibrated",
+      "PreArm: GPS 1: Bad fix",
+      "PreArm: Fence requires position",
+      "trim over maximum of 10 degrees",
+      "Calibration successful"
+    ]
+  }
+}

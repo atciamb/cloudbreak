@@ -1,0 +1,59 @@
+{
+  "fc_sysid": 42,
+  "mode": "FBWA",
+  "armed": false,
+  "battery_v": 10.78,
+  "compass_primary": "QMC5883L on I2C bus 0 addr 0x0d",
+  "compass_second": "none",
+  "compass_calibrated": false,
+  "accel_calibrated": true,
+  "level_trim_deg": {
+    "roll": -6.69,
+    "pitch": -1.31
+  },
+  "rc_channels": 16,
+  "rc_rssi": 255,
+  "gps": {
+    "fix_type": 1,
+    "sats": 0
+  },
+  "unhealthy": [
+    "SENSOR_3D_GYRO",
+    "SENSOR_GPS",
+    "TERRAIN",
+    "PREARM_CHECK"
+  ],
+  "mag_present": true,
+  "mag_health": {
+    "enabled": true,
+    "healthy": true
+  },
+  "logging": {
+    "enabled": false,
+    "healthy": true
+  },
+  "params": {
+    "COMPASS_DEV_ID": 855297.0,
+    "COMPASS_DEV_ID2": 0.0,
+    "COMPASS_USE": 1.0,
+    "COMPASS_EXTERNAL": 1.0,
+    "COMPASS_ORIENT": 0.0,
+    "COMPASS_OFS_X": 0.0,
+    "COMPASS_OFS_Y": 0.0,
+    "COMPASS_OFS_Z": 0.0,
+    "INS_ACCOFFS_X": -0.03589402139186859,
+    "INS_ACCOFFS_Y": -0.1917371153831482,
+    "INS_ACCOFFS_Z": -0.017543701454997063,
+    "AHRS_TRIM_X": -0.11681206524372101,
+    "AHRS_TRIM_Y": -0.022861212491989136,
+    "SERIAL6_PROTOCOL": 23.0,
+    "RC_PROTOCOLS": 1.0,
+    "BATT_CAPACITY": 3300.0,
+    "BATT_MONITOR": 4.0,
+    "SERIAL1_PROTOCOL": 2.0,
+    "SERIAL1_BAUD": 115.0,
+    "LOG_BACKEND_TYPE": 1.0,
+    "ARMING_SKIPCHK": 0.0
+  },
+  "params_missing": []
+}

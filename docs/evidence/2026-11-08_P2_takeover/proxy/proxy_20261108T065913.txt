@@ -1,0 +1,23 @@
+2026-11-08 06:59:13 signing proxy: FC tcp:169.254.77.2:14560 | Mission Planner: UDP 14550 | scripts: tcp:127.0.0.1:5770 | READ-ONLY | log C:\CB_setup\proxy\proxy_20261108T065913.log
+2026-11-08 06:59:13 FC connected on tcp:169.254.77.2:14560
+2026-11-08 06:59:14 FC frames verify with the real key (sysid 42); ground stations may now watch
+2026-11-08 06:59:20 tcp 127.0.0.1:63597 connected
+2026-11-08 06:59:22 REFUSED from tcp 127.0.0.1:63597 (sysid 255): read-only: command 401 [COMMAND_LONG MAV_CMD_RUN_PREARM_CHECKS 0 0 0 0 0 0 0]
+2026-11-08 06:59:28 FC hb 0.5s ago, disarmed, mode 5 | down ok 1529 badsig 0 unsigned 0 replay 0 | up fwd 1 refused 3 | tcp clients 1
+2026-11-08 06:59:28 tcp 127.0.0.1:63597 (sysid 255): COMMAND_LONG MAV_CMD_REQUEST_MESSAGE 1 0 0 0 0 0 0
+2026-11-08 06:59:29 tcp 127.0.0.1:63597 (sysid 255): COMMAND_LONG MAV_CMD_REQUEST_MESSAGE 24 0 0 0 0 0 0
+2026-11-08 06:59:30 tcp 127.0.0.1:63597 (sysid 255): COMMAND_LONG MAV_CMD_REQUEST_MESSAGE 65 0 0 0 0 0 0
+2026-11-08 06:59:31 tcp 127.0.0.1:63597 (sysid 255): COMMAND_LONG MAV_CMD_REQUEST_MESSAGE 147 0 0 0 0 0 0
+2026-11-08 06:59:43 FC hb 0.4s ago, disarmed, mode 5 | down ok 3030 badsig 0 unsigned 0 replay 0 | up fwd 10 refused 3 | tcp clients 1
+2026-11-08 06:59:58 FC hb 0.5s ago, disarmed, mode 5 | down ok 4532 badsig 0 unsigned 0 replay 0 | up fwd 17 refused 3 | tcp clients 1
+2026-11-08 07:00:13 FC hb 0.4s ago, disarmed, mode 5 | down ok 6019 badsig 0 unsigned 0 replay 0 | up fwd 25 refused 3 | tcp clients 1
+2026-11-08 07:00:28 FC hb 0.4s ago, disarmed, mode 5 | down ok 7528 badsig 0 unsigned 0 replay 0 | up fwd 32 refused 3 | tcp clients 1
+2026-11-08 07:00:43 FC hb 0.4s ago, disarmed, mode 5 | down ok 9023 badsig 0 unsigned 0 replay 0 | up fwd 40 refused 3 | tcp clients 1
+2026-11-08 07:00:58 FC hb 0.4s ago, disarmed, mode 5 | down ok 10520 badsig 0 unsigned 0 replay 0 | up fwd 47 refused 3 | tcp clients 1
+2026-11-08 07:01:13 FC hb 0.4s ago, disarmed, mode 5 | down ok 12014 badsig 0 unsigned 0 replay 0 | up fwd 55 refused 3 | tcp clients 1
+2026-11-08 07:01:28 FC hb 0.4s ago, disarmed, mode 5 | down ok 13528 badsig 0 unsigned 0 replay 0 | up fwd 62 refused 3 | tcp clients 1
+2026-11-08 07:01:43 FC hb 0.4s ago, disarmed, mode 5 | down ok 15045 badsig 0 unsigned 0 replay 0 | up fwd 69 refused 3 | tcp clients 1
+2026-11-08 07:01:58 FC hb 0.4s ago, disarmed, mode 5 | down ok 16545 badsig 0 unsigned 0 replay 0 | up fwd 77 refused 3 | tcp clients 1
+2026-11-08 07:02:13 FC hb 0.3s ago, disarmed, mode 5 | down ok 18046 badsig 0 unsigned 0 replay 0 | up fwd 84 refused 3 | tcp clients 1
+2026-11-08 07:02:23 tcp 127.0.0.1:63597 disconnected
+2026-11-08 07:02:28 FC hb 0.3s ago, disarmed, mode 5 | down ok 19568 badsig 0 unsigned 0 replay 0 | up fwd 89 refused 3 | tcp clients 0

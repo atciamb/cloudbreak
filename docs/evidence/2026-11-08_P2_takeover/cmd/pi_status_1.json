@@ -1,0 +1,68 @@
+﻿{
+    "t_boot_ns":  4671680623479,
+    "wall":  1794139029.7197258,
+    "session":  "42c6b7c7_20261108-0528",
+    "health":  {
+                   "temp_c":  54.768,
+                   "throttled":  {
+                                     "raw":  "0x0",
+                                     "flags":  [
+
+                                               ]
+                                 },
+                   "mem_mb":  {
+                                  "total":  906,
+                                  "available":  613
+                              },
+                   "load":  [
+                                0.9111328125,
+                                0.7353515625,
+                                0.7197265625
+                            ],
+                   "disk_free_gb":  16.07
+               },
+    "capture":  {
+                    "frames":  46350,
+                    "selected":  2259,
+                    "flagged":  0,
+                    "t_start":  1794133716.8953907
+                },
+    "latest_frame":  "f002258",
+    "bridge":  {
+                   "fc_msgs":  464339,
+                   "fc_bytes":  20776978,
+                   "udp_sent":  0,
+                   "udp_err":  0,
+                   "uplink_conn":  0,
+                   "last_fc_ns":  4671619257909,
+                   "streams_ok":  true,
+                   "uplink":  {
+
+                              },
+                   "ground":  [
+
+                              ],
+                   "maintenance":  {
+                                       "open":  false,
+                                       "why":  "no-window",
+                                       "left_s":  0.0
+                                   }
+               },
+    "clock":  {
+                  "offset_ns":  -8984792652169.25,
+                  "drift_ppm":  899.8581140766828,
+                  "t_ref_ns":  4669656387001,
+                  "n":  3189,
+                  "resid_ns":  213698.5887895795,
+                  "latency_bias_ns":  0.0
+              },
+    "pose":  {
+                 "lat":  0.0,
+                 "lon":  0.0,
+                 "rel_alt":  -2.339,
+                 "groundspeed":  0.0,
+                 "fix":  1,
+                 "sats":  0,
+                 "armed":  false
+             }
+}

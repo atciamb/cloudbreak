@@ -26,6 +26,8 @@ RTL_AUTOLAND = 0          # RTL loiters at home; it never lands by itself
 RTL_ALTITUDE = 50         # m; flight card says 50 m, and it must stay well below FENCE_ALT_MAX (100)
 BRD_RTC_TYPES = 1
 WP_RADIUS = 20
+WP_LOITER_RAD = 40        # m; was 60. Matches the 40 m hold in aircraft_tutor.toml, so F1's LOITER circles measure
+                          # the turn radius the planner uses (turn_radius_m). RTL (RTL_RADIUS 0) also circles at 40 m
 
 [outputs]
 # Tutor output map (STATUS.md section 2 #1). Applied by fc_setup_usb.py / fc_params_pi.py apply, audited with [params].

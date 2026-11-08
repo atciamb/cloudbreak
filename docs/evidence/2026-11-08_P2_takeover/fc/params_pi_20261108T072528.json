@@ -1,0 +1,10 @@
+{
+  "changes": {
+    "WP_LOITER_RAD": {
+      "want": 40.0,
+      "echo": 40.0,
+      "readback": 40.0,
+      "ok": true
+    }
+  }
+}
