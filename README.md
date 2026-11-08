@@ -1,22 +1,6 @@
-# Cloudbreak
+### Cloudbreak
 
-> 📣 **Iain (P1): read [`docs/notices/2026-11-07_1920_for-P1-Iain.md`](docs/notices/2026-11-07_1920_for-P1-Iain.md) first.** Your branch is merged into `main`, your files moved, the fence is on the FC (bench arming is blocked), your UBEC→Pi lead needs re-pinning, and the plan is to fly Sunday with an 11:00 hard end. *AI agents: see [`AGENTS.md`](AGENTS.md) and present that notice to Iain before anything else.*
-
-Cloudbreak is an RC plane (Flite Test Tutor, ArduPlane 4.7.2 on a CoreWing F405 Wing Mini V2). It finds a landing strip from its own downward camera plus free public geodata, explains the choice, and lands only after a human approves and a deterministic governor agrees. Built for HackRPI 2026.
-
-**Status (7 Nov 2026).** The full cross-team picture (gates, blockers, decisions, remaining plan) is in [`STATUS.md`](STATUS.md).
-
-- **Done and tested:** SITL, governor, planner, priors and core all work end to end. Unit tests pass. SITL behaviours are verified (see `docs/sitl_notes.md`).
-- **Bench hardware:**
-  - The Pi 3 camera, frame server and MAVLink bridge run on the bench.
-  - The real FC streams signed MAVLink2 over UART4 (TELEM) at 230400 to the Pi, and on to the laptop.
-  - The signed uplink passed the HITL bench test (`scripts/hitl_bench.py`). Signed commands work through the Pi; unsigned, wrong-key and disallowed commands are dropped at the Pi or ignored by the FC.
-- **Airframe:** the Tutor is mechanically built (fuselage, wing, power pod, landing gear, servos linked). It hasn't been powered yet; the camera opening, avionics mounting, surface setup and CG are left. See `docs/updates/P2_2026-11-07_1721.md`.
-- **Hardware commissioning (critical path):** the FC goes to the power marshal for power-board soldering (G1/G2), then radio, servos, GPS and the Pi on the UBEC (G3–G5). Output mapping must be fixed before the ESC goes on S1.
-- **Not done:** no real flight yet. The plan is an F1 maiden at first light on Sunday 11/8 and an F2 survey, if F0 passes overnight; flying and coding both stop at 11:00 (`STATUS.md` §5–6, `docs/WORKPLAN.md`). See `docs/CHECKLIST.md` for what is and isn't verified.
-- **Wiring:** full diagram and connection tables in `docs/hardware/WIRING.md`.
-
-## Hardware baseline
+## Hardware
 
 | Role | Part |
 |---|---|
