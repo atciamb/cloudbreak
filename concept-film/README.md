@@ -52,5 +52,5 @@ Review tools:
 
 ## Credits
 
-Built for HackRPI 2026 by Andrew Ciambella, Brian Witanowski, Iain McKillop and Maximillian Slavik.
+Built for HackRPI 2026 by Andrew Ciambella, Brian Witanowski, Iain MacKillop and Maximilian Slavik.
 `web/grasslight-big.jpg` and `web/waternormals.jpg` are from the three.js examples (MIT). Everything else is generated procedurally.
