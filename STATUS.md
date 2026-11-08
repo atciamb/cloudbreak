@@ -4,6 +4,8 @@
 
 **Per-person work plan with checklists: [`docs/WORKPLAN.md`](docs/WORKPLAN.md).**
 
+> 📣 **Open notice for Iain (P1):** [`docs/notices/2026-11-07_1920_for-P1-Iain.md`](docs/notices/2026-11-07_1920_for-P1-Iain.md). It lists every change since his 17:37 review. ⏳ unacknowledged.
+
 **Merged so far:**
 - **P1** updates 17:11, 17:31, 17:37
 - **P2** updates 17:21, 18:30

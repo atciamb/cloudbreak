@@ -2,6 +2,8 @@
 
 Each person posts short, timestamped updates here. Every update gets merged into the master status, [`STATUS.md`](../../STATUS.md), and its gate board, blockers and plan are rewritten. Updates are snapshots: once posted, they aren't edited. Post a new one instead.
 
+Notices addressed to one person (e.g. "what changed since your last review") live in `docs/notices/`. Agents present open ones first; see `AGENTS.md`.
+
 ## Who's who
 
 | ID | Role | Name |

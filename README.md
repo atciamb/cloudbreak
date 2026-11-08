@@ -1,5 +1,7 @@
 # Cloudbreak
 
+> 📣 **Iain (P1): read [`docs/notices/2026-11-07_1920_for-P1-Iain.md`](docs/notices/2026-11-07_1920_for-P1-Iain.md) first.** Your branch is merged into `main`, your files moved, the fence is on the FC (bench arming is blocked), your UBEC→Pi lead needs re-pinning, and the plan is to fly Sunday with an 11:00 hard end. *AI agents: see [`AGENTS.md`](AGENTS.md) and present that notice to Iain before anything else.*
+
 Cloudbreak is an RC plane (Flite Test Tutor, ArduPlane 4.7.2 on a CoreWing F405 Wing Mini V2). It finds a landing strip from its own downward camera plus free public geodata, explains the choice, and lands only after a human approves and a deterministic governor agrees. Built for HackRPI 2026.
 
 **Status (7 Nov 2026).** The full cross-team picture (gates, blockers, decisions, remaining plan) is in [`STATUS.md`](STATUS.md).
