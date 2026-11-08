@@ -36,7 +36,9 @@ ortho_year = "2024"            # NYS 2024 orthos cover the park (verified by exp
 # It covers open ground only: the park plus the wooded strip east of it up to the creek. Drawn from OSM
 # (2026-11-07) with 30 m setbacks from buildings and 25 m from roads; it ends up >= 19 m from any building,
 # >= 25 m from Broadway / 2nd Ave and 72 m from I-787. 12.3 ha, ~530 x 405 m.
-# Houses border the park on the north, so landing patterns whose go-around climbs north over them do not fit.
+# Governed landings here use the one-sided CIRCUIT pattern (config/aircraft_tutor.toml). Oracle what-if 2026-11-07:
+# eastbound circuits (headings ~75-120 deg) fit in calm / easterly wind while the aircraft's FLOWN turn radius is
+# <= ~50 m; westbound circuits fail tree clearance, so in westerly wind there is no autoland: the pilot lands manually.
 alt_max_m = 100.0              # FENCE_ALT_MAX; facility-map ceiling 400 ft = 122 m, so 22 m of margin for baro drift
 path_margin_m = 20.0           # planner + governor: every planned path point at least this far inside the polygon
 alt_margin_m = 10.0            # ... and at least this far below alt_max_m

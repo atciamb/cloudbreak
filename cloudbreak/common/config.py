@@ -6,6 +6,7 @@ CLOUDBREAK_DATA (default C:\\cb-data) so nothing large ever lands in git.
 from __future__ import annotations
 
 import os
+import re
 import tomllib
 from functools import lru_cache
 from pathlib import Path
@@ -43,11 +44,25 @@ def priors_dir(kind: str = "") -> Path:
     return p
 
 
+_ENV_REF = re.compile(r"\$\{([A-Z0-9_]+)(?::-([^}]*))?\}")
+
+
+def _expand(v):
+    """'${VAR:-default}' in config strings -> environment value or default (e.g. the Pi's address on the field)."""
+    if isinstance(v, str):
+        return _ENV_REF.sub(lambda m: os.environ.get(m.group(1), m.group(2) or ""), v)
+    if isinstance(v, dict):
+        return {k: _expand(x) for k, x in v.items()}
+    if isinstance(v, list):
+        return [_expand(x) for x in v]
+    return v
+
+
 @lru_cache(maxsize=None)
 def load_toml(name: str) -> dict:
     path = CONFIG_DIR / name
     with open(path, "rb") as f:
-        return tomllib.load(f)
+        return _expand(tomllib.load(f))
 
 
 def site() -> dict:

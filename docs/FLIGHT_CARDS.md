@@ -32,6 +32,8 @@ Read these aloud before each gate. The governor enforces gate order through `con
 ## F1: maiden flight (FBWA)
 Hand launch in FBWA at full throttle with wings level. Climb to 40–60 m and trim. Check that RTL and LOITER switch in and out cleanly at altitude. Land in FBWA. Download the DataFlash log and the Pi session for `sysid.py`.
 
+**Measure the turn radius (needed before any governed landing).** At 40 m, switch to LOITER for three or more full circles with WP_LOITER_RAD at 40 m. From the log, take the median flown radius and set `turn_radius_m` in `config/aircraft_tutor.toml` to it. The landing circuit and every survey turn are sized from this number. If it is above ~50 m, no governed landing fits at Schuyler: land manually there, or reduce NAVL1_PERIOD after L1 tuning and measure again.
+
 ## F2: AUTO survey
 Ground operator: core UI → survey nomination → governor page: code + `FLY xxxx` → Execute. The governor uploads and verifies the mission. The pilot flips the switch to AUTO once the plane is at survey height. The pilot takes over in FBWA if anything looks wrong.
 
@@ -39,6 +41,8 @@ Ground operator: core UI → survey nomination → governor page: code + `FLY xx
 Use a hand-designated strip with learned parameters. First fly a low approach: abort at about 8 m with the throttle stick. Then do full landings. Record every touchdown point; they become the real dispersion data.
 
 ## F4: Cloudbreak end-to-end
-Survey → map → candidates → proposal → **Request approval** → governor code + `LAND xxxx` → **Execute** (plane goes to the hold) → the last look gets at least 3 views → consent switch ON → **Commit** → autoland.
+Survey → map → candidates → proposal → **Request approval** → governor code + `LAND xxxx` → **Execute** (plane goes to the hold circle beside final) → **Last look** (the governor starts it when the plane is at the circle's tangent point; it flies the centreline over the approach and the strip, then the downwind leg back to the circle) → at least 3 views → consent switch ON → **Commit** (descends in the same circle, rolls out onto final) → autoland.
+
+**Manual landing is the fallback.** Below the decision point (7.5 m), the governor goes around automatically if the plane is more than 7 m off the centreline, tracking more than 20° off, or more than 5 m off the glide path. After **2 unstable approaches** it abandons the autoland: the governor page shows **PILOT LANDS MANUALLY** and refuses further commits. The pilot also lands manually whenever the planner finds no feasible site, for example in a westerly wind at Schuyler, where only eastbound circuits fit.
 
 The pilot's thumb stays on the throttle the whole time.

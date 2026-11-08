@@ -54,12 +54,9 @@ class FrameRecord:
 class Core:
     def __init__(self, target: str = "sitl", source: str = "synthetic", perception: str = "oracle",
                  pi_url: str | None = None, session: str | None = None, resume: bool = False):
-        import tomllib
+        from cloudbreak.common.config import load_toml
 
-        from cloudbreak.common.config import CONFIG_DIR
-
-        with open(CONFIG_DIR / "targets.toml", "rb") as f:
-            self.targets = tomllib.load(f)
+        self.targets = load_toml("targets.toml")     # expands ${CLOUDBREAK_PI_HOST:-...} (Pi address on the field)
         self.target = target
         self.source, self.perception_mode = source, perception
         self.pi_url = pi_url
@@ -363,8 +360,10 @@ class Core:
         noms = self.plan.get("survey_nominations", [])
         n = noms[idx]
         lat, lon = n["center_latlon"]
+        # sized for the radius the aircraft actually flies and clipped to the site fence (missions.survey_items_fenced)
         spec = dict(survey=dict(lat=lat, lon=lon, width_m=84.0, length_m=self.plan["required_length_m"] + 40, heading_deg=n["axis_deg"],
-                                alt_m=alt_m, spacing_m=14.0, lead_in_m=50.0, sitl_takeoff=sitl_takeoff))
+                                alt_m=alt_m, spacing_m=14.0, lead_in_m=50.0, sitl_takeoff=sitl_takeoff,
+                                turn_radius_m=self.cfg["landing"].get("turn_radius_m", 50.0)))
         r = httpx.post(f"{GOV}/api/prepare", json=dict(kind="survey", spec=spec, candidate_id=f"S{idx}", grid_version=self.ev.version),
                        timeout=10.0)
         self.audit.log("survey_requested", idx=idx, status=r.status_code)

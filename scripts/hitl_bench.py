@@ -82,7 +82,9 @@ def test_mission() -> list[MissionItem]:
 
 def main(argv=None) -> int:
     ap = argparse.ArgumentParser()
-    targets = tomllib.loads((ROOT / "config" / "targets.toml").read_text())
+    from cloudbreak.common.config import load_toml
+
+    targets = load_toml("targets.toml")       # expands ${CLOUDBREAK_PI_HOST:-...}
     real = targets["real"]
     ap.add_argument("--url", default=real["governor_url"])
     ap.add_argument("--pi", default="pidrone@" + real["governor_url"].split(":")[1])

@@ -10,6 +10,8 @@ max_bank_deg = 30.0
 touchdown_disp_long_m = 18.0     # 95 % longitudinal touchdown scatter (+/-), before learning
 touchdown_disp_lat_m = 5.0       # 95 % lateral scatter (+/-)
 rollout_m = 15.0                 # ground roll after touchdown on grass
+overrun_margin_m = 40.0          # extra OPEN length beyond the strip (planner constraint). SITL (BO-tuned) stopped
+                                 # 15 m past the strip end on 2026-11-07; real Tutor values come from gate F3
 aim_fraction = 0.3               # aim point as a fraction of strip length from the threshold
 nav_sigma_m = 2.5                # 1-sigma horizontal navigation error
 min_length_m = 40.0
@@ -25,9 +27,37 @@ vacuity_max = 0.5                # per-cell max "unknown" mass (K/S)
 # 12 % at ~12 m/s groundspeed is ~1.4 m/s sink (TECS_SINK_MAX default 5). Steeper than ArduPilot's "start <=10 %"
 # advice -> validate in SITL (autoland BO) and on practice approaches (gate F3) before relying on it.
 glide_slope_pct = 12.0
-approach_alt_m = 20.0
+# COMPACT PATTERN (2026-11-07) so a governed landing fits inside small fenced sites such as Schuyler Flatts.
+# The full modelled footprint is 223 m behind / 82 m ahead of the strip centre and +/-70 m laterally: approach,
+# look leg, go-around, plus both possible 180 deg turn directions at the look-leg ends and after a go-around.
+# The previous 20 m approach / +/-110 m look leg / 40 m go-around needed ~265 + 173 m and fitted nowhere there.
+approach_alt_m = 15.0           # final1 at 15 m -> 125 m glide at 12 %
 hold_alt_m = 40.0
+# TURN RADIUS = what ArduPlane actually FLIES, not what is commanded. SITL at Tutor speed (14 m/s, ROLL_LIMIT 45,
+# NAVL1_PERIOD 17 = the real FC's values) flew a commanded 40 m loiter at ~51 m and a 50 m one at ~60 m.
+# Command 40 m, model 50 m. Schuyler fits only while the FLOWN radius is <= ~50 m (oracle what-if, 2026-11-07):
+# MEASURE the Tutor's loiter radius in gate F1 and set turn_radius_m to it. A smaller NAVL1_PERIOD (after tuning)
+# tightens turns; a larger flown radius means no governed landing fits at Schuyler -> manual landing there.
+hold_radius_m = 40.0            # commanded hold radius
+entry_radius_m = 40.0           # commanded NAV_LOITER_TO_ALT descent circle (40 -> 15 m), same circle as the hold
+turn_radius_m = 50.0            # FLOWN radius: places the circuit circle (tangent exit on the centreline) and sizes
+                                # every modelled turn (end of the look leg, after a go-around)
+pattern = "circuit"             # one-sided circuit (missions.py): hold/descent circle tangent to final, forced turns
+entry_lead_m = 40.0             # circuit: straight roll-out from the circle's tangent point to final1
+look_margin_m = 20.0            # last-look leg = strip +/- 20 m (~7 s at 13 m/s: >= 3 frames at 1 frame / 2 s)
+goaround_alt_m = 25.0           # go-around climbs straight to 25 m, then returns to the 40 m hold
+abort_alt_m = 25.0              # NAV_LAND param1 (throttle/DO_GO_AROUND abort climb altitude)
 clearance_enroute_m = 8.0       # required clearance above lidar DSM far from the strip
 clearance_final_m = 1.0         # ... tapering to this at 40 m from touchdown
 clearance_taper_m = 200.0
 missed_climb_gradient = 0.15    # missed approach from the short-final decision point
+
+[approach_gate]
+# Stabilized-approach gate, enforced by the governor below the decision point (NAV_LAND active, past final2).
+# Any violation -> DO_GO_AROUND; after max_unstable unstable approaches the autoland is abandoned and the pilot
+# lands manually.
+xtrack_max_m = 7.0              # strip half-width (8 m) minus half the wingspan
+track_err_max_deg = 20.0
+height_err_max_m = 5.0          # vs the 12 % glide path, checked above flare_alt_m
+flare_alt_m = 4.0
+max_unstable = 2

@@ -13,8 +13,9 @@ consent_channel = 0                     # no pilot-consent switch in SITL
 max_rtt_ms = 500
 
 [real]
-governor_url = "tcp:169.254.77.2:14560"    # Pi bridge uplink (TCP; carries downlink back too). Bench: Pi eth0 static. Field: the Zero's hotspot address
-core_url = "tcp:169.254.77.2:14561"        # Pi bridge read-only TCP downlink (outbound from laptop; no firewall rule)
+governor_url = "tcp:${CLOUDBREAK_PI_HOST:-169.254.77.2}:14560"   # Pi bridge uplink (TCP; carries downlink back too).
+                                           # Bench: Pi eth0 static. Field: set CLOUDBREAK_PI_HOST to the Zero's Wi-Fi address
+core_url = "tcp:${CLOUDBREAK_PI_HOST:-169.254.77.2}:14561"       # Pi bridge read-only TCP downlink (outbound from laptop)
 sysid = 42
 key = "real"                               # C:\cb-data\keys\mavlink_real.key (installed on the FC over USB)
 fingerprint = "real"                       # no SIM_* params; board/firmware must match
