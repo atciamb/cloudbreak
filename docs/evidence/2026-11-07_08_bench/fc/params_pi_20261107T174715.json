@@ -1,0 +1,10 @@
+{
+  "changes": {
+    "RTL_ALTITUDE": {
+      "want": 50.0,
+      "echo": 50.0,
+      "readback": 50.0,
+      "ok": true
+    }
+  }
+}

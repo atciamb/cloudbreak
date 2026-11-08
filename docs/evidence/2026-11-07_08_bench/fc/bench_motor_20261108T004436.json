@@ -1,0 +1,32 @@
+{
+ "start": "2026-11-08T00:42:41",
+ "original": {
+  "ARMING_SKIPCHK": 0.0,
+  "THR_MAX": 100.0,
+  "FENCE_ENABLE": 1.0
+ },
+ "restore_file": "C:\\cb-data\\fc\\motor_bench_restore_20261108T004241.json",
+ "prearm_left": [
+  "PreArm: RTL mode not armable"
+ ],
+ "arm_refused": {
+  "result": 4,
+  "text": [
+   "Arm: Logging not started",
+   "PreArm: Logging failed"
+  ]
+ },
+ "stopped_because": "FC refused to arm (result 4): Arm: Logging not started | PreArm: Logging failed",
+ "disarmed": true,
+ "armed_seconds": null,
+ "throttle_trace": [],
+ "max_s1_us": null,
+ "restored": true,
+ "audit": {
+  "checked": 37,
+  "mismatches": {},
+  "fence_vertices": 21,
+  "fence_polygon_same": true,
+  "passed": true
+ }
+}

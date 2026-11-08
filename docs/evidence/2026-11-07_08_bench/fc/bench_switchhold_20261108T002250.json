@@ -1,0 +1,14 @@
+{
+ "ch7_samples_on": 518,
+ "samples": 596,
+ "ch7_longest_on_s": 48.8,
+ "ch8_mid_samples": 573,
+ "statustext": [
+  "Mission complete, changing mode to RTL",
+  "RC Short Failsafe Cleared",
+  "RC Short Failsafe On",
+  "Throttle failsafe off",
+  "Throttle failsafe on",
+  "or reboot"
+ ]
+}

@@ -1,0 +1,128 @@
+{
+  "started": "2026-11-08T03:42:54",
+  "url": "tcp:129.161.144.214:14560",
+  "pi": "pidrone@129.161.144.214",
+  "tests": {
+    "T1_signed_link": {
+      "ok": true,
+      "sysid": 42,
+      "mode": "MANUAL",
+      "armed": false,
+      "telemetry_age_s": {
+        "HEARTBEAT": 0.248,
+        "ATTITUDE": 0.08,
+        "GLOBAL_POSITION_INT": 0.033,
+        "SYS_STATUS": 0.126
+      },
+      "seq_loss": 0.0
+    },
+    "T2_rtt_and_param_read": {
+      "ok": true,
+      "replies": "23/23",
+      "rtt_ms": {
+        "min": 57.6,
+        "median": 107.2,
+        "max": 183.4
+      },
+      "max_rtt_allowed_ms": 800
+    },
+    "T3_mission_upload_readback": {
+      "ok": true,
+      "items": 3,
+      "upload_s": 0.15,
+      "hash_sent": "de991be46e61843b",
+      "hash_readback": "de991be46e61843b",
+      "previous_mission_items": 0
+    },
+    "T4_unsigned_dropped_at_pi": {
+      "ok": true,
+      "param": "WP_LOITER_RAD",
+      "reply": null,
+      "pi_filter": {
+        "dropped:unsigned": 1,
+        "forwarded": 4
+      }
+    },
+    "T5_wrong_key_ignored_by_fc": {
+      "ok": true,
+      "param": "RTL_RADIUS",
+      "reply": null,
+      "pi_filter": {
+        "forwarded": 5
+      }
+    },
+    "T6_wrong_sysid_dropped_at_pi": {
+      "ok": true,
+      "param": "WP_MAX_RADIUS",
+      "reply": null,
+      "pi_filter": {
+        "dropped:sysid": 1,
+        "forwarded": 4
+      }
+    },
+    "T7_param_set_dropped_at_pi": {
+      "ok": true,
+      "value_sent": 20.0,
+      "pi_filter": {
+        "dropped:msg": 1,
+        "forwarded": 4
+      }
+    },
+    "T8_manual_mode_dropped_at_pi": {
+      "ok": null,
+      "skipped": "FC mode is RTL, not MANUAL"
+    },
+    "T9_positive_controls": {
+      "ok": true,
+      "values": {
+        "WP_LOITER_RAD": 60.0,
+        "RTL_RADIUS": 0.0,
+        "WP_MAX_RADIUS": 0.0
+      }
+    },
+    "T10_unsigned_direct_ignored_by_fc": {
+      "ok": true,
+      "heartbeat": true,
+      "unsigned_reply": null
+    }
+  },
+  "param_audit": {
+    "values": {
+      "FENCE_ENABLE": 1.0,
+      "FENCE_ACTION": 1.0,
+      "FENCE_TYPE": 5.0,
+      "FENCE_ALT_MAX": 100.0,
+      "FENCE_OPTIONS": 0.0,
+      "RTL_ALTITUDE": 50.0,
+      "THR_FAILSAFE": 1.0,
+      "LAND_ABORT_THR": 1.0,
+      "FS_GCS_ENABL": 3.0,
+      "FS_LONG_ACTN": 1.0,
+      "MAV_GCS_SYSID": 245.0,
+      "SERIAL4_PROTOCOL": 2.0,
+      "SERIAL4_BAUD": 230.0,
+      "ARSPD_USE": 0.0,
+      "RTL_AUTOLAND": 0.0,
+      "MAV_SYSID": 42.0,
+      "SERVO1_FUNCTION": 70.0,
+      "SERVO2_FUNCTION": 0.0,
+      "SERVO3_FUNCTION": 4.0,
+      "SERVO4_FUNCTION": 4.0,
+      "SERVO5_FUNCTION": 19.0,
+      "SERVO6_FUNCTION": 21.0,
+      "WP_RADIUS": 20.0
+    },
+    "mismatches": {}
+  },
+  "mission_restored": {
+    "ok": true,
+    "items": 0
+  },
+  "pi_uplink_filter_total": {
+    "dropped:msg": 1,
+    "dropped:sysid": 1,
+    "dropped:unsigned": 1,
+    "forwarded": 67
+  },
+  "all_pass": true
+}

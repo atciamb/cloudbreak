@@ -1,0 +1,38 @@
+{
+  "command": "servos",
+  "port": "tcp:127.0.0.1:5770",
+  "time": "2026-11-08T01:42:36",
+  "result": {
+    "ok": true,
+    "trims": {
+      "3": 1500,
+      "4": 1500,
+      "5": 1500,
+      "6": 1500
+    },
+    "reversed": {
+      "3": 0.0,
+      "4": 0.0,
+      "5": 0.0,
+      "6": 0.0
+    },
+    "lines": [
+      "01:12:36 MANUAL DISARMED | roll    +0 pitch    +0 yaw    +0 | ail S3    +0  ail S4    +0  elev S5    +0  rud S6    +3 | FC roll  -18 pitch   +0 deg",
+      "01:12:43 MANUAL DISARMED | roll    +0 pitch    +0 yaw   +52 | ail S3    +0  ail S4    +0  elev S5    +0  rud S6   +52 | FC roll  -17 pitch   +3 deg",
+      "01:12:44 MANUAL DISARMED | roll    +0 pitch    +0 yaw    +0 | ail S3    +0  ail S4    +0  elev S5    +0  rud S6    +3 | FC roll  -17 pitch   +3 deg",
+      "01:12:45 MANUAL DISARMED | roll    +0 pitch    +0 yaw    +0 | ail S3    +0  ail S4    +0  elev S5    +0  rud S6   +58 | FC roll  -17 pitch   +3 deg",
+      "01:12:45 MANUAL DISARMED | roll    +0 pitch    +0 yaw    +0 | ail S3    +0  ail S4    +0  elev S5    +0  rud S6    +3 | FC roll  -17 pitch   +3 deg",
+      "01:12:46 MANUAL DISARMED | roll    +0 pitch    +0 yaw    +0 | ail S3    +0  ail S4    +0  elev S5    +0  rud S6    +3 | FC roll  -18 pitch   +7 deg",
+      "01:12:46 MANUAL DISARMED | roll    +0 pitch    +0 yaw   +65 | ail S3    +0  ail S4    +0  elev S5    +0  rud S6    +3 | FC roll  -18 pitch   +7 deg",
+      "01:12:46 MANUAL DISARMED | roll    +0 pitch    +0 yaw   +65 | ail S3    +0  ail S4    +0  elev S5    +0  rud S6    +3 | FC roll  -20 pitch   +2 deg",
+      "01:12:46 MANUAL DISARMED | roll    +0 pitch    +0 yaw    +0 | ail S3    +0  ail S4    +0  elev S5    +0  rud S6    +3 | FC roll  -19 pitch   +5 deg",
+      "01:12:47 MANUAL DISARMED | roll    +0 pitch    +0 yaw   +48 | ail S3    +0  ail S4    +0  elev S5    +0  rud S6   +19 | FC roll  -18 pitch   +5 deg",
+      "01:12:48 MANUAL DISARMED | roll    +0 pitch    +0 yaw    +0 | ail S3    +0  ail S4    +0  elev S5    +0  rud S6    +3 | FC roll  -20 pitch   +3 deg",
+      "01:12:50 CIRCLE DISARMED | roll    +0 pitch    +0 yaw    +0 | ail S3    +0  ail S4    +0  elev S5    +0  rud S6    +3 | FC roll  -21 pitch   -5 deg",
+      "01:12:50 CIRCLE DISARMED | roll    +0 pitch    +0 yaw    -4 | ail S3  +240  ail S4  +240  elev S5   +44  rud S6  +120 | FC roll  -21 pitch   -5 deg",
+      "01:12:52 MANUAL DISARMED | roll    +0 pitch    +0 yaw    -4 | ail S3  +243  ail S4  +243  elev S5   +47  rud S6  +121 | FC roll  -22 pitch   -5 deg",
+      "01:12:52 MANUAL DISARMED | roll    +0 pitch    +0 yaw    +0 | ail S3    +0  ail S4    +0  elev S5    +0  rud S6    +3 | FC roll  -22 pitch   -5 deg",
+      "01:12:52 MANUAL DISARMED | roll    +0 pitch    +0 yaw    +0 | ail S3    +0  ail S4    +0  elev S5    +0  rud S6    +3 | FC roll  -22 pitch   -5 deg"
+    ]
+  }
+}

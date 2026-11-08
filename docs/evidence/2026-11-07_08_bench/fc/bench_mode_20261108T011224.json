@@ -1,0 +1,9 @@
+{
+  "command": "mode",
+  "port": "tcp:127.0.0.1:5770",
+  "time": "2026-11-08T01:12:24",
+  "result": {
+    "ok": true,
+    "mode": "MANUAL"
+  }
+}

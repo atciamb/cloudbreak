@@ -1,0 +1,27 @@
+{
+ "events": [
+  "00:14:22 channels 16 rc_healthy True mode FBWA ch1 1501 ch3 1590 ch8 999 rc_age 0.6s",
+  "00:15:02 channels 16 rc_healthy True mode CIRCLE ch1 1500 ch3 1712 ch8 999 rc_age 0.4s",
+  "00:15:02 channels 16 rc_healthy False mode CIRCLE ch1 1500 ch3 1712 ch8 999 rc_age 0.1s",
+  "00:15:21 channels 16 rc_healthy False mode RTL ch1 1500 ch3 1712 ch8 999 rc_age 0.4s",
+  "00:15:30 channels 16 rc_healthy True mode RTL ch1 1500 ch3 1712 ch8 999 rc_age 0.5s"
+ ],
+ "statustext": [
+  "RC Long Failsafe On: switched to RTL",
+  "PreArm: AHRS: EKF3 Yaw inconsistent 100 deg. Wait ",
+  "or reboot",
+  "PreArm: Compass not calibrated",
+  "PreArm: GPS 1: Bad fix",
+  "PreArm: Radio failsafe on",
+  "PreArm: Fence requires position",
+  "PreArm: RTL mode not armable",
+  "Throttle failsafe off",
+  "RC Long Failsafe Cleared",
+  "PreArm: AHRS: EKF3 Yaw inconsistent 97 deg. Wait o",
+  "r reboot",
+  "PreArm: Compass not calibrated",
+  "PreArm: GPS 1: Bad fix",
+  "PreArm: Fence requires position",
+  "PreArm: RTL mode not armable"
+ ]
+}

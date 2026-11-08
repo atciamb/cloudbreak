@@ -1,0 +1,16 @@
+{
+  "command": "logs",
+  "port": "tcp:127.0.0.1:5770",
+  "time": "2026-11-07T23:14:13",
+  "result": {
+    "ok": true,
+    "card_ok": true,
+    "card_prearm": [],
+    "logging_health": {
+      "enabled": false,
+      "healthy": true
+    },
+    "num_logs": 0,
+    "logs": []
+  }
+}

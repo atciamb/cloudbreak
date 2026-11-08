@@ -1,0 +1,44 @@
+{
+  "command": "accel",
+  "port": "tcp:127.0.0.1:5770",
+  "time": "2026-11-07T23:52:45",
+  "result": {
+    "ok": true,
+    "done": [
+      "LEVEL",
+      "LEVEL",
+      "LEFT",
+      "LEFT",
+      "RIGHT",
+      "RIGHT",
+      "NOSE DOWN",
+      "NOSE DOWN",
+      "NOSE UP",
+      "NOSE UP",
+      "BACK",
+      "BACK"
+    ],
+    "params": {
+      "INS_ACCOFFS_X": -0.03589402139186859,
+      "INS_ACCOFFS_Y": -0.1917371153831482,
+      "INS_ACCOFFS_Z": -0.017543701454997063,
+      "INS_ACCSCAL_X": 0.9969339370727539,
+      "INS_ACCSCAL_Y": 0.9973843693733215,
+      "INS_ACCSCAL_Z": 0.9898387789726257
+    },
+    "text": [
+      "PreArm: 3D Accel calibration needed",
+      "PreArm: Compass not calibrated",
+      "PreArm: GPS 1: Bad fix",
+      "PreArm: Fence requires position",
+      "PreArm: Waiting for RC",
+      "PreArm: 3D Accel calibration needed",
+      "PreArm: Compass not calibrated",
+      "PreArm: GPS 1: Bad fix",
+      "PreArm: Fence requires position",
+      "PreArm: Waiting for RC",
+      "Trim OK: roll=-6.69 pitch=-1.31 yaw=0.00",
+      "Calibration successful"
+    ]
+  }
+}

@@ -1,0 +1,36 @@
+{
+  "command": "radio",
+  "port": "tcp:127.0.0.1:5770",
+  "time": "2026-11-08T00:10:11",
+  "result": {
+    "ok": true,
+    "plan": {
+      "RC1_MIN": 989,
+      "RC1_MAX": 2011,
+      "RC1_TRIM": 1500,
+      "RC2_MIN": 989,
+      "RC2_MAX": 2011,
+      "RC2_TRIM": 1500,
+      "RC3_MIN": 992,
+      "RC3_MAX": 2011,
+      "RC3_TRIM": 992,
+      "RC4_MIN": 988,
+      "RC4_MAX": 2000,
+      "RC4_TRIM": 1496
+    },
+    "written": {
+      "RC1_MIN": 989.0,
+      "RC1_MAX": 2011.0,
+      "RC1_TRIM": 1500.0,
+      "RC2_MIN": 989.0,
+      "RC2_MAX": 2011.0,
+      "RC2_TRIM": 1500.0,
+      "RC3_MIN": 992.0,
+      "RC3_MAX": 2011.0,
+      "RC3_TRIM": 992.0,
+      "RC4_MIN": 988.0,
+      "RC4_MAX": 2000.0,
+      "RC4_TRIM": 1496.0
+    }
+  }
+}

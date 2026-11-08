@@ -1,0 +1,25 @@
+{
+  "command": "servos",
+  "port": "tcp:127.0.0.1:5770",
+  "time": "2026-11-08T01:12:10",
+  "result": {
+    "ok": true,
+    "trims": {
+      "3": 1500,
+      "4": 1500,
+      "5": 1500,
+      "6": 1500
+    },
+    "reversed": {
+      "3": 0.0,
+      "4": 0.0,
+      "5": 0.0,
+      "6": 0.0
+    },
+    "lines": [
+      "01:12:06 RTL    DISARMED | roll    +0 pitch    +0 yaw    +0 | ail S3   -55  ail S4   -55  elev S5  +283  rud S6   -27 | FC roll   +8 pitch   -8 deg",
+      "01:12:07 RTL    DISARMED | roll    +0 pitch    +0 yaw    +0 | ail S3   -53  ail S4   -53  elev S5  +300  rud S6   -26 | FC roll   +8 pitch   -8 deg",
+      "01:12:08 RTL    DISARMED | roll    +0 pitch    +0 yaw    +0 | ail S3   -52  ail S4   -52  elev S5  +343  rud S6   -26 | FC roll   +8 pitch   -8 deg"
+    ]
+  }
+}

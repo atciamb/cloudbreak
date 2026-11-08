@@ -1,0 +1,11 @@
+{
+  "command": "reverse",
+  "port": "tcp:127.0.0.1:5770",
+  "time": "2026-11-08T03:13:43",
+  "result": {
+    "ok": true,
+    "param": "SERVO6_REVERSED",
+    "before": 0.0,
+    "after": 1.0
+  }
+}

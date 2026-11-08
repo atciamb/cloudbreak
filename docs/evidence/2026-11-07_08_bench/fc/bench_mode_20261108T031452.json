@@ -1,0 +1,9 @@
+{
+  "command": "mode",
+  "port": "tcp:127.0.0.1:5770",
+  "time": "2026-11-08T03:14:52",
+  "result": {
+    "ok": true,
+    "mode": "FBWA"
+  }
+}

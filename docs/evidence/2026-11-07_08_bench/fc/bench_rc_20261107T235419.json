@@ -1,0 +1,9 @@
+{
+  "command": "rc",
+  "port": "tcp:127.0.0.1:5770",
+  "time": "2026-11-07T23:54:19",
+  "result": {
+    "ok": false,
+    "channels": 0
+  }
+}

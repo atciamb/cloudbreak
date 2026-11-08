@@ -1,0 +1,23 @@
+{
+  "command": "servos",
+  "port": "tcp:127.0.0.1:5770",
+  "time": "2026-11-08T03:14:57",
+  "result": {
+    "ok": true,
+    "trims": {
+      "3": 1500,
+      "4": 1500,
+      "5": 1500,
+      "6": 1500
+    },
+    "reversed": {
+      "3": 0.0,
+      "4": 0.0,
+      "5": 0.0,
+      "6": 1.0
+    },
+    "lines": [
+      "03:14:54 FBWA   DISARMED | roll    +0 pitch    +0 yaw    +0 | ail S3  -251  ail S4  -251  elev S5   -29  rud S6  +125 | FC roll  +38 pitch  +11 deg"
+    ]
+  }
+}

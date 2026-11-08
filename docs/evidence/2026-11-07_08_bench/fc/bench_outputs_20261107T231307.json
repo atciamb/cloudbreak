@@ -1,0 +1,92 @@
+{
+  "command": "outputs",
+  "port": "tcp:127.0.0.1:5770",
+  "time": "2026-11-07T23:13:07",
+  "result": {
+    "ok": true,
+    "map_ok": true,
+    "warnings": [],
+    "outputs": [
+      {
+        "out": 1,
+        "function": 70.0,
+        "want": 70,
+        "now": 1100,
+        "MIN": 1100.0,
+        "TRIM": 1100.0,
+        "MAX": 1900.0,
+        "REVERSED": 0.0
+      },
+      {
+        "out": 2,
+        "function": 0.0,
+        "want": 0,
+        "now": 0,
+        "MIN": 1100.0,
+        "TRIM": 1500.0,
+        "MAX": 1900.0,
+        "REVERSED": 0.0
+      },
+      {
+        "out": 3,
+        "function": 4.0,
+        "want": 4,
+        "now": 1500,
+        "MIN": 1100.0,
+        "TRIM": 1500.0,
+        "MAX": 1900.0,
+        "REVERSED": 0.0
+      },
+      {
+        "out": 4,
+        "function": 4.0,
+        "want": 4,
+        "now": 1500,
+        "MIN": 1100.0,
+        "TRIM": 1500.0,
+        "MAX": 1900.0,
+        "REVERSED": 0.0
+      },
+      {
+        "out": 5,
+        "function": 19.0,
+        "want": 19,
+        "now": 1500,
+        "MIN": 1100.0,
+        "TRIM": 1500.0,
+        "MAX": 1900.0,
+        "REVERSED": 0.0
+      },
+      {
+        "out": 6,
+        "function": 21.0,
+        "want": 21,
+        "now": 1500,
+        "MIN": 1100.0,
+        "TRIM": 1500.0,
+        "MAX": 1900.0,
+        "REVERSED": 0.0
+      },
+      {
+        "out": 7,
+        "function": 0.0,
+        "want": null,
+        "now": 0,
+        "MIN": 1100.0,
+        "TRIM": 1500.0,
+        "MAX": 1900.0,
+        "REVERSED": 0.0
+      },
+      {
+        "out": 8,
+        "function": 0.0,
+        "want": null,
+        "now": 0,
+        "MIN": 1100.0,
+        "TRIM": 1500.0,
+        "MAX": 1900.0,
+        "REVERSED": 0.0
+      }
+    ]
+  }
+}

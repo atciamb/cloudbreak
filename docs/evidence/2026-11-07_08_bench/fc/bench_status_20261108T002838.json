@@ -1,0 +1,151 @@
+{
+  "command": "status",
+  "port": "tcp:127.0.0.1:5770",
+  "time": "2026-11-08T00:28:38",
+  "result": {
+    "mode": "FBWA",
+    "armed": false,
+    "prearm": [
+      "PreArm: AHRS: EKF3 Yaw inconsistent 106 deg. Wait ",
+      "PreArm: Compass not calibrated",
+      "PreArm: GPS 1: Bad fix",
+      "PreArm: Fence requires position"
+    ],
+    "other_text": [
+      "or reboot"
+    ],
+    "gps": {
+      "fix": "GPS detected, no fix",
+      "sats": 0,
+      "detected": true
+    },
+    "compass": {
+      "primary": "QMC5883L on I2C bus 0 addr 0x0d",
+      "second": "none",
+      "external": 1.0,
+      "orient": 0.0,
+      "calibrated": false
+    },
+    "accel_calibrated": true,
+    "level_trim": [
+      -0.11681206524372101,
+      -0.022861212491989136
+    ],
+    "rc": {
+      "channels": 16,
+      "rssi": 255,
+      "values": [
+        1500,
+        1500,
+        1338,
+        1496,
+        2000,
+        999,
+        2000,
+        999
+      ]
+    },
+    "rc_port": {
+      "SERIAL6_PROTOCOL": 23.0,
+      "RC_PROTOCOLS": 1.0
+    },
+    "battery_v": 0.79,
+    "unhealthy": [
+      "SENSOR_GPS",
+      "TERRAIN",
+      "PREARM_CHECK"
+    ],
+    "logging": {
+      "enabled": false,
+      "healthy": true
+    },
+    "fence_enable": 1.0,
+    "outputs": {
+      "ok": true,
+      "map_ok": true,
+      "warnings": [],
+      "outputs": [
+        {
+          "out": 1,
+          "function": 70.0,
+          "want": 70,
+          "now": 1100,
+          "MIN": 1100.0,
+          "TRIM": 1100.0,
+          "MAX": 1900.0,
+          "REVERSED": 0.0
+        },
+        {
+          "out": 2,
+          "function": 0.0,
+          "want": 0,
+          "now": 0,
+          "MIN": 1100.0,
+          "TRIM": 1500.0,
+          "MAX": 1900.0,
+          "REVERSED": 0.0
+        },
+        {
+          "out": 3,
+          "function": 4.0,
+          "want": 4,
+          "now": 1461,
+          "MIN": 1100.0,
+          "TRIM": 1500.0,
+          "MAX": 1900.0,
+          "REVERSED": 0.0
+        },
+        {
+          "out": 4,
+          "function": 4.0,
+          "want": 4,
+          "now": 1461,
+          "MIN": 1100.0,
+          "TRIM": 1500.0,
+          "MAX": 1900.0,
+          "REVERSED": 0.0
+        },
+        {
+          "out": 5,
+          "function": 19.0,
+          "want": 19,
+          "now": 1414,
+          "MIN": 1100.0,
+          "TRIM": 1500.0,
+          "MAX": 1900.0,
+          "REVERSED": 0.0
+        },
+        {
+          "out": 6,
+          "function": 21.0,
+          "want": 21,
+          "now": 1481,
+          "MIN": 1100.0,
+          "TRIM": 1500.0,
+          "MAX": 1900.0,
+          "REVERSED": 0.0
+        },
+        {
+          "out": 7,
+          "function": 0.0,
+          "want": null,
+          "now": 0,
+          "MIN": 1100.0,
+          "TRIM": 1500.0,
+          "MAX": 1900.0,
+          "REVERSED": 0.0
+        },
+        {
+          "out": 8,
+          "function": 0.0,
+          "want": null,
+          "now": 0,
+          "MIN": 1100.0,
+          "TRIM": 1500.0,
+          "MAX": 1900.0,
+          "REVERSED": 0.0
+        }
+      ]
+    }
+  }
+}

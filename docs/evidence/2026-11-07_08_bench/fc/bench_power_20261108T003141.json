@@ -1,0 +1,39 @@
+{
+ "armed": false,
+ "mode": "RTL",
+ "pack_v_a": [
+  [
+   12.48,
+   0.57
+  ],
+  [
+   12.48,
+   0.57
+  ],
+  [
+   12.48,
+   0.57
+  ]
+ ],
+ "vcc_mv": 0,
+ "vservo_mv": 0,
+ "power_flags": 0,
+ "outputs": [
+  1100,
+  0,
+  1462,
+  1462,
+  1560,
+  1481
+ ],
+ "batt_mv_sys": 12480,
+ "params": {
+  "BATT_VOLT_MULT": 11.050000190734863,
+  "BATT_AMP_PERVLT": 51.0,
+  "BATT_CAPACITY": 3300.0,
+  "BATT_LOW_VOLT": 0.0,
+  "BATT_FS_LOW_ACT": 0.0,
+  "ARMING_REQUIRE": 1.0
+ },
+ "recent_text": []
+}

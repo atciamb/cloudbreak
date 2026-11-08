@@ -1,0 +1,15 @@
+{
+  "command": "logs",
+  "port": "tcp:127.0.0.1:5770",
+  "time": "2026-11-07T23:13:17",
+  "result": {
+    "num_logs": 0,
+    "logs": [
+      {
+        "id": 0,
+        "size": 0,
+        "time_utc": 0
+      }
+    ]
+  }
+}
