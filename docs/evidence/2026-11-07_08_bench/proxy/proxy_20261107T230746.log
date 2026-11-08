@@ -1,0 +1,127 @@
+2026-11-07 23:07:46 signing proxy: FC COM5 | Mission Planner: UDP 14550 | scripts: tcp:127.0.0.1:5770 | log C:\cb-data\proxy\proxy_20261107T230746.log
+2026-11-07 23:07:46 FC connected on COM5
+2026-11-07 23:07:46 FC frames verify with the real key (sysid 42); ground stations may now operate
+2026-11-07 23:07:50 tcp 127.0.0.1:52095 connected
+2026-11-07 23:07:52 tcp 127.0.0.1:52095 (sysid 245): COMMAND_LONG MAV_CMD_REQUEST_MESSAGE 148 0 0 0 0 0 0
+2026-11-07 23:07:52 tcp 127.0.0.1:52095 (sysid 245): COMMAND_LONG MAV_CMD_DO_SEND_BANNER 0 0 0 0 0 0 0
+2026-11-07 23:08:16 FC hb 0.7s ago, disarmed, mode 0 | down ok 1700 badsig 0 unsigned 0 replay 0 | up fwd 4 refused 0 | tcp clients 1
+2026-11-07 23:08:23 tcp 127.0.0.1:52095 disconnected
+2026-11-07 23:08:29 tcp 127.0.0.1:2047 connected
+2026-11-07 23:08:32 tcp 127.0.0.1:2047 (sysid 245): COMMAND_LONG MAV_CMD_REQUEST_MESSAGE 148 0 0 0 0 0 0
+2026-11-07 23:08:32 tcp 127.0.0.1:2047 (sysid 245): COMMAND_LONG MAV_CMD_DO_SEND_BANNER 0 0 0 0 0 0 0
+2026-11-07 23:08:46 FC hb 0.7s ago, disarmed, mode 0 | down ok 3569 badsig 0 unsigned 0 replay 0 | up fwd 46 refused 0 | tcp clients 1
+2026-11-07 23:09:03 tcp 127.0.0.1:2047 (sysid 245): PARAM_SET SERVO1_FUNCTION = 70
+2026-11-07 23:09:03 tcp 127.0.0.1:2047 (sysid 245): PARAM_SET SERVO2_FUNCTION = 0
+2026-11-07 23:09:03 tcp 127.0.0.1:2047 (sysid 245): PARAM_SET SERVO3_FUNCTION = 4
+2026-11-07 23:09:03 tcp 127.0.0.1:2047 (sysid 245): PARAM_SET SERVO4_FUNCTION = 4
+2026-11-07 23:09:03 tcp 127.0.0.1:2047 (sysid 245): PARAM_SET SERVO5_FUNCTION = 19
+2026-11-07 23:09:03 tcp 127.0.0.1:2047 (sysid 245): PARAM_SET SERVO6_FUNCTION = 21
+2026-11-07 23:09:03 tcp 127.0.0.1:2047 disconnected
+2026-11-07 23:09:16 FC hb 0.7s ago, disarmed, mode 0 | down ok 5063 badsig 0 unsigned 0 replay 0 | up fwd 90 refused 0 | tcp clients 0
+2026-11-07 23:09:46 FC hb 0.7s ago, disarmed, mode 0 | down ok 6602 badsig 0 unsigned 0 replay 0 | up fwd 90 refused 0 | tcp clients 0
+2026-11-07 23:10:16 FC hb 0.6s ago, disarmed, mode 0 | down ok 8141 badsig 0 unsigned 0 replay 0 | up fwd 90 refused 0 | tcp clients 0
+2026-11-07 23:10:46 FC hb 0.6s ago, disarmed, mode 0 | down ok 9680 badsig 0 unsigned 0 replay 0 | up fwd 90 refused 0 | tcp clients 0
+2026-11-07 23:11:06 tcp 127.0.0.1:61155 connected
+2026-11-07 23:11:06 tcp 127.0.0.1:61155 disconnected
+2026-11-07 23:11:06 tcp 127.0.0.1:61156 connected
+2026-11-07 23:11:09 tcp 127.0.0.1:61156 (sysid 255): COMMAND_LONG MAV_CMD_RUN_PREARM_CHECKS 0 0 0 0 0 0 0
+2026-11-07 23:11:09 tcp 127.0.0.1:61156 (sysid 255): COMMAND_LONG MAV_CMD_REQUEST_MESSAGE 1 0 0 0 0 0 0
+2026-11-07 23:11:09 tcp 127.0.0.1:61156 (sysid 255): COMMAND_LONG MAV_CMD_REQUEST_MESSAGE 24 0 0 0 0 0 0
+2026-11-07 23:11:09 tcp 127.0.0.1:61156 (sysid 255): COMMAND_LONG MAV_CMD_REQUEST_MESSAGE 65 0 0 0 0 0 0
+2026-11-07 23:11:09 tcp 127.0.0.1:61156 (sysid 255): COMMAND_LONG MAV_CMD_REQUEST_MESSAGE 147 0 0 0 0 0 0
+2026-11-07 23:11:16 tcp 127.0.0.1:61156 (sysid 255): COMMAND_LONG MAV_CMD_REQUEST_MESSAGE 36 0 0 0 0 0 0
+2026-11-07 23:11:16 tcp 127.0.0.1:61156 disconnected
+2026-11-07 23:11:16 FC hb 0.6s ago, disarmed, mode 0 | down ok 11303 badsig 0 unsigned 0 replay 0 | up fwd 165 refused 0 | tcp clients 0
+2026-11-07 23:11:46 FC hb 0.5s ago, disarmed, mode 0 | down ok 12838 badsig 0 unsigned 0 replay 0 | up fwd 165 refused 0 | tcp clients 0
+2026-11-07 23:11:50 tcp 127.0.0.1:31058 connected
+2026-11-07 23:11:53 tcp 127.0.0.1:31058 (sysid 255): COMMAND_LONG MAV_CMD_REQUEST_MESSAGE 36 0 0 0 0 0 0
+2026-11-07 23:11:55 tcp 127.0.0.1:31058 (sysid 255): COMMAND_LONG MAV_CMD_REQUEST_MESSAGE 36 0 0 0 0 0 0
+2026-11-07 23:11:56 tcp 127.0.0.1:31058 (sysid 255): COMMAND_LONG MAV_CMD_REQUEST_MESSAGE 36 0 0 0 0 0 0
+2026-11-07 23:11:58 tcp 127.0.0.1:31058 (sysid 255): COMMAND_LONG MAV_CMD_REQUEST_MESSAGE 36 0 0 0 0 0 0
+2026-11-07 23:11:59 tcp 127.0.0.1:31058 disconnected
+2026-11-07 23:12:16 FC hb 0.5s ago, disarmed, mode 0 | down ok 14393 badsig 0 unsigned 0 replay 0 | up fwd 179 refused 0 | tcp clients 0
+2026-11-07 23:12:46 tcp 127.0.0.1:61218 connected
+2026-11-07 23:12:46 FC hb 0.5s ago, disarmed, mode 0 | down ok 15934 badsig 0 unsigned 0 replay 0 | up fwd 179 refused 0 | tcp clients 1
+2026-11-07 23:12:47 tcp 127.0.0.1:61218 (sysid 255): PARAM_SET SERVO3_TRIM = 1500
+2026-11-07 23:12:48 tcp 127.0.0.1:61218 (sysid 255): COMMAND_LONG MAV_CMD_PREFLIGHT_REBOOT_SHUTDOWN 1 0 0 0 0 0 0
+2026-11-07 23:12:48 tcp 127.0.0.1:61218 disconnected
+2026-11-07 23:12:48 FC link lost (ClearCommError failed (PermissionError(13, 'The device does not recognize the command.', None, 22))); reconnecting
+2026-11-07 23:12:49 waiting for the FC on COM5: could not open port 'COM5': FileNotFoundError(2, 'The system cannot find the file specified.', None, 2)
+2026-11-07 23:12:49 FC connected on COM5
+2026-11-07 23:12:51 FC signing clock for (42, 1, 0) went back and stayed back 2 s (FC reboot?): re-anchored
+2026-11-07 23:12:55 tcp 127.0.0.1:37454 connected
+2026-11-07 23:12:55 tcp 127.0.0.1:37454 disconnected
+2026-11-07 23:13:02 tcp 127.0.0.1:37459 connected
+2026-11-07 23:13:02 tcp 127.0.0.1:37459 disconnected
+2026-11-07 23:13:02 tcp 127.0.0.1:37460 connected
+2026-11-07 23:13:06 tcp 127.0.0.1:37460 (sysid 255): COMMAND_LONG MAV_CMD_REQUEST_MESSAGE 36 0 0 0 0 0 0
+2026-11-07 23:13:07 tcp 127.0.0.1:37460 disconnected
+2026-11-07 23:13:14 tcp 127.0.0.1:33832 connected
+2026-11-07 23:13:14 tcp 127.0.0.1:33832 disconnected
+2026-11-07 23:13:14 tcp 127.0.0.1:33833 connected
+2026-11-07 23:13:16 FC hb 0.6s ago, disarmed, mode 0 | down ok 17313 badsig 0 unsigned 0 replay 13 | up fwd 225 refused 0 | tcp clients 1
+2026-11-07 23:13:17 tcp 127.0.0.1:33833 disconnected
+2026-11-07 23:13:18 tcp 127.0.0.1:33838 connected
+2026-11-07 23:13:18 tcp 127.0.0.1:33838 disconnected
+2026-11-07 23:13:18 tcp 127.0.0.1:33839 connected
+2026-11-07 23:13:25 tcp 127.0.0.1:33839 disconnected
+2026-11-07 23:13:46 FC hb 0.6s ago, disarmed, mode 0 | down ok 19004 badsig 0 unsigned 0 replay 13 | up fwd 227 refused 0 | tcp clients 0
+2026-11-07 23:13:52 tcp 127.0.0.1:45260 connected
+2026-11-07 23:13:52 tcp 127.0.0.1:45260 disconnected
+2026-11-07 23:13:52 tcp 127.0.0.1:45261 connected
+2026-11-07 23:13:55 tcp 127.0.0.1:45261 (sysid 255): COMMAND_LONG MAV_CMD_RUN_PREARM_CHECKS 0 0 0 0 0 0 0
+2026-11-07 23:13:55 tcp 127.0.0.1:45261 (sysid 255): COMMAND_LONG MAV_CMD_REQUEST_MESSAGE 1 0 0 0 0 0 0
+2026-11-07 23:13:58 tcp 127.0.0.1:45261 disconnected
+2026-11-07 23:14:07 tcp 127.0.0.1:51325 connected
+2026-11-07 23:14:07 tcp 127.0.0.1:51325 disconnected
+2026-11-07 23:14:07 tcp 127.0.0.1:51326 connected
+2026-11-07 23:14:10 tcp 127.0.0.1:51326 (sysid 255): COMMAND_LONG MAV_CMD_RUN_PREARM_CHECKS 0 0 0 0 0 0 0
+2026-11-07 23:14:10 tcp 127.0.0.1:51326 (sysid 255): COMMAND_LONG MAV_CMD_REQUEST_MESSAGE 1 0 0 0 0 0 0
+2026-11-07 23:14:13 tcp 127.0.0.1:51326 disconnected
+2026-11-07 23:14:16 FC hb 0.6s ago, disarmed, mode 0 | down ok 20733 badsig 0 unsigned 0 replay 13 | up fwd 237 refused 0 | tcp clients 0
+2026-11-07 23:14:46 FC hb 0.6s ago, disarmed, mode 0 | down ok 22440 badsig 0 unsigned 0 replay 13 | up fwd 237 refused 0 | tcp clients 0
+2026-11-07 23:14:52 tcp 127.0.0.1:54492 connected
+2026-11-07 23:14:53 tcp 127.0.0.1:54492 (sysid 255): COMMAND_LONG MAV_CMD_DO_START_MAG_CAL 0 1 0 0 0 0 0
+2026-11-07 23:14:55 tcp 127.0.0.1:54492 (sysid 255): COMMAND_LONG MAV_CMD_DO_CANCEL_MAG_CAL 0 0 0 0 0 0 0
+2026-11-07 23:14:57 tcp 127.0.0.1:54492 disconnected
+2026-11-07 23:15:16 FC hb 0.5s ago, disarmed, mode 0 | down ok 24157 badsig 0 unsigned 0 replay 13 | up fwd 245 refused 0 | tcp clients 0
+2026-11-07 23:15:46 FC hb 0.5s ago, disarmed, mode 0 | down ok 25861 badsig 0 unsigned 0 replay 13 | up fwd 245 refused 0 | tcp clients 0
+2026-11-07 23:16:16 FC hb 0.5s ago, disarmed, mode 0 | down ok 27564 badsig 0 unsigned 0 replay 13 | up fwd 245 refused 0 | tcp clients 0
+2026-11-07 23:16:46 FC hb 0.5s ago, disarmed, mode 0 | down ok 29261 badsig 0 unsigned 0 replay 13 | up fwd 245 refused 0 | tcp clients 0
+2026-11-07 23:17:16 FC hb 0.4s ago, disarmed, mode 0 | down ok 30962 badsig 0 unsigned 0 replay 13 | up fwd 245 refused 0 | tcp clients 0
+2026-11-07 23:17:46 FC hb 0.4s ago, disarmed, mode 0 | down ok 32662 badsig 0 unsigned 0 replay 13 | up fwd 245 refused 0 | tcp clients 0
+2026-11-07 23:18:16 FC hb 0.4s ago, disarmed, mode 0 | down ok 34355 badsig 0 unsigned 0 replay 13 | up fwd 245 refused 0 | tcp clients 0
+2026-11-07 23:18:46 FC hb 0.3s ago, disarmed, mode 0 | down ok 36050 badsig 0 unsigned 0 replay 13 | up fwd 245 refused 0 | tcp clients 0
+2026-11-07 23:19:16 FC hb 0.3s ago, disarmed, mode 0 | down ok 37753 badsig 0 unsigned 0 replay 13 | up fwd 245 refused 0 | tcp clients 0
+2026-11-07 23:19:46 FC hb 0.3s ago, disarmed, mode 0 | down ok 39453 badsig 0 unsigned 0 replay 13 | up fwd 245 refused 0 | tcp clients 0
+2026-11-07 23:20:16 FC hb 0.2s ago, disarmed, mode 0 | down ok 41165 badsig 0 unsigned 0 replay 13 | up fwd 245 refused 0 | tcp clients 0
+2026-11-07 23:20:46 FC hb 0.2s ago, disarmed, mode 0 | down ok 42861 badsig 0 unsigned 0 replay 13 | up fwd 245 refused 0 | tcp clients 0
+2026-11-07 23:21:16 FC hb 0.2s ago, disarmed, mode 0 | down ok 44560 badsig 0 unsigned 0 replay 13 | up fwd 245 refused 0 | tcp clients 0
+2026-11-07 23:21:46 FC hb 0.2s ago, disarmed, mode 0 | down ok 46252 badsig 0 unsigned 0 replay 13 | up fwd 245 refused 0 | tcp clients 0
+2026-11-07 23:22:16 FC hb 0.1s ago, disarmed, mode 0 | down ok 47953 badsig 0 unsigned 0 replay 13 | up fwd 245 refused 0 | tcp clients 0
+2026-11-07 23:22:46 FC hb 0.1s ago, disarmed, mode 0 | down ok 49651 badsig 0 unsigned 0 replay 13 | up fwd 245 refused 0 | tcp clients 0
+2026-11-07 23:23:16 FC hb 0.1s ago, disarmed, mode 0 | down ok 51354 badsig 0 unsigned 0 replay 13 | up fwd 245 refused 0 | tcp clients 0
+2026-11-07 23:23:33 UDP ground station talking from 127.0.0.1:14550
+2026-11-07 23:23:33 udp (sysid 255): PARAM_SET SERVO1_FUNCTION = 4
+2026-11-07 23:23:46 FC hb 0.1s ago, disarmed, mode 0 | down ok 53057 badsig 0 unsigned 0 replay 13 | up fwd 249 refused 0 | tcp clients 0
+2026-11-07 23:23:48 tcp 127.0.0.1:16557 connected
+2026-11-07 23:23:49 tcp 127.0.0.1:16557 (sysid 255): PARAM_SET SERVO1_FUNCTION = 70
+2026-11-07 23:23:50 tcp 127.0.0.1:16557 (sysid 255): COMMAND_LONG MAV_CMD_PREFLIGHT_REBOOT_SHUTDOWN 1 0 0 0 0 0 0
+2026-11-07 23:23:50 tcp 127.0.0.1:16557 disconnected
+2026-11-07 23:23:50 FC link lost (ClearCommError failed (PermissionError(13, 'The device does not recognize the command.', None, 22))); reconnecting
+2026-11-07 23:23:51 FC connected on COM5
+2026-11-07 23:23:54 FC signing clock for (42, 1, 0) went back and stayed back 2 s (FC reboot?): re-anchored
+2026-11-07 23:23:55 tcp 127.0.0.1:62612 connected
+2026-11-07 23:23:55 tcp 127.0.0.1:62612 disconnected
+2026-11-07 23:23:55 tcp 127.0.0.1:62613 connected
+2026-11-07 23:24:00 tcp 127.0.0.1:62613 (sysid 255): COMMAND_LONG MAV_CMD_REQUEST_MESSAGE 36 0 0 0 0 0 0
+2026-11-07 23:24:00 tcp 127.0.0.1:62613 disconnected
+2026-11-07 23:24:16 FC hb 0.1s ago, disarmed, mode 0 | down ok 54593 badsig 0 unsigned 0 replay 40 | up fwd 295 refused 0 | tcp clients 0
+2026-11-07 23:24:30 tcp 127.0.0.1:38165 connected
+2026-11-07 23:24:32 tcp 127.0.0.1:38165 disconnected
+2026-11-07 23:24:33 tcp 127.0.0.1:38167 connected
+2026-11-07 23:24:35 tcp 127.0.0.1:38167 (sysid 245): COMMAND_LONG MAV_CMD_REQUEST_MESSAGE 148 0 0 0 0 0 0
+2026-11-07 23:24:35 tcp 127.0.0.1:38167 (sysid 245): COMMAND_LONG MAV_CMD_DO_SEND_BANNER 0 0 0 0 0 0 0
+2026-11-07 23:24:46 FC hb 0.1s ago, disarmed, mode 0 | down ok 56579 badsig 0 unsigned 0 replay 40 | up fwd 321 refused 0 | tcp clients 1
+2026-11-07 23:25:06 tcp 127.0.0.1:38167 disconnected
+2026-11-07 23:25:16 FC hb 0.0s ago, disarmed, mode 0 | down ok 58246 badsig 0 unsigned 0 replay 40 | up fwd 359 refused 0 | tcp clients 0

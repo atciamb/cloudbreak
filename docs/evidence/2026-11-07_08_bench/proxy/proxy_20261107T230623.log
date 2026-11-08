@@ -1,0 +1,14 @@
+2026-11-07 23:06:23 signing proxy: FC COM5 | Mission Planner: UDP 14550 | scripts: tcp:127.0.0.1:5770 | READ-ONLY | log C:\cb-data\proxy\proxy_20261107T230623.log
+2026-11-07 23:06:23 FC connected on COM5
+2026-11-07 23:06:23 FC frames verify with the real key (sysid 42); ground stations may now watch
+2026-11-07 23:06:33 tcp 127.0.0.1:4411 connected
+2026-11-07 23:06:33 FC hb 1.0s ago, disarmed, mode 0 | down ok 508 badsig 0 unsigned 0 replay 0 | up fwd 0 refused 0 | tcp clients 1
+2026-11-07 23:06:36 REFUSED from tcp 127.0.0.1:4411 (sysid 255): read-only: msgid 23 [PARAM_SET SERVO1_FUNCTION = 4]
+2026-11-07 23:06:38 tcp 127.0.0.1:4411 disconnected
+2026-11-07 23:06:43 FC hb 1.0s ago, disarmed, mode 0 | down ok 1022 badsig 0 unsigned 0 replay 0 | up fwd 3 refused 1 | tcp clients 0
+2026-11-07 23:06:53 FC hb 1.0s ago, disarmed, mode 0 | down ok 1533 badsig 0 unsigned 0 replay 0 | up fwd 3 refused 1 | tcp clients 0
+2026-11-07 23:07:03 FC hb 1.0s ago, disarmed, mode 0 | down ok 2050 badsig 0 unsigned 0 replay 0 | up fwd 3 refused 1 | tcp clients 0
+2026-11-07 23:07:13 FC hb 0.9s ago, disarmed, mode 0 | down ok 2561 badsig 0 unsigned 0 replay 0 | up fwd 3 refused 1 | tcp clients 0
+2026-11-07 23:07:23 FC hb 0.9s ago, disarmed, mode 0 | down ok 3072 badsig 0 unsigned 0 replay 0 | up fwd 3 refused 1 | tcp clients 0
+2026-11-07 23:07:33 FC hb 0.9s ago, disarmed, mode 0 | down ok 3589 badsig 0 unsigned 0 replay 0 | up fwd 3 refused 1 | tcp clients 0
+2026-11-07 23:07:43 FC hb 0.9s ago, disarmed, mode 0 | down ok 4100 badsig 0 unsigned 0 replay 0 | up fwd 3 refused 1 | tcp clients 0
