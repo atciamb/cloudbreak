@@ -12,6 +12,7 @@ dependencies = [
 
 [project.optional-dependencies]
 ml = ["torch", "torchvision"]
+jev = ["transformers", "peft", "accelerate", "bitsandbytes", "safetensors"]   # local JEV-9B yes/no agent
 dev = ["pytest"]
 
 [tool.setuptools.packages.find]

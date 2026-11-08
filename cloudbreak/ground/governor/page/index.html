@@ -86,7 +86,10 @@ function rows(tbl, arr){ $(tbl).innerHTML = arr.join(""); }
 function render(s){
   last = s;
   const t = $("target"); t.textContent = (s.target||"?").toUpperCase() + "  sysid " + s.sysid; t.className = "badge " + (s.target==="real" ? "real" : "sitl");
-  $("state").textContent = s.state;
+  $("state").textContent = s.manual_landing_required
+    ? "AUTOLAND ABANDONED (" + s.unstable_approaches + " unstable approaches) - PILOT LANDS MANUALLY"
+    : s.state + (s.unstable_approaches ? "  (unstable approaches: " + s.unstable_approaches + ")" : "");
+  $("state").style.color = s.manual_landing_required ? "#c00" : "";
   const fp = s.fingerprint||{}; $("fp").textContent = `fw ${fp.firmware||"?"} · ${fp.board||""} · SIM params: ${fp.sim_param_present}`;
   const p = s.prepared;
   if(p){
@@ -106,7 +109,7 @@ function render(s){
   $("audit").textContent = (s.audit||[]).slice(-14).map(a=>`${new Date(a.t*1000).toLocaleTimeString()}  ${a.event}  ${a.hash.slice(0,8)}`).join("\n");
   $("btnApprove").disabled = s.state !== "prepared";
   $("btnExecute").disabled = s.state !== "approved";
-  $("btnCommit").disabled = s.state !== "holding";
+  $("btnCommit").disabled = s.state !== "holding" || s.manual_landing_required;
   $("btnLook").disabled = s.state !== "holding";
   if(p && !$("confirm").value) $("confirm").placeholder = (p.kind==="landing"?"LAND ":"FLY ") + p.hash.slice(0,4);
 }

@@ -31,9 +31,11 @@ from pydantic import BaseModel
 
 from cloudbreak.common.audit import AuditLog
 from cloudbreak.common.clearance import load_terrain, path_clearance
-from cloudbreak.common.config import CONFIG_DIR, data_dir, site
+from cloudbreak.common.config import CONFIG_DIR, data_dir, load_toml, site
 from cloudbreak.common.mav import GOVERNOR_SYSID, Link, load_key, mavlink, mission_hash
-from cloudbreak.common.missions import LandingSpec, landing_items, path_points, survey_items, takeoff_items, with_jump_back
+from cloudbreak.common.missions import (LandingSpec, landing_items, path_points, survey_items, survey_items_fenced,
+                                       survey_path_points, takeoff_items, with_jump_back)
+from cloudbreak.ground.governor.approach import GateConfig, approach_state, gate_violation, look_start_ok
 from cloudbreak.ground.governor.approval import Approvals, Token
 from cloudbreak.ground.governor.checks import Context, Snapshot, all_ok, run_checks
 
@@ -41,8 +43,7 @@ PAGE = Path(__file__).parent / "page" / "index.html"
 
 
 def load_targets() -> dict:
-    with open(CONFIG_DIR / "targets.toml", "rb") as f:
-        return tomllib.load(f)
+    return load_toml("targets.toml")          # expands ${CLOUDBREAK_PI_HOST:-...}
 
 
 def load_gates() -> dict:
@@ -57,6 +58,14 @@ def build_items(kind: str, spec: dict) -> list:
     if kind == "survey":
         s = spec["survey"]
         pre = takeoff_items(s.get("takeoff_alt_m", 40.0)) if s.get("sitl_takeoff") else []
+        if "turn_radius_m" in s:            # fence-aware survey sized for the flown turn radius
+            from cloudbreak.common.fence import site_fence
+
+            f = site_fence(site())
+            return pre + survey_items_fenced(s["lat"], s["lon"], s["width_m"], s["length_m"], s["heading_deg"],
+                                             s["alt_m"], s["spacing_m"], s["turn_radius_m"],
+                                             f.polygon_latlon if f else None, f.path_margin_m if f else 20.0,
+                                             s.get("lead_in_m", 50.0))
         return pre + survey_items(s["lat"], s["lon"], s["width_m"], s["length_m"], s["heading_deg"], s["alt_m"],
                                   s["spacing_m"], s.get("lead_in_m", 60.0))
     raise ValueError(kind)
@@ -87,6 +96,10 @@ class Governor:
         self.rtt_ms: float | None = None
         self._ts_sent: dict[int, float] = {}
         self._lock = threading.RLock()
+        self.gate = GateConfig(**load_toml("aircraft_tutor.toml").get("approach_gate", {}))
+        self.unstable = 0                       # unstable approaches flown on the current mission
+        self.manual_required = False            # autoland abandoned -> pilot lands manually
+        self.look_pending: float | None = None  # circuit: last look armed, fires at the circle's tangent point
         self.home = (site()["site"]["center_lat"], site()["site"]["center_lon"])
         self.audit.log("governor_start", target=target_name, url=self.t["governor_url"], sysid=self.t["sysid"])
         threading.Thread(target=self._startup, daemon=True).start()
@@ -154,7 +167,7 @@ class Governor:
     def _monitor(self):
         last_ts = 0.0
         while True:
-            time.sleep(0.5)
+            time.sleep(0.2 if self.state == "committed" else 0.5)   # ~2.6 m of travel per check on final
             now = time.perf_counter()
             try:
                 if self.link.target_system is not None and now - last_ts > 2.0:
@@ -194,6 +207,16 @@ class Governor:
             if self.state == "holding" and seq == seqs["hold"] and self.hold_start is None:
                 self.hold_start = time.time()
                 self.audit.log("hold_reached", seq=seq)
+            if self.state == "holding" and self.look_pending is not None:
+                g = self.link.get("GLOBAL_POSITION_INT")
+                if time.time() - self.look_pending > 180:
+                    self.look_pending = None
+                    self.audit.log("last_look_timeout", reason="never reached the tangent point")
+                elif g is not None and seq == seqs["hold"] and look_start_ok(
+                        self.mission["spec"]["landing"], g.lat / 1e7, g.lon / 1e7, g.vx / 100, g.vy / 100):
+                    ok = self.link.set_current(seqs["look_a"])
+                    self.look_pending = None
+                    self.audit.log("last_look_started", ok=ok, at="tangent point")
             if self.state == "committed":
                 cid = self.mission["candidate_id"]
                 st = self.site.get(cid)
@@ -205,6 +228,21 @@ class Governor:
                     self.hold_start = time.time()
                     self.audit.log("go_around_complete_back_in_hold")
                 gpi = self.link.get("GLOBAL_POSITION_INT")
+                # stabilized-approach gate below the decision point (NAV_LAND active, i.e. past final2)
+                if seq == seqs["touchdown"] and gpi is not None:
+                    st = approach_state(self.mission["spec"]["landing"], gpi.lat / 1e7, gpi.lon / 1e7,
+                                        gpi.relative_alt / 1000, gpi.vx / 100, gpi.vy / 100)
+                    why = gate_violation(st, math.hypot(gpi.vx, gpi.vy) / 100, self.gate)
+                    if why is not None:
+                        self.unstable += 1
+                        self._abort_locked(f"unstable approach #{self.unstable}: {why}")
+                        if self.unstable >= self.gate.max_unstable:
+                            self.manual_required = True
+                            self.audit.log("autoland_abandoned", unstable_approaches=self.unstable,
+                                           action="pilot lands manually")
+                            print(f"\n{'!' * 64}\n  AUTOLAND ABANDONED after {self.unstable} unstable approaches."
+                                  f"\n  Pilot: take over (FBWA/MANUAL) and land manually.\n{'!' * 64}\n", flush=True)
+                        return
                 if seq == seqs["touchdown"] and gpi is not None and gpi.relative_alt < 1500 and math.hypot(gpi.vx, gpi.vy) < 100:
                     self.state = "landed"
                     self.audit.log("landed", lat=gpi.lat / 1e7, lon=gpi.lon / 1e7)
@@ -225,7 +263,8 @@ class Governor:
                 r = path_clearance(pts, self.home[0], self.home[1], ls.touchdown_lat, ls.touchdown_lon, terrain,
                                    margins_from_cfg(cfg))
             else:
-                pts = path_points(items, *self.home)
+                tr = spec.get("survey", {}).get("turn_radius_m")
+                pts = survey_path_points(items, tr) if tr else path_points(items, *self.home)
                 # surveys: no strip exemption -- use a touchdown point far away
                 r = path_clearance(pts, self.home[0], self.home[1], 0.0, 0.0, terrain, margins_from_cfg(cfg))
         except Exception as e:
@@ -357,6 +396,7 @@ class Governor:
                 self.link.set_mode("AUTO")       # SITL convenience only; on the real aircraft the PILOT selects AUTO
             self.state = "holding" if p["kind"] == "landing" else "surveying"
             self.hold_start = None
+            self.unstable, self.manual_required = 0, False
             self.audit.log("executed", mission_hash=p["hash"], readback=hb, operator=tok.operator, checks=self.last_checks)
             return dict(state=self.state, mission_hash=p["hash"])
 
@@ -364,6 +404,9 @@ class Governor:
         with self._lock:
             if self.state != "holding" or not self.mission:
                 raise HTTPException(409, f"cannot commit in state {self.state}")
+            if self.manual_required:
+                raise HTTPException(409, f"autoland abandoned after {self.unstable} unstable approaches: "
+                                         "the pilot lands manually")
             checks = run_checks(self._context("commit"))
             self.last_checks = [c.to_dict() for c in checks]
             if not all_ok(checks):
@@ -383,6 +426,10 @@ class Governor:
         with self._lock:
             if self.state != "holding" or not self.mission or "look_a" not in self.mission["seq"]:
                 raise HTTPException(409, f"cannot start last look in state {self.state}")
+            if self.mission["spec"]["landing"].get("pattern") == "circuit":
+                self.look_pending = time.time()          # fired by the monitor at the tangent point
+                self.audit.log("last_look_armed")
+                return dict(ok=True, pending=True)
             ok = self.link.set_current(self.mission["seq"]["look_a"])
             self.audit.log("last_look_started", ok=ok)
             return dict(ok=ok)
@@ -393,11 +440,13 @@ class Governor:
         seq = cur.seq if cur is not None else None
         action = "none"
         if self.state == "committed" and seq == seqs.get("touchdown"):
-            r = self.link.command_long(mavlink.MAV_CMD_DO_GO_AROUND, 30)
+            r = self.link.command_long(mavlink.MAV_CMD_DO_GO_AROUND, self.mission["spec"]["landing"].get("abort_alt_m", 30))
             action = f"DO_GO_AROUND ack={r}"
         elif self.state == "committed" and seqs:
-            ok = self.link.set_current(seqs["hold"])
-            action = f"back_to_hold ok={ok}"
+            # circuit: from final, continue ahead into the downwind turn (a reversal toward the hold is unmodelled)
+            tgt = "dw" if "dw" in seqs and seq in (seqs.get("final1"), seqs.get("final2")) else "hold"
+            ok = self.link.set_current(seqs[tgt])
+            action = f"back_to_{tgt} ok={ok}"
         elif self.state == "holding":
             action = "remain_in_hold"
         self.state = "holding" if self.mission and self.mission["kind"] == "landing" else self.state
@@ -430,6 +479,7 @@ class Governor:
                     mission={k: v for k, v in (self.mission or {}).items() if k != "spec"} if self.mission else None,
                     checks=self.last_checks, telemetry=asdict(s), site=self.site, hold_start=self.hold_start,
                     mission_current=getattr(self.link.get("MISSION_CURRENT"), "seq", None),
+                    unstable_approaches=self.unstable, manual_landing_required=self.manual_required,
                     audit=self.audit.tail(25), param_audit=self.param_audit)
 
 

@@ -50,3 +50,41 @@ def test_red_team_text_cannot_create_approval():
 def test_template_fallback_picks_feasible():
     p = explain(PLAN)
     assert p["candidate_id"] == "C01a" and p["recommendation"] == "propose"
+
+
+class FakeScorer:
+    """Stands in for JEV: returns fixed choice probabilities [candidates..., manual]."""
+    def __init__(self, probs):
+        self.probs, self.calls = probs, []
+
+    def p_choice(self, state, question, options):
+        self.calls.append(options)
+        return self.probs
+
+
+def test_jev_choice_sees_only_feasible_candidates_plus_manual():
+    from cloudbreak.ground.agent import jev
+    s = FakeScorer([0.8, 0.2])
+    out = jev.decide(PLAN, dict(speed=2, from_deg=100), s)
+    assert out["recommendation"] == "propose" and out["candidate_id"] == "C01a" and out["source"] == "jev"
+    assert len(s.calls) == 1 and len(s.calls[0]) == 2 and s.calls[0][-1] == jev.MANUAL   # C01a + manual, never C02b
+    assert agent.validate(out, PLAN)[0]
+
+
+def test_jev_preferring_manual_means_no_autoland():
+    from cloudbreak.ground.agent import jev
+    for probs in ([0.45, 0.55], [0.35, 0.30]):              # manual wins, or the pick is below min_p
+        out = jev.decide(PLAN, dict(speed=2, from_deg=100), FakeScorer(probs))
+        assert out["recommendation"] == "no_safe_site" and out["candidate_id"] is None and agent.validate(out, PLAN)[0]
+
+
+def test_jev_state_text_uses_only_planner_numbers():
+    from cloudbreak.ground.agent import jev
+    st = jev.candidate_facts(PLAN["candidates"][0])
+    assert "C01a" not in st and "APPROVE" not in st.upper() and "clearance 2.0 m" in st
+
+
+def test_jev_calibrated_softmax():
+    from cloudbreak.ground.agent import jev
+    assert abs(jev.calibrated_softmax_check(0.0, 0.0, 1.0) - 0.5) < 1e-9
+    assert jev.calibrated_softmax_check(-2.0, 2.0, 1.0) > 0.98

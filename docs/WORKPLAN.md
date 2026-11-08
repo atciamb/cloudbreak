@@ -153,7 +153,7 @@ Hardware COLD: no LiPo, no USB. All of these go on the **PDB (power board)**, no
   - **(c)** in the outdoor **G3b** slot with a GPS fix, under a temporary fence arrangement P1 approves. Then **re-upload the flight-site fence and re-audit to 17/17** before anything else.
 - [ ] **Field config:**
   - [ ] Flight site picked. The FC **won't arm outside the uploaded fence**, so a site other than Schuyler needs its `config/site_<key>.toml` `[fence]` drawn tonight
-  - [ ] `config/targets.toml` real URLs → the Zero's hotspot IP
+  - [ ] Field laptop: `set CLOUDBREAK_PI_HOST=<Zero's Wi-Fi IP>` (`config/targets.toml` now reads it; bench default 169.254.77.2)
   - [ ] Field laptop runs core + governor
 - [ ] Propose receiver + GPS mounting spots for Andrew's A2.
 
@@ -165,7 +165,8 @@ Hardware COLD: no LiPo, no USB. All of these go on the **PDB (power board)**, no
 
 **Sunday:**
 - Ground operator on the governor page (proposed).
-- `sysid.py` on the F1 DataFlash log.
+- `sysid.py` on the F1 DataFlash log; **median LOITER radius from F1 → `turn_radius_m`** in `config/aircraft_tutor.toml` (the circuit and survey turns are sized from it; above ~50 m no governed landing fits Schuyler).
+- Stretch, team call at 09:15: F3 practice approaches.
 - F2: survey nomination → `FLY` code → Execute; the pilot switches to AUTO at height.
 
 ---
@@ -180,10 +181,10 @@ Hardware COLD: no LiPo, no USB. All of these go on the **PDB (power board)**, no
 |---|---|
 | 05:45 | Pack: plane, charged packs (LiPo bag), Pocket, field laptop, phone hotspot, spare props, tape, velcro, servo tester, meter |
 | 06:00–06:30 | Field setup; fence for this site loaded + audit 17/17; **go/no-go**: wind ≤ 5 m/s, field clear, four roles staffed, pilot ready |
-| ≈06:35–07:15 | **F1** FBWA maiden: hand launch at full throttle, wings level; climb, trim; RTL / LOITER in and out at altitude; land. Download the DataFlash log + Pi session |
+| ≈06:35–07:15 | **F1** FBWA maiden: hand launch at full throttle, wings level; climb, trim; RTL / LOITER in and out at altitude; **≥3 LOITER circles at 40 m (turn radius)**; land. Download the DataFlash log + Pi session |
 | 07:15–08:00 | Inspect; `sysid.py`; check the frames; fix trim/CG; record F1 evidence |
 | 08:00–09:15 | **F2** AUTO survey at 40 m through the signed uplink (needs F0 + F1 recorded) |
-| 09:15–10:30 | Real imagery → core map + candidates; demo assembly (SITL autoland run + flight footage + real map); optional re-fly for coverage |
+| 09:15–10:30 | Real imagery → core map + candidates; demo assembly (SITL autoland run + flight footage + real map). **Stretch (team call):** F3 practice approaches at Schuyler |
 | 10:30–11:00 | Last landing by 10:45; commit final code, data and evidence |
 | **11:00** | **Everything stops: flying and coding** |
 

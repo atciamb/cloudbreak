@@ -77,7 +77,8 @@ class RawStrip:
 
 
 def strip_search(mask: np.ndarray, score: np.ndarray, grid, L_m: float, W_m: float, step_deg: float = 10.0,
-                 per_heading: int = 4, min_sep_m: float = 20.0) -> list[RawStrip]:
+                 per_heading: int = 4, min_sep_m: float = 20.0, center_ok=None) -> list[RawStrip]:
+    """`center_ok(angle)` (optional) returns a rotated mask of allowed strip centres (e.g. the geofence filter)."""
     res = grid.res
     Lp, Wp = max(3, int(round(L_m / res))), max(3, int(round(W_m / res)))
     out = []
@@ -87,6 +88,8 @@ def strip_search(mask: np.ndarray, score: np.ndarray, grid, L_m: float, W_m: flo
         bad = (m_r == 0).astype(np.float32)
         cnt = cv2.boxFilter(bad, -1, (Wp, Lp), normalize=False, borderType=cv2.BORDER_CONSTANT)
         feas = cnt < 0.5
+        if center_ok is not None:
+            feas &= center_ok(float(ang))
         if not feas.any():
             continue
         smean = cv2.boxFilter(s_r, -1, (Wp, Lp), normalize=True, borderType=cv2.BORDER_CONSTANT)
@@ -168,6 +171,65 @@ def _corners(cx, cy, heading_deg, L, W):
     return pts
 
 
+def make_spec(Lc: dict, L: float, td_lat: float, td_lon: float, direction: float, rel: float,
+              side: int = -1) -> LandingSpec:
+    """The landing pattern for a strip of length L (pattern sizes from the aircraft config [landing])."""
+    return LandingSpec(touchdown_lat=round(td_lat, 7), touchdown_lon=round(td_lon, 7), heading_deg=round(direction, 1),
+                       touchdown_rel_alt_m=round(rel, 2), hold_alt_m=Lc["hold_alt_m"],
+                       hold_offset_m=round((0.5 - Lc["aim_fraction"]) * L, 1), approach_alt_m=Lc["approach_alt_m"],
+                       glide_slope_pct=Lc["glide_slope_pct"], short_final_alt_m=min(8.0, Lc["approach_alt_m"] / 2),
+                       entry_radius_m=Lc.get("entry_radius_m", 35.0), hold_radius_m=Lc.get("hold_radius_m", 40.0),
+                       goaround_alt_m=Lc.get("goaround_alt_m", 40.0), abort_alt_m=Lc.get("abort_alt_m", 30.0),
+                       look_half_m=round(L / 2 + Lc.get("look_margin_m", 85.0), 1),
+                       turn_radius_m=Lc.get("turn_radius_m", 35.0), entry_lead_m=Lc.get("entry_lead_m", 0.0),
+                       pattern=Lc.get("pattern", "legacy"), side=side)
+
+
+def pattern_extents(Lc: dict, L: float) -> tuple[float, float, float, float]:
+    """(behind, ahead, lat_pattern_side, lat_other_side) metres of the full modelled pattern relative to the STRIP
+    CENTRE, for a strip flown in its landing direction with the pattern on its left. Computed from the same path
+    model the clearance/fence checks use. Mirror lateral values for a right-hand pattern."""
+    from cloudbreak.common.geodesy import enu_offset
+
+    lat0, lon0 = 42.7, -73.7
+    spec = make_spec(Lc, L, lat0, lon0, 0.0, 0.0, side=-1)   # heading 0: along = north, lateral = east (+ = right)
+    pts = landing_path_points(spec, Lc["missed_climb_gradient"])
+    off = [enu_offset(lat0, lon0, la, lo) for la, lo, _ in pts]
+    along = np.array([dn for _, dn in off]) - spec.hold_offset_m      # hold_offset = centre - touchdown
+    lateral = np.array([de for de, _ in off])
+    return float(-along.min()), float(along.max()), float(max(0.0, -lateral.min())), float(max(0.0, lateral.max()))
+
+
+def fence_center_filter(grid, fence, Lc: dict, L: float):
+    """Callable(angle) -> rotated bool mask of strip centres where the whole pattern stays >= fence.path_margin_m
+    inside the fence for at least one of the four (landing direction x pattern side) choices."""
+    poly = fence.utm_polygon()
+    xs, ys = poly.exterior.xy
+    r, c = grid.xy_to_rc(np.array(xs), np.array(ys))
+    inside = np.zeros(grid.shape, np.uint8)
+    cv2.fillPoly(inside, [np.round(np.stack([c, r], 1)).astype(np.int32)], 1)
+    dist = cv2.distanceTransform(inside, cv2.DIST_L2, 5) * grid.res
+    ok = (dist >= fence.path_margin_m).astype(np.float32)
+    behind, ahead, lat_p, lat_o = pattern_extents(Lc, L)
+    res = grid.res
+    b, a = int(math.ceil(behind / res)), int(math.ceil(ahead / res))
+    wp, wo = int(math.ceil(lat_p / res)), int(math.ceil(lat_o / res))
+    ksize = (wp + wo + 1, b + a + 1)
+    full = float(ksize[0] * ksize[1])
+
+    def center_ok(ang: float) -> np.ndarray:
+        rot, _ = _rotate(ok, ang, cv2.INTER_NEAREST)
+        out = np.zeros(rot.shape, bool)
+        for anchor_y in (b, a):            # landing direction along the rotated strip axis
+            for anchor_x in (wp, wo):      # pattern side
+                cnt = cv2.boxFilter(rot, -1, ksize, anchor=(anchor_x, anchor_y), normalize=False,
+                                    borderType=cv2.BORDER_CONSTANT)
+                out |= cnt >= full - 0.5
+        return out
+
+    return center_ok
+
+
 def evaluate(raw: RawStrip, idx: int, ctx: dict) -> list[Candidate]:
     cfg, layers, ev = ctx["cfg"], ctx["layers"], ctx["ev"]
     Lc = cfg["landing"]
@@ -195,14 +257,18 @@ def evaluate(raw: RawStrip, idx: int, ctx: dict) -> list[Candidate]:
         dtm_td, _ = terrain.sample(np.array([td_lat]), np.array([td_lon]))
         dtm_home, _ = terrain.sample(np.array([home_lat]), np.array([home_lon]))
         rel = float(dtm_td[0] - dtm_home[0]) + ctx.get("baro_bias_m", 0.0)
-        spec = LandingSpec(touchdown_lat=round(td_lat, 7), touchdown_lon=round(td_lon, 7), heading_deg=round(direction, 1),
-                           touchdown_rel_alt_m=round(rel, 2), hold_alt_m=Lc["hold_alt_m"],
-                           hold_offset_m=round((0.5 - Lc["aim_fraction"]) * L, 1), approach_alt_m=Lc["approach_alt_m"],
-                           glide_slope_pct=Lc["glide_slope_pct"], short_final_alt_m=min(8.0, Lc["approach_alt_m"] / 2),
-                           entry_radius_m=35.0, hold_radius_m=40.0)
-        path = landing_path_points(spec, Lc["missed_climb_gradient"])
-        clr = path_clearance(path, home_lat, home_lon, td_lat, td_lon, terrain, margins_from_cfg(cfg))
-        fen = check_path(path, ctx["fence"]) if ctx.get("fence") is not None else None
+        # circuit patterns can sit on either side of the strip: keep the side that is feasible / has more room
+        best = None
+        for side in ((-1, 1) if Lc.get("pattern", "legacy") == "circuit" else (-1,)):
+            sp = make_spec(Lc, L, td_lat, td_lon, direction, rel, side=side)
+            pth = landing_path_points(sp, Lc["missed_climb_gradient"])
+            cl = path_clearance(pth, home_lat, home_lon, td_lat, td_lon, terrain, margins_from_cfg(cfg))
+            fe = check_path(pth, ctx["fence"]) if ctx.get("fence") is not None else None
+            key = (bool(cl.ok and (fe is None or fe.ok)), min(cl.worst_margin_m if math.isfinite(cl.worst_margin_m) else -99,
+                                                              (fe.worst_margin_m - ctx["fence"].path_margin_m) if fe else 99))
+            if best is None or key > best[0]:
+                best = (key, sp, pth, cl, fe)
+        _, spec, path, clr, fen = best
         rel_dir = math.radians(wind["from_deg"] - direction)
         headwind = wind["speed"] * math.cos(rel_dir)
         crosswind = abs(wind["speed"] * math.sin(rel_dir))
@@ -224,6 +290,9 @@ def evaluate(raw: RawStrip, idx: int, ctx: dict) -> list[Candidate]:
             dict(name="crosswind_mps", value=round(crosswind, 1), limit=5.0, ok=crosswind <= 5.0, slack=(5.0 - crosswind) / 5.0),
             dict(name="tailwind_mps", value=round(max(0.0, -headwind), 1), limit=1.5, ok=-headwind <= 1.5, slack=(1.5 + headwind) / 1.5),
         ]
+        need = L + Lc.get("overrun_margin_m", 0.0)      # open ground past the strip for a long float / rollout
+        cons.append(dict(name="open_length_m", value=round(raw.avail_len_m, 1), limit=round(need, 1),
+                         ok=bool(raw.avail_len_m >= need), slack=float(raw.avail_len_m - need) / max(need, 1.0)))
         if fen is not None:
             lim = ctx["fence"].path_margin_m
             cons.append(dict(name="geofence_margin_m", value=round(fen.worst_margin_m, 1), limit=lim, ok=fen.ok,
@@ -302,7 +371,7 @@ def survey_nominations(layers, cfg, rough, buf) -> list:
 
 
 def plan(ev, layers, wind: dict, home: tuple, cfg: dict | None = None, baro_bias_m: float = 0.0,
-         max_eval: int = 14, step_deg: float = 15.0) -> dict:
+         max_eval: int = 14, step_deg: float = 15.0, per_heading: int = 3) -> dict:
     cfg = cfg or load_aircraft()
     Lc = cfg["landing"]
     L, W = required_dims(cfg)
@@ -319,7 +388,8 @@ def plan(ev, layers, wind: dict, home: tuple, cfg: dict | None = None, baro_bias
     ctx = dict(cfg=cfg, layers=layers, ev=ev, L=L, W=W, p_lb=p_lb, vac=vac, rough=rough, class_map=ev.class_map(),
                views=ev.views, wind=wind, home=home, terrain=load_terrain(), baro_bias_m=baro_bias_m,
                fence=site_fence(site()))
-    raws = strip_search(landable, p_lb, layers.grid, L, W, step_deg=step_deg, per_heading=3)
+    center_ok = fence_center_filter(layers.grid, ctx["fence"], Lc, L) if ctx["fence"] is not None else None
+    raws = strip_search(landable, p_lb, layers.grid, L, W, step_deg=step_deg, per_heading=per_heading, center_ok=center_ok)
     raws.sort(key=lambda r: -r.score_mean)
     cands = []
     for i, r in enumerate(raws[:max_eval]):

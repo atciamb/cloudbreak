@@ -4,7 +4,8 @@ Runs as its own process. It can READ core's state (http://127.0.0.1:8700/api/ro/
 thing: a schema-validated proposal (POST /api/ro/proposals). It has no route to the governor, no MAVLink,
 no code execution, and its output never appears on the governor's approval page.
 
-    python -m cloudbreak.ground.agent.agent [--model qwen3:4b]
+    python -m cloudbreak.ground.agent.agent                      # JEV-9B yes/no ranker (local), template fallback
+    python -m cloudbreak.ground.agent.agent --backend ollama --model qwen3:4b
 """
 from __future__ import annotations
 
@@ -79,8 +80,31 @@ def ask(model: str, payload: dict, timeout: float = 90.0) -> dict:
     return json.loads(r.json()["message"]["content"])
 
 
-def run(model: str, period: float = 8.0):
+def make_backend(backend: str, model: str):
+    """Returns f(plan, wind) -> proposal dict. 'jev' falls back to the deterministic template if the local model
+    or a CUDA GPU is missing; the fallback is reported in the proposal's source."""
+    from cloudbreak.ground.agent import jev, template
+
+    if backend == "jev":
+        if jev.installed():
+            scorer = jev.JevScorer()
+            try:
+                scorer.load()
+                print("[agent] JEV-9B loaded (4-bit, local)", flush=True)
+                return lambda plan, wind: dict(jev.decide(plan, wind, scorer), model="autotrust/JEV-9B")
+            except Exception as e:                       # noqa: BLE001
+                print(f"[agent] JEV unavailable ({e!r}); using the template", flush=True)
+        else:
+            print(f"[agent] JEV-9B not installed in {jev.default_dir()}; using the template", flush=True)
+        return lambda plan, wind: dict(template.explain(plan), source="template (jev missing)")
+    if backend == "ollama":
+        return lambda plan, wind: dict(ask(model, compact(plan, wind)), evidence=[], source="llm", model=model)
+    return lambda plan, wind: template.explain(plan)
+
+
+def run(model: str, period: float = 8.0, backend: str = "jev"):
     last_key = None
+    propose = make_backend(backend, model)
     while True:
         try:
             s = httpx.get(f"{CORE}/api/ro/state", timeout=3).json()
@@ -88,10 +112,10 @@ def run(model: str, period: float = 8.0):
             key = (plan.get("grid_version", 0) // 10, tuple((c["id"], c["feasible"]) for c in plan.get("candidates", [])[:5]))
             if plan and key != last_key:
                 t0 = time.time()
-                out = ask(model, compact(plan, s.get("wind") or {}))
+                out = propose(plan, s.get("wind") or {})
                 ok, why = validate(out, plan)
                 if ok:
-                    body = dict(out, evidence=[], source="llm", model=model, grid_version=plan.get("grid_version"))
+                    body = dict(out, grid_version=plan.get("grid_version"))
                     r = httpx.post(f"{CORE}/api/ro/proposals", json=body, timeout=3)
                     print(f"[agent] {out['recommendation']} {out.get('candidate_id')} ({time.time() - t0:.1f}s) -> core {r.status_code}", flush=True)
                 else:
@@ -104,9 +128,10 @@ def run(model: str, period: float = 8.0):
 
 def main(argv=None):
     ap = argparse.ArgumentParser()
-    ap.add_argument("--model", default="qwen3:4b")
+    ap.add_argument("--backend", choices=["jev", "ollama", "template"], default="jev")
+    ap.add_argument("--model", default="qwen3:4b", help="Ollama model (backend ollama)")
     a = ap.parse_args(argv)
-    run(a.model)
+    run(a.model, backend=a.backend)
 
 
 if __name__ == "__main__":

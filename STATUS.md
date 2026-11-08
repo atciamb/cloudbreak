@@ -1,6 +1,6 @@
 # Cloudbreak — Master Status
 
-**Last merged:** 2026-11-07 ≈18:45 (≈H7.75; H0 = Sat 11:00) · **Hard end H24 (Sun 11:00): flying and coding both stop.** Devpost isn't a deadline or a blocker.
+**Last merged:** 2026-11-07 ≈19:35 (≈H8.6; H0 = Sat 11:00) · **Hard end H24 (Sun 11:00): flying and coding both stop.** Devpost isn't a deadline or a blocker.
 
 **Per-person work plan with checklists: [`docs/WORKPLAN.md`](docs/WORKPLAN.md).**
 
@@ -12,6 +12,8 @@
 - **Software / HITL** from the repo:
   - HITL bench test (17:34, `9cd547e`)
   - geofence + FC configuration through the Pi (17:53, `cb18601`)
+  - governed autoland at Schuyler: one-sided circuit, approach gate, fenced surveys (19:18, `ed87b68`)
+  - local JEV-9B decision model as the default agent ranker (19:18, `9f21d69`)
   - read: `docs/CHECKLIST.md`, `docs/SESSION_LOG.md`, `README.md`, `config/`, `scripts/`
 - **P1's sources:** Mission Planner logs (13:50, 14:25) and `docs/hardware/fc/inav_8.0.1_backup_20261107.txt`
 - **Still missing:** written updates from **P3** (Pi & camera) and **P4** (FC & radio). Their rows below come from the repo and P1's notes.
@@ -25,11 +27,12 @@
   - **F1** FBWA maiden at first light (≈06:35), with the Pi recording.
   - **F2** AUTO survey through the signed uplink (08:00–09:15).
   - Real imagery into the landability map by ≈10:30.
-  - Everything (flying + coding) stops at 11:00. Real autoland (F3/F4) is *not* this weekend (§5).
+  - Everything (flying + coding) stops at 11:00.
+  - **New at 19:18:** a governed autoland now **fits inside the Schuyler fence in SITL** (one-sided circuit). Real F3/F4 becomes a **stretch after F2**, only if F1's measured turn radius is ≤ ~50 m and the team agrees (§5).
 - ⏱️ **To fly at ≈06:35, F0 has to pass by ≈04:00.** That means G1 → G5 tonight with almost no slack.
   - **Iain + Andrew are soldering the power board now** (M1.C → G1 → G2 by ≈20:30). This is the critical path.
   - P3 takes over the camera opening (A1); P4 preps the radio, the parameter sheet and the field config (`docs/WORKPLAN.md`).
-- ✅ **Software is essentially done.** S1–S3 pass; the S4 SITL flow passes; HITL passes on the real FC (10/10); the fence is set and the audit is 17/17. FC parameters can be changed through the Pi.
+- ✅ **Software is essentially done.** S1–S3 pass; the S4 SITL flow passes; HITL passes on the real FC (10/10); the fence is set and the audit is 17/17; FC parameters can be changed through the Pi. Governed circuit + stabilized-approach gate fit Schuyler in Tutor-speed SITL; the JEV-9B agent runs locally (template fallback).
 - ✈️ **The airframe is built** (P2). Wing fit + layout ≈20:30; surfaces at G3 (≈21:30); install + CG ≈23:30.
 - 🔌 **Wiring:** full diagram + connection tables in [`docs/hardware/WIRING.md`](docs/hardware/WIRING.md).
 - ⚠️ **Top hazards:**
@@ -184,7 +187,7 @@ F0 ground checks · F1 maiden · F2 AUTO survey · F3 practice approaches · F4 
 | Pi Zero 2 W swap timing | ⬜ recommend **before G4-on-UBEC**, so the power test uses the real load |
 | Camera mount | ⬜ P2 proposes nadir, recessed, foam soft-mount. Confirm with P3 |
 | Fence parameters | ✅ Schuyler polygon (21 vertices, 12.3 ha, ≥19 m from buildings), FENCE_TYPE 5, ACTION 1 (RTL), ALT_MAX 100 m, RET_ALT 50, OPTIONS 0; RTL_ALTITUDE 50. Planner/governor margin 20 m inside |
-| **Scope: real flight** | ✅ **Plan (Andrew): fly Sunday; hard end 11:00 for flying and coding.** Devpost isn't a blocker. Target: F0 overnight → F1 FBWA maiden at ≈06:35 → F2 AUTO survey 08:00–09:15 → real imagery into core by ≈10:30. Every flight is subject to the go/no-go in §2 #8. **F3/F4 (real autoland) are not this weekend**: they need sysid + BO re-tuning from real logs, practice approaches, and a site where the pattern fits (Schuyler doesn't; Anderson Field has no fence) |
+| **Scope: real flight** | ✅ **Plan (Andrew): fly Sunday; hard end 11:00 for flying and coding.** Devpost isn't a blocker. Target: F0 overnight → F1 FBWA maiden at ≈06:35 (now including the turn-radius circles) → F2 AUTO survey 08:00–09:15 → real imagery into core by ≈10:30. Every flight is subject to the go/no-go in §2 #8. **F3/F4 = stretch only (team call at ≈09:15):** the 19:18 circuit pattern fits Schuyler in SITL, but it needs F1's measured turn radius (≤ ~50 m, set in `turn_radius_m`), sysid from the F1 log, F3 practice approaches + a forced go-around, and the governor's F0–F3 gates recorded before any F4. In a westerly wind only eastbound circuits fit; otherwise the pilot lands manually |
 | Flight site for F1 | ⬜ The Schuyler fence is on the FC. Any other site needs its fence drawn and uploaded first (the FC won't arm outside it). Legal/airspace items are handled by the team |
 | Remote ID | ✅ Team handling. No arming block on our firmware (OpenDroneID isn't compiled in) |
 | Flight roles | ⬜ PIC · ground operator · safety observer · power owner, one each (`docs/FLIGHT_CARDS.md`). Proposed: P1 power owner, P4 ground operator |
@@ -211,10 +214,10 @@ P1's hardware path, re-baselined at H7.75. Each window starts as soon as the one
 | 15.5 – 17.0 | 02:30–04:00 | **F0 ground checks** → evidence in `config/flight_gates.toml` | All |
 | 17.0 – 18.75 | 04:00–05:45 | Rest rota (≥2 awake): attended pack charging, field kit packed | Rota |
 | 19.0 – 19.5 | 06:00–06:30 | At the field: fence for the site loaded + 17/17; **go/no-go** (§2 #8) | All |
-| 19.6 – 20.25 | ≈06:35–07:15 | **F1** FBWA maiden: hand launch, trim, RTL/LOITER at altitude, land. Download the DataFlash log + Pi session | All |
-| 20.25 – 21.0 | 07:15–08:00 | Inspect; `sysid.py`; check the frames; fix trim/CG; record F1 evidence | P4 · P3 · P2 |
+| 19.6 – 20.25 | ≈06:35–07:15 | **F1** FBWA maiden: hand launch, trim, RTL/LOITER at altitude, **≥3 LOITER circles at 40 m to measure the turn radius**, land. Download the DataFlash log + Pi session | All |
+| 20.25 – 21.0 | 07:15–08:00 | Inspect; `sysid.py`; **set `turn_radius_m` from the F1 log**; check the frames; fix trim/CG; record F1 evidence | P4 · P3 · P2 |
 | 21.0 – 22.25 | 08:00–09:15 | **F2** AUTO survey at 40 m through the signed uplink (needs F0 + F1 recorded) | All |
-| 22.25 – 23.5 | 09:15–10:30 | Real imagery → core map + candidates; demo assembly; optional re-fly for coverage | P3 + P4 · P1 + P2 |
+| 22.25 – 23.5 | 09:15–10:30 | Real imagery → core map + candidates; demo assembly. **Stretch (team call at 09:15):** F3 practice approaches at Schuyler (low approach, forced go-around, then landings) | P3 + P4 · P1 + P2 |
 | 23.5 – 24.0 | 10:30–11:00 | Last landing by 10:45; commit final code, data and evidence | All |
 | **24.0** | **11:00** | **Hard end: flying and coding stop** | All |
 
@@ -232,7 +235,8 @@ P1's hardware path, re-baselined at H7.75. Each window starts as soon as the one
 - **P4:** output map + accel cal done? Pocket EdgeTX/ELRS versions? Which ESC-calibration method (§2 #6)?
 - **P3:** which Zero ribbon (length)? Zero 2 W swap done?
 - **P2:** motor label; A3 + layout done? CG marks checked against the kit manual?
-- **Team:** flight site (decides which fence goes on the FC), flight roles, who's PIC.
+- **Team:** flight site (decides which fence goes on the FC), flight roles, who's PIC. At ≈09:15: go for the F3 stretch?
+- **Software teammate:** your 19:18 commits went to `full-stack` and were merged into `main` at 19:35. Please work on `main` from now on (see `AGENTS.md`).
 
 ## 8 · Where things live
 | What | Where |

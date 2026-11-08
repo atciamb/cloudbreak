@@ -1,0 +1,12 @@
+# SITL-ONLY: make the generic SITL plane fly at Tutor-like speed so turn and loiter GEOMETRY is comparable.
+# The stock SITL plane cruises at ~22 m/s and flew a commanded 40 m loiter at ~86 m. The real Tutor has NO airspeed
+# sensor; SITL gets a simulated one here only so TECS holds ~14 m/s. Navigation limits mirror the real FC backup.
+ARSPD_TYPE 100
+ARSPD_USE 1
+AIRSPEED_CRUISE 14
+AIRSPEED_MIN 11
+AIRSPEED_MAX 20
+ROLL_LIMIT_DEG 45
+NAVL1_PERIOD 17
+NAVL1_DAMPING 0.75
+WP_LOITER_RAD 40
